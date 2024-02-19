@@ -110,7 +110,7 @@ Pseudocode is an informal way of programming description that does not require a
 Pseudo-code is an informal way to express the design of a computer program or an algorithm. The aim is to get the idea quickly and also easy to read without details. There are several ways of writing pseudo-code;
 there are no strict rules, but always try to reduce ambiguity between what you are required to do and what you express.
 
-#### Add Two Numbers
+**Example: Add Two Numbers**
 ```julia
 BEGIN
 DECLARE AN INTEGER VARIABLE a    // a is the value of the first number
@@ -127,10 +127,9 @@ sum <- a + b                     // The sum between a and b is store in the sum 
 PRINT sum                        // The program outputs the determined result
 END
 ```
-> ***This pseudocode describes a program that takes two numbers as input from the user, adds them together and outputs the sum.***
+> ***This algorithm takes two numbers as input from the user, adds them together and outputs the sum.***
 
-#### Check a Number is Positive or Negative
-
+**Example: Check a Number is Positive or Negative**
 ```julia
 BEGIN
 DECLARE AN INTEGER NUMBER num         // num is the value of the given number 
@@ -148,7 +147,7 @@ ENDIF
 END
 ```
 
-> ***This pseudocode describes a program that determines if a number entered by the user is positive, negative, or zero.***
+> ***This algorithm determines if a number entered by the user is positive, negative, or zero.***
 
 ## Programming Language
 
@@ -203,21 +202,7 @@ flowchart LR
 
 > ***Examples: JavaScript, Perl, Python, BASIC, etc.***
 
-## Introduction To C Language
+## Introduction To Python Language
 
-Created in the 1970s by *Dennis Ritchie*, the c language remains very widely used and influential. By design, C's features cleanly reflect the capabilities of the targeted CPUs. C is commonly used on computer architectures that range from the largest supercomputers to the smallest microcontrollers and embedded systems.
-
-C is an imperative procedural language, supporting structured programming, lexical variable scope and recursion, with a static type system. It was designed to be compiled to provide low-level access to memory and language constructs that map efficiently to machine instructions, all with minimal runtime support.
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(int argv, char *argc[])
-{
-  printf("%s\n", "Hello World!");
-  return 0;
-}
-``` 
 
 ---
