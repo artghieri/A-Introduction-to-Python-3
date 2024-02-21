@@ -221,7 +221,7 @@ def outer_function():
     outer_var = 15
 
     def inner_function():
-        nonlocal outer_var  # Without the nonlocal keyword, outer_varx would be considered a local variable of the inner_function.
+        nonlocal outer_var 
         outer_var = 10
         print(outer_var)
     inner_function()  # Output: 10
@@ -360,21 +360,15 @@ Logical operators can be used to combine two or more relational operations into 
 
 ### Ternary Operator 
 
-The ternary operator, represented by the syntax `a if condition else b`, is a concise way to express conditional statements in a single line. It provides a more compact alternative to traditional `if-else` statements when dealing with simple conditions.
+The ternary operator, is a concise way to express conditional statements in a single line. It provides a more compact alternative to traditional *if-else* statements when dealing with simple conditions.
 
 ```julia
 variable = expression1 if condition1 else expression2 if condition2 (...)
 ```
 
-**Key Features and Benefits:**
+The ternary operator allows you to express conditional logic in a compact and readable manner, especially when the resulting code would be simple. It is particularly useful for inline conditionals where you need to assign a value based on a condition without the need for multiple lines of code.
 
-- **Conciseness:**
-   The ternary operator allows you to express conditional logic in a compact and readable manner, especially when the resulting code would be simple.
-
-- **Inline Conditionals:**
-   It is particularly useful for inline conditionals where you need to assign a value based on a condition without the need for multiple lines of code.
-
-Consider a scenario where you want to determine if a given number is even or odd and print a corresponding message. Using the ternary operator, you can achieve this in a single line:
+In a scenario where you want to determine if a given number is even or odd and print a corresponding message. Using the ternary operator, you can achieve this in a single line:
 
 ```python
 number = 15
@@ -382,7 +376,7 @@ result = "even" if number % 2 == 0 else "odd"
 print(f"The number {number} is {result}.")
 ```
 
-While the ternary operator can enhance code readability for simple conditions, it's important to use it judiciously. For more complex conditions or multiple statements, traditional `if-else` structures might be more appropriate.
+While the ternary operator can enhance code readability for simple conditions, it's important to use it judiciously. For more complex conditions or multiple statements, traditional *if-else* structures might be more appropriate.
 
 #
 
@@ -390,13 +384,7 @@ While the ternary operator can enhance code readability for simple conditions, i
 
 The walrus operator, denoted by `:=`, is a unique addition to Python syntax introduced in version 3.8. It provides a concise way to assign a value to a variable as part of an expression. The operator is affectionately named the "walrus" due to its visual resemblance to the eyes and tusks of a walrus.
 
-**Key Features and Benefits:**
-
-- **Assignment within Expressions:**
-   The walrus operator allows you to perform assignments within expressions. This can result in more compact and readable code, especially in situations where you would otherwise need to repeat a calculation.
-
-- **Avoiding Redundant Computations:**
-   With the walrus operator, you can assign a value to a variable and use that variable in the same expression, avoiding redundant computations.
+The walrus operator allows you to perform assignments within expressions. This can result in more compact and readable code, especially in situations where you would otherwise need to repeat a calculation. With the walrus operator, you can assign a value to a variable and use that variable in the same expression, avoiding redundant computations.
 
 Consider a scenario where you want to read lines from a file and print those lines along with their line numbers, but only if the line contains the word "python". Without the walrus operator, the code might look like this:
 
@@ -423,13 +411,13 @@ While the walrus operator can enhance code readability in certain situations, it
 
 ## Lambda Expressions
 
-Lambda expressions are a powerful feature in the Python language, allowing the creation of anonymous functions in a single line. The basic syntax is `lambda arguments: expression`, where the expression is evaluated and returns the result. Lambda expressions are often used in situations where simple functions are needed temporarily.
+Lambda expressions are a powerful feature in the Python language, allowing the creation of anonymous functions in a single line. Lambda expressions are often used in situations where simple functions are needed temporarily.
 
-**Key Features and Benefits:**
-- **Concise and Inline:** Lambda expressions provide a concise way to create inline functions without the need to define a complete function using the `def` statement.
+```python
+lambda arguments: expression
+```
 
-- **Flexibility:** They are particularly useful in contexts where small and specific functions are required, such as in mapping and filtering operations.
-
+Lambda expressions provide a concise way to create inline functions without the need to define a complete function using the `def` statement. They are particularly useful in contexts where small and specific functions are required, such as in mapping and filtering operations.
 
 Consider a scenario where you want to create a lambda function to convert temperatures from Celsius to Fahrenheit. The lambda expression can be used as follows:
 
@@ -461,19 +449,17 @@ While lambda expressions are useful for simple functions, it's important to note
 
 When an expression combines variables of different data types in Python, the interpreter checks whether conversions between these types are possible. If they are not, the runtime process encounters a TypeError, and an error message is displayed. Otherwise, the interpreter performs all necessary type conversions automatically during runtime.
 
-**Implicit Type Conversion**  
+### **Implicit Type Conversion**  
 
 In Python, when expressions involve variables of different data types, the interpreter automatically performs implicit type conversions to ensure compatibility. If these conversions are not possible, a TypeError will be raised, and the programmer needs to handle it explicitly.
 
 Python follows the following rules for implicit type conversions:
 
-1. **Conversion to a Common Type:**
-   - When combining values of different types, Python automatically converts them to a common type.
-   - For example, if the expression involves a combination of int and float, the result is automatically promoted to float.
+**Conversion to a Common Type:**  
+When combining values of different types, Python automatically converts them to a common type. For example, if the expression involves a combination of int and float, the result is automatically promoted to float.
 
-2. **Specific Type Promotion:**
-   - For pairs of operands with different types, the result takes the type that has higher capacity.
-   - For instance, if one operand is of type float and the other is of type int, the result will be of type float.
+**Specific Type Promotion:**  
+For pairs of operands with different types, the result takes the type that has higher capacity. For instance, if one operand is of type float and the other is of type int, the result will be of type float.
 
 ```python
 a = 7
@@ -486,7 +472,7 @@ c = a + b
 print(type(c))  # <classe 'float'>
 ```
 
-**Explicit Type Conversion**  
+### **Explicit Type Conversion**  
 While Python handles implicit type conversions seamlessly, programmers may sometimes want to explicitly cast the result to a specific type. This can be achieved using cast operators, known as type casting. Here's the syntax:
 
 ```python
