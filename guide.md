@@ -592,6 +592,63 @@ variable = datatype(expression)
 
 Keep in mind that explicit type casting should be used judiciously, considering potential data loss or unexpected behavior. Understanding Python's dynamic typing and implicit conversions is crucial for writing robust and flexible code.
 
+## Input and Output Commands
+
+In Python, data input and output are fundamental processes for user interaction and information manipulation. Let's explore how these operations are performed in the language.
+
+### Data Input
+
+To receive data from the user, you can use the `input()` function. This versatile function reads a line from the standard input, typically the keyboard, and returns it as a string. Here's a simple example:
+
+```python
+# Input for an integer
+age = int(input("Enter your age: "))
+
+# Input for a string
+name = input("Enter your name: ")
+
+print("Hello, " + name + "! You are " + str(age) + " years old.")
+```
+
+In the example above, the user is prompted to enter their age and name. The `input()` function returns these values as strings, and the use of `int()` is employed to convert the age into an integer.
+
+
+### Data Output
+
+To display information to the user, you can use the `print()` function. This versatile function takes arguments and prints them to the console. Here's an example:
+
+```python
+# Simple output
+print("Hello, world!")
+
+# Output with variables
+name = "Alice"
+age = 25
+print("Name: " + name)
+print("Age: " + str(age))
+print(name + " is " + str(age)  + " years old.")
+
+# Formatted output
+print(f"{name} is {age} years old.")
+```
+
+The `f` operator before the string indicates an f-string, allowing the embedding of variables directly into the formatted string. Python's `print()` function is powerful and can handle various types of data and formatting options.
+
+### File Handling
+
+In addition to interacting with the user, Python provides features for file handling, allowing you to read from and write to files. This is crucial for more complex data manipulations and persistent storage of information. Here's a basic example:
+
+```python
+# Writing to a file
+with open("example.txt", "w") as file:
+    file.write("This is an example of file handling in Python.")
+
+# Reading from a file
+with open("example.txt", "r") as file:
+    content = file.read()
+    print("File content:", content)
+```
+
 
 
 
