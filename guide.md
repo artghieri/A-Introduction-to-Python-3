@@ -183,7 +183,6 @@ stateDiagram-v2
     }
 ```
 
-**Local Scope** refers to variables defined inside a function. These variables are accessible only within the function where they are defined and are not visible outside of it.
 
 ```python
 def example_function():
@@ -223,9 +222,10 @@ def outer_function():
     def inner_function():
         nonlocal outer_var 
         outer_var = 10
-        print(outer_var)
-    inner_function()  # Output: 10
-    print(outer_var) 
+        print(outer_var) # Output: 10
+
+    inner_function()  
+    print(outer_var)  # Output: 10
 
 outer_function()
 ```
@@ -287,74 +287,185 @@ In this example, the comment is redundant because the code itself clearly states
 
 PEP 8 emphasizes the judicious use of comments, suggesting that they should add value by enhancing code comprehension. In cases where descriptive variable names suffice to convey the purpose of the code, comments describing the functionality may be deemed unnecessary. Following these conventions ensures that comments contribute positively to code clarity and understanding.
 
-## Data Types 
+## Data Types in Python
 
-Data types in Python serve as a fundamental building block for programming, defining the nature and characteristics of variables. One distinctive feature of Python is its dynamic typing, where you don't need to explicitly declare the data type of a variable; the interpreter infers it at runtime. Let's explore some commonly used data types in Python:
+Python is a dynamic, high-level programming language that offers a variety of data types to handle different kinds of information. Data types in Python can be classified into main categories, including numeric, sequential, sets, and mappings. Let's explore some of these categories and their corresponding data types:
+
+**Numeric Data Types**
+
+Numeric data types in Python play a crucial role in representing various forms of numerical values within the language. These data types include **integers**, **floating-point numbers**, and **complex numbers**, each belonging to the **int**, **float**, and **complex** classes, respectively.
+
+- **Integers:** Integers, represented by the int class, cover positive or negative whole numbers without fractions or decimals. An intriguing aspect of Python is the absence of a limit on the length of an integer value, allowing for flexibility in handling large numbers seamlessly.
+
+- **Float:** The float class represents real numbers with a floating-point representation. These numbers include a decimal point, and optionally, scientific notation can be employed by appending the character $e$ or $E$ followed by a positive or negative integer. This flexibility allows for precise representation of a wide range of numerical values.
+
+- **Complex Numbers:** Complex numbers, belonging to the complex class, are expressed in the form (real part) + (imaginary part)j. An example of a complex number is $2+3j$, where $2$ is the real part, $3$ is the imaginary part, and $j$ signifies the imaginary unit. Python's support for complex numbers enhances its capability to handle advanced mathematical computations.
+
+> ***Note:** The type() function serves as a valuable tool to determine the data type of a variable.*
+
+**Example:** This code demonstrates how to determine the data type of variables in Python using the `type()` function. It prints the data types of three variables: `a` (**integer**), `b` (**float**), and `c` (**complex**). The output shows the respective data types for each variable.
+
+```python
+a = 10
+b = 3.14
+c = 2 + 5j
+
+print(type(a))  # Output: <class 'int'>
+print(type(b))  # Output: <class 'float'>
+print(type(c))  # Output: <class 'complex'>
+```
+
+#
+
+**Sequential Data Types**
+
+Sequential data types in Python are fundamental for managing ordered collections of elements. These types include `strings`, `lists`, and `tuples`, each tailored to address specific requirements in data organization and manipulation.
+
+- **Strings:** Represented by the `str` `class`, are utilized for handling textual information. They consist of sequences of characters and support various operations such as **concatenation**, **slicing**, and **indexing**. Strings play a vital role in text processing and are an integral part of any Python program dealing with human-readable data.
+
+- **Lists:** Belonging to the `list` `class`, provide a versatile data structure for storing mutable sequences of elements. Unlike strings, lists can be modified, allowing for the **addition**, **removal**, and **modification** of elements. The flexibility of lists makes them invaluable for dynamic data storage and manipulation. Lists are defined by enclosing elements within brackets, such as `list_names = ["Ana", "John", "Helena"]`
+
+- **Tuples:** Represented by the `tuple` `class`, are similar to lists but with a key distinction – they are **immutable**. Once a tuple is created, its elements cannot be changed. This immutability provides data integrity in situations where the sequence of elements should remain constant throughout the program's execution. Tuples are defined by enclosing elements within parenthesis, such as `tuple_numbers = (1,3,4)`
+
+> ***Note:** The len() function is often employed to determine the length of a sequential data type and sets.*
+
+**Example:** The following code demonstrates the utilization of the `len()` function to ascertain the length of different sequential data types in Python. It showcases a string 'text', a list 'numbers', and a tuple 'values'. By using `len()`, the code reveals the number of elements in each sequential data type, aiding in effective data management.
+
+```python
+text = "Python is amazing!"
+numbers = [1, 2, 3, 4, 5] 
+values = (10, 20, 30)  
+
+print(len(text))     # Output: 18
+print(len(numbers))  # Output: 5
+print(len(values))   # Output: 3
+```
+
+#
+
+**Set Data Type**
+
+The set data type in Python is a powerful tool for handling unordered collections of unique elements. Represented by the set class, sets offer efficient methods for performing operations like **intersection**, **union**, and **difference**, making them invaluable for scenarios where distinct and unordered elements are a priority.
+
+- **Sets:** Belonging to the `set` `class`, are characterized by their unordered nature, ensuring that each element is unique within the collection. This uniqueness property is particularly useful when eliminating duplicate values and performing set operations. Sets are defined by enclosing elements within curly braces, such as `set_colors = {"red", "green", "blue"}`.
+
+> ***Note:** The set() constructor can be employed to create an empty set.*
+
+**Example:**
+The following code exemplifies the utilization of set operations and the len() function to showcase the functionality of sets in Python. It defines two sets, 'set1' and 'set2', performs set operations (union and intersection), and determines the length of each set. This demonstrates the effectiveness of sets in managing unique and unordered collections of elements.
+
+```python
+set1 = {1, 2, 3, 4, 5}
+set2 = {4, 5, 6, 7, 8}
+
+union_set = set1.union(set2)
+intersection_set = set1.intersection(set2)
+
+print(union_set)         # Output: {1, 2, 3, 4, 5, 6, 7, 8}
+print(intersection_set)  # Output: {4, 5}
+print(len(set1))         # Output: 5
+print(len(set2))         # Output: 5
+```
+
+#
+
+**Mapping Data Type**
+
+Mapping data types in Python are essential for associating keys with corresponding values. The primary mapping type in Python is the dictionary, represented by the dict class. Dictionaries allow developers to create flexible and efficient data structures for storing and retrieving information based on unique identifiers.
+
+- **Dictionaries:** Dictionaries, belonging to the dict class, consist of `key-value` pairs. Each key within a dictionary must be **unique**, and it is mapped to a specific value. This mapping allows for quick and direct access to values, making dictionaries efficient for scenarios where fast data retrieval is crucial. Dictionaries are defined using curly braces, with key-value pairs separated by colons, such as `dictionary_people = {"name": "John", "age": 25, "city": "São Paulo"}`.
+
+> ***Note:** The keys() and values() functions are often employed to retrieve the keys and values from a dictionary, respectively.*
+
+**Example:** The following code exemplifies the usage of dictionaries in Python. It defines a dictionary 'person_info' with keys representing different aspects of a person and their corresponding values. The code demonstrates how to access specific values using keys and how to retrieve all keys and values from the dictionary.
+
+```python
+person_info = {"name": "Alice", "age": 30, "city": "New York"}
+
+print(person_info["name"])    # Output: Alice
+print(person_info["age"])     # Output: 30
+print(person_info["city"])    # Output: New York
+
+all_keys = person_info.keys()
+all_values = person_info.values()
+
+print(all_keys)               # Output: dict_keys(['name', 'age', 'city'])
+print(all_values)             # Output: dict_values(['Alice', 30, 'New York'])
+```
+
+## Operators in Python
+
+Python, renowned for its versatility and readability, incorporates a diverse set of operators that play a pivotal role in manipulating data and facilitating decision-making in programs. Let's delve into four primary categories of operators in Python: arithmetic operators, augmented assignments, logical operators, and relational operators.
+
+**Arithmetic Operators**  
+Arithmetic operators are fundamental for performing basic mathematical operations. They enable programmers to conduct various calculations efficiently. The key arithmetic operators in Python include:
+
+- `+` **Addition.**
+- `-` **Subtraction.**
+- `*` **Multiplication.**
+- `/` **Division.**
+- `%` **Modulus, determining the remainder of a division.**
+- `**` **Exponentiation.**
+- `//` **Floor division, division rounding down to the nearest whole number.**
+
+```python
+# Initializing variables
+a = 10
+b = 3
+
+# Performing addition and storing the result
+sum_result = a + b
+
+# Calculating the remainder of division
+remainder = a % b
+```
+
+**Reduced Expressions**  
+Reduced expressions are a distinctive feature in Python that allows for concise assignment of values using arithmetic operators. These expressions combine an operation and assignment in a single statement.
+
+```python
+                  # REDUCED EXPRESSION                                        # NORMAL EXPRESSION
+                        A += 5                                                      A = A + 5
+                        A -= 5                                                      A = A - 5
+                        A *= 5                                                      A = A * 5
+                        A /= 5                                                      A = A / 5
+                        A %= 5                                                      A = A % 5
+```
+
+#
+
+**Relational Operators**  
+Relational operators are essential for comparing values and expressing relationships between them. They are instrumental in creating decision structures based on the comparison of variables. The primary relational operators in Python include:
+
+- `==`  Equal To
+- `!=`  Not Equal To
+- `<`   Less Than
+- `>`   Greater Than
+- `<=`  Less Than or Equal To
+- `>=`  Greater Than or Equal To
+
+> *When using any relational operator, there is always a return value that can either be true or false, otherwsie knokn as a Boolean value.*
 
 
-|  Type   | Description                                         |
-|:------------:|-----------------------------------------------------|
-| **int**         | Represents integers without a decimal point. Examples include counting numbers like 1, 100, and -5. |
-| **float**       | Represents numbers with a decimal point or in scientific notation. Examples include 3.14, -0.5, and 2.0e5. |
-| **complex**     | Represents complex numbers in the form `a + bj`, where `a` and `b` are real numbers, and `j` represents the imaginary unit. |
-| **str**         | Represents sequences of characters. Used for storing textual information. Examples include names, sentences, and words. |
-| **bool**        | Represents logical values `True` or `False`. Used in conditional expressions and logical operations. |
-| **list**        | Represents an ordered and mutable collection of items. Allows storing different data types and modifying elements. |
-| **tuple**       | Represents an ordered and immutable collection of items. Similar to lists but cannot be modified once created. |
-| **set**         | Represents an unordered and mutable collection of unique elements. Useful for mathematical set operations. |
-| **dict**        | Represents an unordered and mutable collection of key-value pairs. Useful for storing and retrieving data with named keys. |
-| **NoneType**    | Represents a special type indicating the absence of a value. Often used as a default or placeholder value. |
+#
 
+**Logical Operators**  
+Logical operators are indispensable for expressing complex conditions in programs. They are pivotal for decision-making based on multiple criteria. The principal logical operators in Python are:
 
-Understanding and utilizing these data types correctly is crucial for effective programming in Python, as it allows you to perform operations and manipulate data in a way that aligns with your program's logic. Each data type has its unique characteristics, and choosing the right one for a given scenario is essential for writing clear and efficient code.
+- `and` Logical **AND**
+- `or`  Logical **OR**
+- `not` Logical **NOT**
 
-## Operators
+```python
+# Defining variables
+age = 25
+salary = 50000
 
-Ooperators play a fundamental role in shaping how we manipulate and interact with data. They are symbols or special keywords that perform operations on one or more operands. In Python, a versatile and expressive programming language, operators are categorized into different types, each serving a specific purpose.
+# Checking if both age is greater than 18 and salary is greater than 30000
+if age > 18 and salary > 30000:
+    print("Eligible for a loan.")
+```
 
-### Arithmetic Operators
-Arithmetic operators are mathematical operators that perform mathematical functions. 
-
-* `+`  - **Addition Operator**
-* `-`  - **Subtraction Operator**
-* `*`  - **Multiplication Operator**
-* `**` - **Power Operator**
-* `/`  - **Division Operator**
-* `%`  - **Modulo Division Operator**
-
-### **Reduced Expressions**  
-Reduced expressions are applied in cases where the same variable is on both sides of the assignment statement. 
-
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**REDUCED EXPRESSION**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**NORMAL EXPRESSION**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
-| :---:                | :---:               |
-| **A += 5**          | **A = A + 5**       |
-| **B - = 2**        | **B = B – 2**      |
-| **C** ***=** **2**           | **C = C * 2**       |
-| **D /= 7**           | **D = D / 7**      |
-| **E %= 3**           | **E = E % 3**        |
-
-> *Note that this type of expression is very useful for manipulating counting variables and/or accumulators.*
-
-
-### Relational Operators 
-
-Relational operators perform comparisons between expressions, their results are always logical values - *false* equals to 0 and *true* equals to 1.
-
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**OPERATOR**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**MEANING**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
-| :---:                | :---:               |
-| `==`         | **EQUAL TO**    |
-| `>`         | **GREATER THAN**      |
-| `<`          | **LESS THAN**     |
-| `>=`          | **GREATER THAN OR EQUAL TO**     |
-| `<=`          | **LESS THAN OR EQUAL TO**     |
-| `!=`          | **NOT EQUAL TO**     |
-
-> *When using any relational operator, there is always a return value that can either be true or false, otherwsie knokn as a **Boolean** value.*
-
-
-### Logical Operators
-
-Logical operators can be used to combine two or more relational operations into a single conditional test (binary operators `AND` and `OR`) or modify the result of a relational operation (unary operator `NOT`).
 
 #
 
@@ -463,13 +574,13 @@ For pairs of operands with different types, the result takes the type that has h
 
 ```python
 a = 7
-print(type(a))  # <classe 'int'>
+print(type(a))  # <class 'int'>
 
 b = 3.0
-print(type(b))  # <classe 'float'>
+print(type(b))  # <class 'float'>
 
 c = a + b  
-print(type(c))  # <classe 'float'>
+print(type(c))  # <class 'float'>
 ```
 
 ### **Explicit Type Conversion**  
