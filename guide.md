@@ -657,21 +657,6 @@ You can also insert Python expressions in between the curly braces. The expressi
 > [!IMPORTANT]
 > **For an in-depth guide to f-strings and comparisons to other string formatting techniques, check out the Python 3’s f-Strings: [An Improved String Formatting Syntax (Guide)](https://realpython.com/python-f-strings/) on [realpython.com](https://realpython.com).**
 
-### File Handling
-
-In addition to interacting with the user, Python provides features for file handling, allowing you to read from and write to files. This is crucial for more complex data manipulations and persistent storage of information. Here's a basic example:
-
-```python
-# Writing to a file
-with open("example.txt", "w") as file:
-    file.write("This is an example of file handling in Python.")
-
-# Reading from a file
-with open("example.txt", "r") as file:
-    content = file.read()
-    print("File content:", content)
-```
-
 ## Strings and String Methods
 
 In Python, collections of text are referred to as strings. To manipulate strings, specific functions known as string methods are employed. These methods serve various purposes, including transforming a string from lowercase to uppercase, eliminating whitespace from the beginning or end of a string, substituting portions of a string with different text, and more.
@@ -1161,23 +1146,22 @@ Strings come bundled with special functions called string methods that can be us
 
 ### Converting String Case
 
-In Python, strings are objects, and they come with a variety of built-in methods that you can use to manipulate them. The `.lower()` and `.upper()` methods are two examples of such string methods.
+In Python, strings are objects, and they come with a variety of built-in methods that you can use to manipulate them. The `.lower()` , `.upper()` and `.capitalize()` methods are three examples of such string methods.
 
 - The `.lower()` method converts all characters in a string to **lowercase**.
 - The `.upper()` method converts all characters in a string to **uppercase**.
+- The `.capitalize()` method converts the first letter of each word in a string to **uppercase**.
 
 > ***Note:** The dot (.) signifies to Python that what follows is the name of a method - in this case, the lower() method.*
 
 ```python
-name = "Jean-luc Picard"
-lower_case_name = name.lower()
+name = "Jean-luc picard"
 upper_case_name = name.upper()
+capitalize_name = name.capitalize()
 
-print(lower_case_name)  # 'jean-luc picard'
 print(upper_case_name)  # 'JEAN-LUC PICARD'
-print(name)             # 'Jean-luc Picard'
+print(capitalize_name)  # 'Jean-luc picard'
 ```
-
 
 String methods don’t just work on string literals. You can also use the `.lower()` method on a string assigned to a variable:
 
@@ -1187,10 +1171,26 @@ String methods don’t just work on string literals. You can also use the `.lowe
 'jean-luc picard'
 ```
 
-
-When referring to string methods, we'll use a dot at the beginning of their names. For example, the `.lower()` method is written with a dot instead of just `lower()`. This convention helps distinguish string methods from built-in functions like `print()` and `type()`.
+When referring to string methods, we'll use a `dot` at the beginning of their names. For example, the `.lower()` method is written with a dot instead of just `lower()`. This convention helps distinguish string methods from built-in functions like `print()` and `type()`.
 
 On the other hand, `.upper()` and `.lower()` must be used in conjunction with a string. They do not exist independently.
+
+**Detecting Whitespace Strings**  
+When you need to determine whether a string consists solely of whitespaces, the `.isspace()` method proves to be quite useful.
+
+```python
+>>> name = " "
+>>> name.isspace()
+True
+```
+
+It's important to note that if a string contains any non-whitespace characters, the method will return False.
+
+```python
+>>> name = " j"
+>>> name.isspace()
+False
+```
 
 ### Removing Whitespace From a String
 
@@ -1549,29 +1549,7 @@ Expression são operações matemáticas realizadas com as variáveis ou uma lin
 
 idade = (valor / 250) * 8
 
-#
 
-Função Nativas
-hello = "hello world"
-
-print(len(hello))
-
-print(hello.upper())
-
-print(hello.lower())
-
-print(hello.capitalize())
-  
-print(nome.isspace())
-
-print(nome.replace("hello", "ola"))
-
-nome = nome.replace("hello", "ola")
-
-print(nome) 
-Acesse w3school e docs python https://docs.python.org/3/library/functions.html
-
-**Lembre `string` são imutáveis**
 
 #
 
