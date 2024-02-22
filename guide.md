@@ -129,7 +129,7 @@ It's worth noting that Python allows variable names to contain a wide range of v
 While a variable name may be technically valid, choosing a good and meaningful name is essential. Naming variables appropriately enhances code readability and understanding. Keep these guidelines in mind when selecting variable names to improve the clarity and maintainability of your code.
 
 > [!IMPORTANT]
-> Python’s support for Unicode is covered in the [official Python documentation](https://docs.python.org/3/howto/unicode.html#python-s-unicode-support).
+> **Python’s support for Unicode is covered in the [official Python documentation](https://docs.python.org/3/howto/unicode.html#python-s-unicode-support).**
 
 #
 
@@ -615,24 +615,46 @@ In the example above, the user is prompted to enter their age and name. The `inp
 
 ### Data Output
 
-To display information to the user, you can use the `print()` function. This versatile function takes arguments and prints them to the console. Here's an example:
+Consider having a string `name = "Zaphod"` and two integers `heads = 2` and `arms = 3`. The objective is to construct a sentence like "Zaphod has 2 heads and 3 arms." This process is known as **string interpolation**, a technique where variables are inserted into specific locations within a string.
+
+You've already encountered two methods for achieving this. The first method involves using commas to insert spaces between each part of the string within a `print()` function:
 
 ```python
-# Simple output
-print("Hello, world!")
-
-# Output with variables
-name = "Alice"
-age = 25
-print("Name: " + name)
-print("Age: " + str(age))
-print(name + " is " + str(age)  + " years old.")
-
-# Formatted output
-print(f"{name} is {age} years old.")
+print(name, "has", str(heads), "heads and", str(arms), "arms")
 ```
 
-The `f` operator before the string indicates an f-string, allowing the embedding of variables directly into the formatted string. Python's `print()` function is powerful and can handle various types of data and formatting options.
+Another approach is to concatenate the strings using the `+` operator:
+
+```python
+print(name + " has " + str(heads) + " heads and " + str(arms) + " arms")
+```
+
+Both techniques produce code that can be hard to read. Trying to keep track of what goes inside or outside of the quotes can be tough. Fortunately, there’s a third way of combining strings: [formatted string literals](https://docs.python.org/3/reference/lexical_analysis.html#formatted-string-literals), more commonly known as **f-strings**.
+
+The easiest way to understand f-strings is to see them in action. Here’s what the above string looks like when written as an f-string:
+
+```python
+>>> f"{name} has {heads} heads and {arms} arms"
+'Zaphod has 2 heads and 3 arms'
+```
+
+There are two important things to notice about the above examples:
+
+1. The string literal starts with the letter $f$ before the opening quotation mark
+2. Variable names surrounded by curly braces (${ \\: \\: }$) are replaced with their corresponding values without using `str()`.
+
+You can also insert Python expressions in between the curly braces. The expressions are replaced with their result in the string:
+
+```python
+>>> n = 3
+>>> m = 4
+>>> f"{n} times {m} is {n*m}"
+'3 times 4 is 12'
+```
+
+> ***Note:** It is a good idea to keep any expressions used in an f-string as simple as possible.*
+
+For an in-depth guide to f-strings and comparisons to other string formatting techniques, check out the Python 3’s f-Strings: [An Improved String Formatting Syntax (Guide)](https://realpython.com/python-f-strings/) on [realpython.com](https://realpython.com).
 
 ### File Handling
 
@@ -649,8 +671,834 @@ with open("example.txt", "r") as file:
     print("File content:", content)
 ```
 
+## Strings and String Methods
+
+In Python, collections of text are referred to as strings. To manipulate strings, specific functions known as string methods are employed. These methods serve various purposes, including transforming a string from lowercase to uppercase, eliminating whitespace from the beginning or end of a string, substituting portions of a string with different text, and more.
+
+### The String Data Type
+
+Strings represent a fundamental data type in Python, denoting values that signify text. The term "data type" pertains to the kind of data a particular value represents. Strings are classified as a fundamental data type due to their inability to be decomposed into smaller values of a different type. However, not all data types share this fundamental characteristic. 
+
+The string data type in Python is succinctly represented as `str`. For instance:
+
+```python
+>>> type("Hello, world")
+<class 'str'>
+```
+
+> ***Note:** The output `<class 'str'>` signifies that the value "Hello, world" is an instance of the str data type, meaning it is a string.*
+
+It's worth noting that `class` is currently synonymous with `data type` for conceptual purposes at the moment.
+
+The `type()` function is applicable to values assigned to variables as well:
+
+```python
+>>> phrase = "Hello, world"
+>>> type(phrase)
+<class 'str'>
+```
+
+Moving forward, the exploration of strings will cover three key properties:
+
+1. **Characters:** Strings consist of characters, which can be individual letters or symbols.
+2. **Length:** The length of a string refers to the count of characters it contains.
+3. **Sequence:** Characters in a string follow a specific sequence, indicating each character's numbered position within the string.
+
+#
+
+### String Literals
+
+Creating strings in Python involves enclosing text within quotation marks, whether single or double. For instance:
+
+```python
+string1 = 'Hello, world'
+string2 = "1234"
+```
+
+> ***Note:** Either single quotes or double quotes can be used to create a string, as long as both quotation marks are the same type.*
+
+Such text-surrounded strings are referred to as string literals, indicating their literal representation in the code. It's crucial to note that not every string qualifies as a string literal; for instance, user-inputted strings differ as they are not explicitly coded within the program.
+
+The quotes used to surround a string are termed **delimiters**, marking the string's start and end. When one type of quotes is used as the delimiter, the other type of quote can be used inside of the string:
+
+```python
+string3 = "We're #1!"
+string4 = 'I said, "Put it over by the llama."'
+```
+
+> ***Note:** Python recognizes the first delimiter and considers all characters until the matching second delimiter is encountered.*
+
+Attempting to use double quotes within a double-quoted string, however, results in a `SyntaxError`:
+
+```python
+>>> text = "She said, "What time is it?""
+File "<stdin>", line 1
+text = "She said, "What time is it?""
+^
+SyntaxError: invalid syntax
+```
+
+This error occurs because Python interprets the string to end after the second double quote, leading to confusion regarding the rest of the line.
+
+It's important to note that Python strings can encompass any valid [Unicode character](https://home.unicode.org/technical-quick-start-guide/). For instance, the string `"We're #1!"` includes the **pound sign** (`#`), `"1234"` contains numbers, and `"×Pýŧħøŋ×"` is a valid Python string showcasing Unicode characters.
+
+> [!IMPORTANT]
+> **A recommended practice is consistency in using either single or double quotes as delimiters throughout a project.**
+
+#
+
+### Determine the Length of a String
+
+The length of a string, encompassing spaces, is referred to as the string's length. For instance, the string `"abc"` has a length of 3, while the string `"Don't Panic"` has a length of 11.
+
+ For a practical demonstration, enter the following into IDLE's interactive window:
+
+```python
+>>> len("abc")
+3
+```
+
+> ***Note:** To determine the length of a string in Python, you can utilize the built-in len() function.*
+
+Moreover, the `len()` function can be employed with strings assigned to variables:
+
+```python
+>>> letters = "abc"
+>>> num_letters = len(letters)
+>>> num_letters
+3
+```
+
+Here, the string `"abc"` is assigned to the variable `letters`. Subsequently, the `len()` function calculates the length of `letters`, and this result is assigned to the variable `num_letters`. Ultimately, the value of `num_letters` is 3, confirming the string's length, and is displayed.
+
+#
+
+### Multiline Strings
 
 
+The PEP 8 style guide recommends maintaining a line length of no more than 79 characters, including spaces. While this guideline aids in reading files side by side, it can sometimes be perceived as limiting readability.
+
+When faced with the need for string literals exceeding the chosen limit, the solution lies in creating multiline strings. For instance, consider the following paragraph:
+
+```python
+paragraph = "This planet has - or rather had - a problem, which was \
+this: most of the people living on it were unhappy for pretty much \
+of the time. Many solutions were suggested for this problem, but \
+most of these were largely concerned with the movements of small \
+green pieces of paper, which is odd because on the whole it wasn't \
+the small green pieces of paper that were unhappy."
+```
+
+By using a backslash at the end of each line, adhering to PEP 8, the total length of each line, including the backslash, must be 79 characters or less.
+
+Alternatively, multiline strings can be created using triple quotes (`"""` or `'''`). This approach preserves whitespace, displaying the string on multiple lines:
+
+```python
+paragraph = """This planet has - or rather had - a problem, which was
+this: most of the people living on it were unhappy for pretty much
+of the time. Many solutions were suggested for this problem, but
+most of these were largely concerned with the movements of small
+green pieces of paper, which is odd because on the whole it wasn't
+the small green pieces of paper that were unhappy."""
+```
+
+Triple-quoted strings serve a special purpose in Python, often used for documenting code, providing descriptions at the top of a `.py` file or documenting custom functions. When printed, triple-quoted strings preserve whitespace, allowing for clear and structured output.
+
+## Concatenation, Indexing, and Slicing
+
+Now that you know what a string is and how to declare string literals in your code, let’s explore some of the things you can do with strings.
+
+### String Concatenation
+
+Strings in Python can be combined, or concatenated, using the `+` operator. For example:
+
+```python
+>>> string1 = "abra"
+>>> string2 = "cadabra"
+>>> magic_string = string1 + string2
+>>> magic_string
+'abracadabra'
+```
+
+> ***Note:** Notice that the two strings are joined without any whitespace between them.*
+
+String concatenation proves useful for combining related strings, such as merging a first and last name to create a full name:
+
+```python
+>>> first_name = "Arthur"
+>>> last_name = "Dent"
+>>> full_name = first_name + " " + last_name
+>>> full_name
+'Arthur Dent'
+```
+
+Here, string concatenation occurs twice on the same line. Firstly, `first_name` is concatenated with a space (`" "`) to create the string "Arthur ". Subsequently, this result is further concatenated with `last_name`, producing the full name "Arthur Dent".
+
+### String Indexing
+
+In a string, each character is assigned a numbered position known as an **index**. To access the character at the $Nth$ position, you can place the number $N$ between two square brackets ($[\\: \\:]$) immediately after the string. For example:
+
+```python
+>>> flavor = "apple pie"
+>>> flavor[1]
+'p'
+```
+
+> ***Note:** In this instance, flavor[1] retrieves the character at position 1 in "apple pie," which is 'p'.*
+
+It's important to note that in Python, and most other programming languages, counting starts at zero. Therefore, to obtain the character at the beginning of a string, you need to access the character at position 0:
+
+```python
+>>> flavor[0]
+'a'
+```
+
+A common pitfall is forgetting that counting begins with zero. Attempting to access the first character in a string with the index 1 leads to an off-by-one error. Off-by-one errors are a frequent source of frustration for programmers, both novice and experienced alike.
+
+The following figure shows the index for each character of the string "apple pie":
+
+<table align = "center">
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>p</td>
+    <td>p</td>
+    <td>l</td>
+    <td>e</td>
+    <td> </td>
+    <td>p</td>
+    <td>i</td>
+    <td>e</td>
+  </tr>
+</table>
+
+Attempting to access an index beyond the end of a string in Python results in an `IndexError`. For example:
+
+```python
+>>> flavor[9]
+Traceback (most recent call last):
+  File "<pyshell#4>", line 1, in <module>
+    flavor[9]
+IndexError: string index out of range
+```
+
+> ***Note:** The largest valid index in a string is always one less than the string's length.*
+
+Strings also support negative indices, where the last character in a string has index -1. For instance:
+
+```python
+>>> flavor[-1]
+'e'
+```
+
+In this case, `flavor[-1]` retrieves the last character in "apple pie," which is the letter 'e'. The second-to-last character 'i' has index -2, and so on. Negative indices provide a convenient way to access characters from the end of the string.
+
+The following figure shows the negative index for each character in the string "apple pie":
+
+<table align = "center">
+  <tr>
+    <td>-9</td>
+    <td>-8</td>
+    <td>-7</td>
+    <td>-6</td>
+    <td>-5</td>
+    <td>-4</td>
+    <td>-3</td>
+    <td>-2</td>
+    <td>-1</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>p</td>
+    <td>p</td>
+    <td>l</td>
+    <td>e</td>
+    <td> </td>
+    <td>p</td>
+    <td>i</td>
+    <td>e</td>
+  </tr>
+</table>
+
+Just like positive indices, attempting to access a negative index less than the index of the first character in the string raises an `IndexError` in Python:
+
+```python
+>>> flavor[-10]
+Traceback (most recent call last):
+  File "<pyshell#5>", line 1, in <module>
+    flavor[-10]
+IndexError: string index out of range
+```
+
+While negative indices might not seem immediately useful, there are situations where they offer a more convenient solution than positive indices. For instance, consider a scenario where a string input by a user is assigned to the variable `user_input`. If you need to retrieve the last character of the string, determining the correct positive index can be cumbersome.
+
+One approach to get the last character is to calculate the final index using `len()`:
+
+```python
+final_index = len(user_input) - 1
+last_character = user_input[final_index]
+```
+
+However, utilizing a negative index simplifies the process and eliminates the need for an intermediate step:
+
+```python
+last_character = user_input[-1]
+```
+
+> ***Note:** This method is more concise and avoids the additional step of calculating the final index.*
+
+### String Slicing
+
+If you need to obtain the string containing just the first three letters of the string "apple pie," individually accessing each character by index and concatenating them can be done, albeit in a cumbersome manner:
+
+```python
+>>> first_three_letters = flavor[0] + flavor[1] + flavor[2]
+>>> first_three_letters
+'app'
+```
+
+However, when dealing with a larger substring, this method becomes impractical. Fortunately, Python provides a more efficient way to achieve this with less code. 
+
+You can extract a portion of a string, known as a **substring**, by inserting a colon between two index numbers inside square brackets:
+
+```python
+>>> flavor = "apple pie"
+>>> flavor[0:3]
+'app'
+```
+
+> ***Note:** The [0:3] part of flavor[0:3] is called a slice, which in this case, returns a slice of "apple pie."*
+
+In this example, `flavor[0:3]` returns the first three characters of the string assigned to `flavor`. It starts with the character at index 0 and goes up to, but does not include, the character at index 3. 
+
+String slices may be initially confusing because the substring includes the character at the index of the first number but excludes the character at the index of the second number. To understand slicing, envision a string as a sequence of square slots, each numbered from zero up to the length of the string, and each filled with a character.
+
+Here’s what this looks like for the string "apple pie":
+
+<table align = "center">
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>p</td>
+    <td>p</td>
+    <td>l</td>
+    <td>e</td>
+    <td> </td>
+    <td>p</td>
+    <td>i</td>
+    <td>e</td>
+  </tr>
+</table>
+
+The slice `[x:y]` in Python returns the substring between the boundaries x and y. For example, for the string "apple pie," the slice `[0:3]` returns the string "app," and the slice `[3:9]` returns the string "le pie."
+
+If you omit the first index in a slice, Python assumes you want to start at index 0:
+
+```python
+>>> flavor[:5]
+'apple'
+```
+
+The slice `[:5]` is equivalent to the slice `[0:5]`, so `flavor[:5]` returns the first five characters in the string "apple pie."
+
+Similarly, if you omit the second index in the slice, Python assumes you want to return the substring that begins with the character whose index is the first number in the slice and ends with the last character in the string:
+
+```python
+>>> flavor[5:]
+' pie'
+```
+
+> ***Note:** The slice [5:] is equivalent to the slice [5:9].*
+
+If you omit both the first and second numbers in a slice, you get a string that starts with the character with index 0 and ends with the last character. In other words, omitting both numbers in a slice returns the entire string:
+
+```python
+>>> flavor[:]
+'apple pie'
+```
+
+Unlike string indexing, Python won’t raise an `IndexError` when you try to slice between boundaries before or after the beginning and ending boundaries of a string:
+
+```python
+>>> flavor[:14]
+'apple pie'
+>>> flavor[13:15]
+''
+```
+
+In the first example, the slice gets characters from the beginning of the string up to but not including the fourteenth character. Although the string assigned to `flavor` has a length of nine, any non-existent indices are ignored, and the entire string "apple pie" is returned. In the second example, attempting to get a slice where the entire range is out of bounds (`flavor[13:15]`) returns the empty string "".
+
+You can use negative numbers in slices. The rules for slices with negative numbers are exactly the same as slices with positive numbers. It helps to visualize the string as slots with the boundaries labeled by negative numbers:
+
+<table align = "center">
+  <tr>
+    <td>-9</td>
+    <td>-8</td>
+    <td>-7</td>
+    <td>-6</td>
+    <td>-5</td>
+    <td>-4</td>
+    <td>-3</td>
+    <td>-2</td>
+    <td>-1</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>p</td>
+    <td>p</td>
+    <td>l</td>
+    <td>e</td>
+    <td> </td>
+    <td>p</td>
+    <td>i</td>
+    <td>e</td>
+  </tr>
+</table>
+
+Just like before, the slice `[x:y]` returns the substring between the boundaries x and y. For instance, the slice `[-9:-6]` returns the first three letters of the string "apple pie":
+
+```python
+>>> flavor[-9:-6]
+'app'
+```
+
+It's important to note, however, that the right-most boundary in a slice does not have a negative index. While the logical choice might seem to be the number 0, it doesn't work:
+
+```python
+>>> flavor[-9:0]
+''
+```
+
+In this example, `flavor[-9:0]` returns an empty string because the slicing operation assumes that the range includes the character at the index of the left boundary but excludes the character at the index of the right boundary. The right boundary, in this case, is specified as 0, and since 0 is not included, an empty string is returned.
+
+Slicing with three indices, follows a similar principle as slicing with two indices. The third index introduces a step value, indicating the interval between characters to be included in the slice.
+
+<table align = "center">
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>2</td>
+    <td>3</td>
+    <td>4</td>
+    <td>5</td>
+    <td>6</td>
+    <td>7</td>
+    <td>8</td>
+  </tr>
+  <tr>
+    <td>a</td>
+    <td>p</td>
+    <td>p</td>
+    <td>l</td>
+    <td>e</td>
+    <td> </td>
+    <td>p</td>
+    <td>i</td>
+    <td>e</td>
+  </tr>
+</table>
+
+For instance, if we want to slice the word `"pepe"` from the word "apple pie", the resulting slice would be:
+
+```python
+>>> flavor[2:9:2]
+'pepe'
+```
+
+> ***Note:** This slicing starts at index 2, includes the character at that position, and moves forward with a step of 2.*
+
+### Strings Are Immutable
+
+To conclude this section, it's essential to highlight a crucial property of string objects: **immutability**. Strings in Python are immutable, which means that you can’t change them once you’ve created them. For instance, attempting to change a specific character of a string results in an error:
+
+```python
+>>> word = "goal"
+>>> word[0] = "f"
+Traceback (most recent call last):
+  File "<pyshell#16>", line 1, in <module>
+    word[0] = "f"
+TypeError: 'str' object does not support item assignment
+```
+
+> ***Note:** The term str is Python’s internal name for the string data type.*
+
+Python raises a `TypeError` and indicates that string objects do not support item assignment.
+
+To modify a string, you need to create an entirely new string. For example, to change the string `"goal"` to `"foal"`, you can use a string slice to concatenate the letter `"f"` with everything but the first letter of the word `"goal"`:
+
+```python
+>>> word = "goal"
+>>> word = "f" + word[1:]
+>>> word
+'foal'
+```
+
+
+## Manipulate Strings With Methods
+
+Strings come bundled with special functions called string methods that can be used to work with and manipulate strings. There are numerous string methods available, but we’ll focus on some of the most commonly used ones.
+
+### Converting String Case
+
+In Python, strings are objects, and they come with a variety of built-in methods that you can use to manipulate them. The `.lower()` and `.upper()` methods are two examples of such string methods.
+
+- The `.lower()` method converts all characters in a string to **lowercase**.
+- The `.upper()` method converts all characters in a string to **uppercase**.
+
+> ***Note:** The dot (.) signifies to Python that what follows is the name of a method - in this case, the lower() method.*
+
+```python
+name = "Jean-luc Picard"
+lower_case_name = name.lower()
+upper_case_name = name.upper()
+
+print(lower_case_name)  # 'jean-luc picard'
+print(upper_case_name)  # 'JEAN-LUC PICARD'
+print(name)             # 'Jean-luc Picard'
+```
+
+
+String methods don’t just work on string literals. You can also use the `.lower()` method on a string assigned to a variable:
+
+```python
+>>> name = "Jean-luc Picard"
+>>> name.lower()
+'jean-luc picard'
+```
+
+
+When referring to string methods, we'll use a dot at the beginning of their names. For example, the `.lower()` method is written with a dot instead of just `lower()`. This convention helps distinguish string methods from built-in functions like `print()` and `type()`.
+
+On the other hand, `.upper()` and `.lower()` must be used in conjunction with a string. They do not exist independently.
+
+### Removing Whitespace From a String
+
+Whitespace is any character that is printed as blank space. This includes things like spaces and line feeds, which are special characters that move output to a new line.
+
+Removing whitespace from the beginning or end of a string is essential, particularly when handling strings from user input where inadvertent introduction of extra whitespace characters may occur.
+
+Three string methods are available for removing whitespace:
+
+1. `.rstrip()` : Removes whitespace from the **right side** of a string.
+2. `.lstrip()` : Removes whitespace from the **left side** of a string.
+3. `.strip()`  : Removes whitespace from both the **left and right sides** of a string.
+
+For example, using `.rstrip()` to remove trailing spaces from the right side of a string:
+
+```python
+>>> name = "Jean-luc Picard     "
+>>> name.rstrip()
+'Jean-luc Picard'
+```
+
+In this instance, the string "Jean-luc Picard " has five trailing spaces. Python does not automatically remove these trailing spaces when the string is assigned to a variable. The `.rstrip()` method rectifies this by removing trailing spaces from the right side of the string, resulting in a **new string**, "Jean-luc Picard," without the spaces.
+
+Similarly, `.lstrip()` functions like `.rstrip()`, but it removes whitespace from the left side of the string:
+
+```python
+>>> name = "     Jean-luc Picard"
+>>> name.lstrip()
+'Jean-luc Picard'
+```
+
+To remove whitespace from both the left and right sides simultaneously, use the `.strip()` method:
+
+```python
+>>> name = "     Jean-luc Picard     "
+>>> name.strip()
+'Jean-luc Picard'
+```
+
+It is important to note that none of the `.rstrip()`, `.lstrip()`, or `.strip()` methods remove whitespace from the middle of the string. In each example, the space between "Jean-luc" and "Picard" is preserved.
+
+### Determine if a String Starts or Ends With a Particular String
+
+When working with text, it's often necessary to ascertain whether a given string starts or ends with specific characters. Two string methods, `.startswith()` and `.endswith()`, are employed for this purpose.
+
+Consider the example with the string "Enterprise." Using `.startswith()` to check if the string starts with the letters 'e' and 'n':
+
+```python
+>>> starship = "Enterprise"
+>>> starship.startswith("en")
+False
+```
+
+> ***Note:** The method returns False because "Enterprise" begins with a capital E, and .startswith() is case-sensitive.*
+
+To make it return `True`, you need to provide the method with the correct case:
+
+```python
+>>> starship.startswith("En")
+True
+```
+
+Similarly, the `.endswith()` method is utilized to determine if a string ends with specific characters:
+
+```python
+>>> starship.endswith("rise")
+True
+```
+
+> ***Note:** Like .startswith(), .endswith() is also case-sensitive.*
+
+> [!IMPORTANT]
+> **The True and False values are not strings. They are a special kind of data type called a Boolean value.**
+
+## String Methods and Immutability
+
+As mentioned in the previous section, strings in Python are immutable, meaning they cannot be altered once created. 
+
+Many string methods, such as `.upper()` and `.lower()`, do not modify the original string but instead return copies with the desired modifications. It's important to be cautious, as overlooking this fact can lead to subtle bugs in your program. For instance:
+
+```python
+>>> name = "Picard"
+>>> name.upper()
+'PICARD'
+>>> name
+'Picard'
+```
+
+In this example, calling `name.upper()` does not change the original string stored in the `name` variable. To retain the modified result, you must assign it to a variable:
+
+```python
+>>> name = "Picard"
+>>> name = name.upper()
+>>> name
+'PICARD'
+```
+
+Now, `name.upper()` returns a new string, "PICARD," which is then assigned to the `name` variable, effectively replacing the original string "Picard."
+
+## Working With Strings and Numbers
+
+When obtaining user input using the `input()` function, the result is always a string. Similarly, in various scenarios, input to a program is provided as a string, even when it represents numerical values. This section focuses on handling strings containing numbers, exploring how arithmetic operations behave on strings and the potential for unexpected outcomes. 
+
+### Strings and Arithmetic Operators
+
+
+Strings in Python can hold various types of characters, including numbers. However, it's crucial not to confuse numerals in a string with actual numbers. Consider the following code:
+```python
+>>> num = "2"
+>>> num + num
+'22'
+```
+
+> ***Note:** The + operator concatenates two strings together, so the result of 2 + 2 is 22, not 4.*
+
+Strings can be "multiplied" by a number if that number is an integer. For instance:
+
+```python
+>>> num = "12"
+>>> num * 3
+'121212'
+```
+
+The expression `num * 3` concatenates the string " $12$ " with itself three times, resulting in the string " $121212$ ". This operation is akin to arithmetic with numbers, where " $12$ " $* \\: 3$ is equivalent to " $12$ " $+$ " $12$ " $+$" $12$ ".
+
+However, attempting to use the $*$ operator between two strings raises a `TypeError`:
+
+```python
+>>> "12" * "3"
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't multiply sequence by non-int of type 'str'
+```
+
+Python raises a `TypeError`, indicating that you can't multiply a sequence by a non-integer. When the $*$ operator is used with a string on either the left or the right side, it always expects an integer on the other side.
+
+What happens when you try to add a string and a number?
+
+```python
+>>> "3" + 3
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+```
+
+Python throws a `TypeError` because the `+` operator expects both things on either side of it to be of the same type. If any one of the objects on either side of `+` is a string, Python tries to perform string concatenation. Addition will only be performed if both objects are numbers. So, to add `"3" + 3` and get `6`, you must first convert the string `"3"` to a number.
+
+### Converting Strings to Numbers
+
+The `TypeError` errors mentioned in the previous section highlight a common challenge when dealing with user input: type mismatches when attempting operations that require a number and not a string.
+
+Consider the following example:
+
+```python
+num = input("Enter a number to be doubled: ")
+doubled_num = num * 2
+print(doubled_num)
+```
+
+If you input a number, say $2$, you might expect the output to be $4$. However, the result is $22$. Since `input()` always returns a string, when you input $2$, `num` is assigned the string " $2$ ", not the integer $2$. 
+
+Consequently, the expression `num * 2` concatenates the string " $2$ " with itself, resulting in " $22$ ".
+
+To perform arithmetic on numbers within a string, conversion from string type to a number type is necessary. Two functions, `int()` and `float()`, can be used for this purpose. 
+- The `int()` function converts objects into whole numbers.
+- The `float()` function converts objects into numbers with decimal points.
+
+```python
+>>> num = int(input("Enter a number to be doubled:  "))
+>>> doubled_num = num * 2
+>>> print(doubled_num)
+4
+```
+
+> ***Note:** float() adds a decimal point to the number, providing at least one decimal place of precision.*
+
+However, attempting to convert a string resembling a floating-point number into an integer raises a `ValueError`:
+
+```python
+>>> int("12.0")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: '12.0'
+```
+
+> ***Note:** This happens because converting 12.0 to 12 would result in the loss of precision.*
+
+### Converting Numbers to Strings
+
+Sometimes you need to convert a number to a string. You might do this, for example, if you need to build a string from some pre-existing variables that are assigned to numeric values.
+
+As demonstrated earlier, attempting to concatenate a number with a string directly results in a `TypeError`:
+
+```python
+>>> num_pancakes = 10
+>>> "I am going to eat " + num_pancakes + " pancakes."
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: can only concatenate str (not "int") to str
+```
+
+Since `num_pancakes` is a number, Python cannot concatenate it with the string "I am going to eat." To create the desired string, it's essential to convert `num_pancakes` to a string using `str()`:
+
+```python
+>>> num_pancakes = 10
+>>> "I am going to eat " + str(num_pancakes) + " pancakes."
+'I am going to eat 10 pancakes.'
+```
+
+Alternatively, you can directly call `str()` on a number literal or handling arithmetic expressions:
+
+```python
+>>> "I am going to eat " + str(10) + " pancakes."
+'I am going to eat 10 pancakes.'
+
+>>> total_pancakes = 10
+>>> pancakes_eaten = 5
+>>> "Only " + str(total_pancakes - pancakes_eaten) + " pancakes left."
+'Only 5 pancakes left.'
+```
+
+## Find a String in a String
+
+One of the most useful string methods is `.find()`. As its name implies, you can use this method to find the location of one string in another string - commonly referred to as a substring.
+
+To use `.find()`, append it to the end of a variable or a string literal and pass the string you want to find between the parentheses:
+
+```python
+>>> phrase = "the surprise is in here somewhere"
+>>> phrase.find("surprise")
+4
+```
+
+The value that `.find()` returns is the index of the first occurrence of the string you pass to it. In this case, "surprise" starts at the fifth character of the string "the surprise is in here somewhere," which has an index of 4 since counting starts at 0.
+
+If `.find()` doesn’t find the desired substring, it will return -1 instead:
+
+```python
+>>> phrase = "the surprise is in here somewhere"
+>>> phrase.find("eyjafjallajökull")
+-1
+```
+
+You can call string methods on a string literal directly, so in this case, you don’t need to create a new string:
+
+```python
+>>> "the surprise is in here somewhere".find("surprise")
+4
+```
+
+Keep in mind that this matching is done exactly, character by character, and is case-sensitive. For example, if you try to find "SURPRISE", the `.find()` method returns -1:
+
+```python
+>>> "the surprise is in here somewhere".find("SURPRISE")
+-1
+```
+
+If a substring appears more than once in a string, `.find()` only returns the index of the first appearance, starting from the beginning of the string:
+
+```python
+>>> "I put a string in your string".find("string")
+8
+```
+
+There are two instances of "string" in "I put a string in your string." The first starts at index 8, and the second at index 23. `.find()` returns 8, which is the index of the first instance of "string."
+
+The `.find()` method only accepts a string as its input. If you want to find an integer in a string, you need to pass the integer to `.find()` as a string. If you do pass something other than a string to `.find()`, Python raises a `TypeError`:
+
+```python
+>>> "My number is 555-555-5555".find(5)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+TypeError: must be str, not int
+```
+
+```python
+>>> "My number is 555-555-5555".find("5")
+13
+```
+
+Sometimes you need to find all occurrences of a particular substring and replace them with a different string. Since `.find()` only returns the index of the first occurrence of a substring, you can’t easily use it to perform this operation. Fortunately, string objects have a `.replace()` method that replaces each instance of a substring with another string.
+
+Just like `.find()`, you append `.replace()` to the end of a variable or string literal. In this case, though, you need to put two strings inside the parentheses in `.replace()` and separate them with a comma. The first string is the substring to find, and the second string is the string to replace each occurrence of the substring with.
+
+For example, the following code shows how to replace each occurrence of "the truth" in the string "I'm telling you the truth; nothing but the truth" with the string "lies":
+
+```python
+>>> my_story = "I'm telling you the truth; nothing but the truth!"
+>>> my_story.replace("the truth", "lies")
+"I'm telling you lies; nothing but lies!"
+```
+
+Since strings are immutable objects, `.replace()` doesn’t alter `my_story`. To change the value of `my_story`, you need to reassign to it the new value returned by `.replace()`:
+
+```python
+>>> my_story = my_story.replace("the truth", "lies")
+>>> my_story
+"I'm telling you lies; nothing but lies!"
+```
+
+`.replace()` can only replace one substring at a time, so if you want to replace multiple substrings in a string you need to use `.replace()` multiple times:
+
+```python
+>>> text = "some of the stuff"
+>>> new_text = text.replace("some of", "all")
+>>> new_text = new_text.replace("stuff", "things")
+>>> new_text
+'all the things'
+```
 
 
 
