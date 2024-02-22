@@ -654,7 +654,7 @@ You can also insert Python expressions in between the curly braces. The expressi
 
 > ***Note:** It is a good idea to keep any expressions used in an f-string as simple as possible.*
 
-> [!NOTE]
+> [!IMPORTANT]
 > **For an in-depth guide to f-strings and comparisons to other string formatting techniques, check out the Python 3’s f-Strings: [An Improved String Formatting Syntax (Guide)](https://realpython.com/python-f-strings/) on [realpython.com](https://realpython.com).**
 
 ### File Handling
