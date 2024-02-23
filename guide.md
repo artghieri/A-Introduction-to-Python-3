@@ -1788,8 +1788,6 @@ Here's an example of using the `sqrt()` function:
 1.4142135623730951
 ```
 
-The `sqrt()` function takes a single argument, which is the number for which you want to find the square root. It returns a floating-point number representing the square root.
- 
 > [!IMPORTANT]
 > **To learn all of python's built-in methods, check the [Mathematical Functions](https://docs.python.org/3/library/math.html) page.**
 
