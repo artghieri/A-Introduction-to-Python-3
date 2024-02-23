@@ -403,6 +403,7 @@ Arithmetic operators are fundamental for performing basic mathematical operation
 - `+` **Addition.**
 - `-` **Subtraction.**
 - `*` **Multiplication.**
+- `**` **Exponents.**
 - `/` **Division.**
 - `%` **Modulus, determining the remainder of a division.**
 - `**` **Exponentiation.**
@@ -1501,6 +1502,305 @@ Since strings are immutable objects, `.replace()` doesn’t alter `my_story`. To
 'all the things'
 ```
 
+## Numbers and Math
+
+Python is a versatile programming language that provides robust support for mathematical operations and number manipulation. 
+
+### Integers and Floating-Point Numbers
+
+Python supports three built-in number data types: integers, floating-point numbers, and complex numbers. We will focus on integers and floating-point numbers, the two most commonly used number types.
+
+**Integers**  
+An integer is a whole number without any decimal places. For instance, $1$ is an integer, while $1.0$ is not. The data type for integers is called `int`, as shown by the `type()` function:
+
+```python
+>>> type(1)
+<class 'int'>
+```
+
+> ***Note:** There is no limit to how large an integer can be, despite computers having finite memory.*
+
+An integer literal is an explicitly written integer value in your code, similar to a string literal (e.g $1$, $100$). 
+
+Integer literals can be written in two ways:
+
+```python
+>>> 1000000
+1000000
+>>> 1_000_000
+1000000
+```
+
+Python allows the use of underscores (_) to separate digits and expresses them in a more readable manner.
+
+**Floating-Point Numbers**  
+A floating-point number, or `float`, contains a decimal place. The data type for floating-point numbers is `float`:
+
+```python
+>>> type(1.0)
+<class 'float'>
+```
+
+A floating-point literal is a floating-point value explicitly written in your code (e.g, $1.25$).
+
+Floating-point literals can be created in three ways:
+
+```python
+>>> 1000000.0
+1000000.0
+>>> 1_000_000.0
+1000000.0
+>>> 1e6
+1000000.0
+```
+
+The first two methods are similar to creating integer literals. For larger numbers, E-notation can be used:
+
+```python
+>>> 1e-4
+0.0001
+```
+
+> ***Note:** E-notation represents a number as the product of a decimal number and $10$ raised to a power.*
+
+Unlike integers, floats have a maximum size, but it is typically well beyond most machines' capabilities.
+
+When exceeding the maximum floating-point number, Python returns a special float value `inf`:
+
+```python
+>>> 2e400
+inf
+```
+
+`inf` stands for infinity and signifies that the number is beyond the maximum floating-point value allowed on your computer. Additionally, there is `-inf` for negative infinity.
+
+#
+
+### Arithmetic Operators and Expressions
+
+In this section, you’ll learn how to do basic arithmetic with numbers in Python, such as addition, subtraction, multiplication, and division. 
+
+**Addition**  
+Addition is performed with the `+` operator:
+
+```python
+>>> 1 + 2
+3
+```
+
+> ***Note:** Any time a float is added to a number, the result is another float.*
+
+The two numbers on either side of the + operator are called operands. In the previous example, both operands are integers, but operands do not need to be the same type.
+
+**Subtraction**  
+To subtract two numbers, just put a `-` in between them:
+
+```python
+>>> 1 - 1
+0
+>>> 5.0 - 3
+2.0
+```
+
+> ***Note:** The - operator is also used to denote negative numbers.*
+
+Just like adding two integers, subtracting two integers always results in an `int`. Whenever one of the operands is a `float`, the result is also a `float`.
+
+**Multiplication**  
+To multiply two numbers, use the `*` operator:
+
+```python
+>>> 3 * 3
+9
+>>> 2 * 8.0
+16.0
+```
+
+The type of number you get from multiplication follows the same rules as addition and subtraction. Multiplying two integers results in an `int`, and multiplying a number with a `float` results in a `float`.
+
+**Division**  
+The `/` operator is used to divide two numbers:
+
+```python
+>>> 9 / 3
+3.0
+>>> 5.0 / 2
+2.5
+```
+
+Unlike addition, subtraction, and multiplication, division with the `/` operator always returns a `float`. If you want to make sure that you get an integer after dividing two numbers, you can use `int()` to convert the result:
+
+```python
+>>> int(9 / 3)
+3
+```
+
+> ***Note:** Keep in mind that int() discards any fractional part of the number.*
+
+**Integer Division**  
+If writing `int(5.0 / 2)` seems a little long-winded to you, Python provides a second division operator, `//`, called the integer division operator:
+
+```python
+>>> 5.0 // 2
+2.0
+```
+
+> ***Note:** Keep in mind that int() discards any fractional part of the number.*
+
+The `//` operator first divides the number on the left by the number on the right and then rounds down to an integer. This might not give the value you expect when one of the numbers is negative.
+
+For example, $-3$ // $2$ returns $-2$. First, $-3$ is divided by $2$ to get $-1.5$. Then $-1.5$ is rounded down to $-2$. On the other hand, $3$ // $2$ returns $1$.
+
+**Exponents**  
+You can raise a number to a power using the `**` operator:
+
+```python
+>>> 2 ** 4
+16
+```
+
+> ***Note:** Exponents don’t have to be integers. They can also be floats.*
+
+**The Modulus Operator**  
+The `%` operator, or the modulus, returns the remainder of dividing the left operand by the right operand:
+
+```python
+>>> 5 % 3
+2
+```
+
+One of the most common uses of `%` is to determine whether or not one number is divisible by another. For example, a number $n$ is even if and only if $n$ % $2$ is $0$.
+
+#
+
+### Arithmetic Expressions
+
+In Python, you can create complex expressions by combining operators, numbers, and parentheses. An expression is a combination that Python can evaluate to produce a value. Here are some examples of arithmetic expressions:
+
+```python
+>>> 2 * 3 - 1
+5
+>>> 4 / 2 + 2**3
+10.0
+>>> -1 + (-3 * 2 + 4)
+-3
+```
+
+The rules for evaluating expressions in Python follow the same principles as everyday arithmetic, often referred to as the "order of operations." 
+
+| Operator | Description          | Precedence |
+|----------|----------------------|------------|
+| `**`     | Exponentiation       | High    |
+| `*`, `/`, `//`, `%` | Multiplication, Division, Floor division, Modulus | Medium     |
+| `+`, `-` | Addition, Subtraction | Low        |
+
+In the example `2 * 3 - 1`, the `*` operator has higher precedence than `-`, so `2 * 3` is evaluated first, resulting in `6`. Then the subtraction is performed, giving the final result of `5`.
+
+It's worth noting that the expressions in the examples may not always follow the rule of placing spaces on either side of all operators. According to [PEP 8](https://pep8.org/#other-recommendations) (Python Enhancement Proposal), which provides style guide recommendations for Python code.
+
+#
+
+### Math Functions and Number Methods
+
+Python has a few built-in functions you can use to work with numbers. In this section, you’ll learn about three of the most common ones:
+
+1. `round()`: Used for rounding numbers to a specified number of decimal places.
+2. `abs()`: Gets the absolute value of a number, representing the distance of the number from zero.
+3. `pow()`: Raises a number to a specified power.
+4. `sqrt()`: Gets the square root of a number.
+
+**The round() function**  
+
+You can use `round()` to round a number to the nearest integer:
+
+```python
+>>> round(2.3)
+2
+```
+
+You can round a number to a given number of decimal places by passing a second argument to `round()`:
+
+```python
+>>> round(3.14159, 3)
+3.142
+```
+
+> ***Note:** The second argument of round() must be an integer. If it isn’t, Python raises a TypeError*
+
+#
+
+**The abs() Function**  
+
+The absolute value of a number $n$ is just $n$ if $n$ is positive, and $-n$ if $n$ is negative. 
+
+To get the absolute value of a number in Python, you use the `abs()` function:
+
+```python
+>>> abs(3)
+3
+>>> abs(-5.0)
+5.0
+```
+
+The absolute function always returns a positive number of the same type as its argument. 
+
+#
+
+**The pow() Function**  
+
+The `pow()` function takes two arguments. The first is the base, that is the number to be raised to a power, and the second argument is the exponent.
+
+For example, the following uses `pow()` to raise $2$ to the exponent $3$:
+
+```python
+>>> pow(2, 3)
+8
+
+>>> pow(2, -2)
+0.25
+```
+
+So, what’s the difference between ** and `pow()`? The pow() function accepts an optional third argument that computes the first number raised to the power of the second number and then takes the modulo with respect to the third number.
+
+In other words, `pow(x, y, z)` is equivalent to ($x ** y$) % $z$. Here’s an example with $x = 2$, $y = 3$, and $z = 2$:
+
+```python
+>>> pow(2, 3, 2)
+0
+```
+
+First, $2$ is raised to the power $3$ to get $8$. Then $8$ % $2$ is calculated, which is $0$.
+
+#
+
+**The sqrt() Method**
+
+The `sqrt()` function in Python is used to calculate the square root of a given number. It is part of the `math` module, so you need to import the module before using it.
+
+Here's an example of using the `sqrt()` function:
+
+```python
+>>> import math
+>>> math.sqrt(25)
+5.0
+
+>>> math.sqrt(2)
+1.4142135623730951
+```
+
+The `sqrt()` function takes a single argument, which is the number for which you want to find the square root. It returns a floating-point number representing the square root.
+ 
+> [!IMPORTANT]
+> **To learn all of python's built-in methods, check the [Mathematical Functions](https://docs.python.org/3/library/math.html) page.**
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1524,20 +1824,7 @@ print(abs(-20)) ##Módulo
 
 print(len(var))
 
-max()
 
-min()
-Mas além disso, podemos importar o módulo math e utilizar inúmeras funções pertencentes a esse módulo.
-
-import math
-
-math.sqrt(4)
-
-math.pow(2,2)
-
-math.cos(30)
-
-math.ceil(3.4)
 
 #
 
