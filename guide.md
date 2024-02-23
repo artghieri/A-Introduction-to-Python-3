@@ -183,7 +183,7 @@ stateDiagram-v2
     }
 ```
 
-
+**Local Scope** is where variables are confined to a specific function, accessible only within that function. Unlike global scope variables, they can't be directly modified or read from outside. If a local variable shares its name with a global one, it takes precedence within that function, ensuring isolated functionality and minimizing naming conflicts.
 ```python
 def example_function():
     local_var = 5  # Local variable
@@ -403,7 +403,6 @@ Arithmetic operators are fundamental for performing basic mathematical operation
 - `+` **Addition.**
 - `-` **Subtraction.**
 - `*` **Multiplication.**
-- `**` **Exponents.**
 - `/` **Division.**
 - `%` **Modulus, determining the remainder of a division.**
 - `**` **Exponentiation.**
