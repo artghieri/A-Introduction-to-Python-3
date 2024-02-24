@@ -1790,6 +1790,234 @@ Here's an example of using the `sqrt()` function:
 > [!IMPORTANT]
 > **To learn all of python's built-in methods, check the [Mathematical Functions](https://docs.python.org/3/library/math.html) page.**
 
+## Conditional Statements
+
+Conditional Statements in programming enable the program to make decisions and execute specific code blocks based on certain conditions, enhancing its flexibility and adaptability.
+
+### Conditional Statements and Truth Tables
+
+Conditional Statements in programming enable diverse execution paths based on logical conditions using `if`, `elif` and `else` statements. Utilizing truth tables to evaluate conditions, they systematically ensure precise decision-making, enhancing program functionality and reliability.
+
+```python
+number = 10;    
+
+if ( number > 0 ):   
+  print(f"It's a positive number")
+```
+
+When a conditional statement is executed, two possible outcomes are provided: `True` and `False`. In the previous case, the compiler substitutes the variable `number` with its stored value, resulting in the following evaluation: *is 10 greater than 0?*. 
+
+In this instance, the answer is `True`. As a result, the compiler returns a value other than $0$ to the `if()` function, permitting the execution of the subsequent command line.
+
+Boolean expressions are essential in programming, denoting true/false conditions. They employ logical operators (`AND`, `OR`, `NOT`) to combine or negate conditions, enabling intricate decision-making in code. Evaluating these expressions empowers programs to execute tailored actions based on outcomes, optimizing efficiency and functionality.
+
+
+<table>
+<tr><th>&nbsp;&nbsp;&nbsp;TRUTH TABLE FOR AND &nbsp;&nbsp;&nbsp;
+</th><th>&nbsp;&nbsp;&nbsp;TRUTH TABLE FOR OR&nbsp;&nbsp;&nbsp;</th>
+<th>&nbsp;&nbsp;&nbsp;TRUTH TABLE FOR NOT &nbsp;&nbsp;&nbsp;</th>
+</tr>
+<tr>
+  <td>
+  
+|  OPERAND 1    |  OPERAND 2  | RESULT |
+|:-----------:|:-----------:|:-------------:|
+|   **`false`**   |   **`false`**   |    **`false`**    |
+|   **`false`**   |   **`true`**   |    **`false`**    |
+|   **`true`**   |   **`false`**   |    **`false`**    |
+|   **`true`**   |   **`true`**   |    **`true`**    |
+
+</td>
+<td>
+
+|  OPERAND 1    |  OPERAND 2  | RESULT |
+|:-----------:|:-----------:|:-------------:|
+|   **`false`**   |   **`false`**   |    **`false`**    |
+|   **`false`**   |   **`true`**    |     **`true`**    |
+|   **`true`**    |   **`false`**   |     **`true`**    |
+|   **`true`**    |   **`true`**    |     **`true`**    |
+
+</td>
+
+<td>
+
+| &nbsp;OPERAND &nbsp;|  &nbsp; RESULT &nbsp;&nbsp;|
+|:-----------:|:-----------:|
+|   **`not true`**   |      **`false`**    |
+|   **`not false`**   |      **`true`**    |
+
+</td>
+</tr> 
+</table>
+</td><td>
+  
+> *Any result from a comparison that is a non-zero value is treated as true, whereas 0 is interpreted as false.*
+
+#
+
+### The if Statement
+
+An `if` statement instructs Python to execute a specific portion of code only when a certain condition is satisfied. 
+
+For instance, the check following `if` statement:
+
+```python
+if 2 + 2 == 4:
+    print("2 and 2 is 4")
+
+print("Try another operation !")
+```
+
+> ***Note:** Omitting the colon (:) after the test condition in an if / elif / else statement results in a SyntaxError.*
+
+You can interpret this as: "if $2 + 2$ equals $4$, then print the string ' $2$ and $2$ is $4$ '.”
+
+An `if` statement consists of three components:
+
+1. The `if` keyword.
+2. A test condition, followed by a colon.
+3. An indented block of code that executes if the test condition is True.
+
+In the given example, the test condition is $2 + 2 == 4$. Since this expression is `True`, executing the `if` statement in IDLE displays the text " $2$ and $2$ is $4$ ". If the test condition is `False` (for instance, $2 + 2 == 5$), Python skips over the indented block of code and continues execution on the next non-indented line.
+
+#
+
+### The else Keyword
+
+The `else` keyword is used after an `if` statement in order to execute some code only if the `if` statement’s condition is `False`.
+
+```mermaid
+flowchart LR
+  start[Start] --> a{Test}
+  a{Test} --> | True | code1{{Code}}
+  a{Test} --> | False | code2{{Code}}
+```
+
+The following script uses else to shorten the code in the previous script for displaying whether or not a student passed a class:
+
+```python
+grade = 40
+
+if grade >= 70:
+  print("You passed the class!")
+else:
+  print("You did not pass the class")
+
+print("Thank you for attending.")
+```
+
+> ***Note:** The line that prints "Thank you for attending." still runs, even if the indented block of code after else is executed.*
+
+In English, the if and else statements together read as: *If the grade is at least* $70$, *then print the string* " $You \\:\\:  passed \\:\\:  the \\:\\:  class!$ "; o*therwise, print the string* " $You \\: \\: did \\:\\:  not \\:\\:  pass \\:\\:  the \\:\\:  class!$ ".
+
+
+Notice that the `else` keyword has no test condition, and is followed by a colon. No condition is needed, because it executes for any condition that fails the `if` statement’s test condition.
+
+#
+
+### The elif Keyword
+
+The `elif` keyword is short for "else if" and can be used to add additional conditions after an `if` statement.
+
+Just like if statements, elif statements have three parts:
+1. The `elif` keyword.
+2. A test condition, followed by a colon.
+3. An indented code block that is executed if the test condition evaluates to `True`.
+
+
+The following script combines `if`, `elif`, and `else` to print the letter grade a student earned in a class:
+
+```python
+1.   grade = 85
+2. 
+3.   if grade >= 90:
+4.     print("You passed the class with a A.")
+5.   elif grade >= 80: 
+6.     print("You passed the class with a B.")
+7.   elif grade >= 70: 
+8.     print("You passed the class with a C.")
+9.   else: 
+10.    print("You did not pass the class :(")
+11.
+12.   print("Thanks for attending.")
+```
+
+Analyzing the code above, we can observe that the condition for the `if` statements is checked on both lines $5$ and $7$.
+
+However, only the block associated with the first `True` test condition, which is the condition on line 5, is executed. All remaining `elif` and `else` blocks are skipped, so executing the script has the following output:
+
+```
+You passed the class with a B.
+Thanks for attending.
+```
+
+Let’s break down the execution of the script step-by-step:
+
+1. `grade` is assigned the value $85$ in the line $1$.
+2. `grade` >= $90$ is `False`, so the `if` statement in the line $3$ is skipped.
+3. `grade` >= $80$ is `True`, so the block under the `elif` statement in line $5$ is executed.
+4. The `elif` and `else` statements in lines $7$ and $9$ are skipped, since the condition for the `elif` statement on line $5$ was met.
+5. Finally, line $6$ is executed and "Thanks for attending." is printed.
+
+The `if`, `elif`, and `else` keywords are some of the most commonly used keywords in the Python language. They allow you to write code that responds to different conditions with different behavior.
+
+You can even nest an `if` statement inside another one to write code that handles tremendously complex logic!
+
+#
+
+### Nested if Statements
+
+A `nested if` statement involves placing an if statement within another if statement. In cases where the execution desires a `True` statement after an `else` statement has failed, the utilization of nested if statements becomes crucial to maintain the overall code flow in a semantically ordered structure.
+
+The complexity that results from using deeply `nested if` statements may make it difficult to predict how your program will behave under given conditions. For this reason, this kind of statement must be used with caution.
+
+```mermaid
+flowchart LR
+  start[Start] --> a{Test}
+  a{Test} --> | True | code1{{Code}}
+  a{Test} --> | False | code2{{Code}}
+
+  code2 --> b{Test}
+  b --> | True | code3{{Code}}
+  b--> | False | code4{{Code}}
+```
+
+> ***Note:** Flowchart of a nested if statement.*
+
+Consider a scenario where a business offers discounts based on the age and student status of its customers. The following Python code implements a discount eligibility system with nested if statements and logical conditions.
+
+```python
+age = int(input("Enter an Age: "))
+is_student = True if input("It is a Student? (y/n)").lower() == "y" else False
+
+# Nested if statements with and/or conditions to determine discount eligibility
+if is_student:
+  if age <= 18:
+      discount = "50%"
+  elif age <= 25:
+      discount = "20%"
+  else:
+      discount = "10%"
+else:
+    discount = "No discount"
+
+# Display the result
+print(f"For a {age}-year-old {'student' if is_student else 'non-student'}, the discount is: {discount}")
+```
+
+Let's break down the execution of the script step-by-step:
+
+1. `age` is assigned the value entered by the user in the line marked $1$.
+2. The user is prompted to input whether they are a student (yes/no), and `is_student` is assigned `True` or `False` accordingly.
+3. If `is_student` is `True`, the nested `if` statements in lines $5$ - $11$ are evaluated:
+   - If `age` is $18$ or below, `discount` is assigned $50$%.
+   - If `age` is $25$ or below, `discount` is assigned $20$%.
+   - If neither condition is met, `discount` is assigned $10$%.
+4. If `is_student` is `False`, `discount` is assigned "No discount" in line $13$ .
+5. The result is displayed in the last line, indicating the age, student status, and the corresponding discount.
+
+Using nested if statements can become complex and potentially make the code harder to understand. If you notice that you have multiple layers of nested if statements, it's advisable to reconsider your approach and explore ways to simplify the code for better readability and maintainability.
+
 
 
 
@@ -1811,6 +2039,8 @@ Here's an example of using the `sqrt()` function:
 --- 
 
 <!-- 
+
+Fazer Jumps stats depois de loops e lembrar try catach - ta na parte de ifs
 
 Função Matemáticas
 Em python há função matemáticas nativas para o auxílio de seu programa como a função abs() e a função round()
