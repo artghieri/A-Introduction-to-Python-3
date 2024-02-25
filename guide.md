@@ -2472,29 +2472,6 @@ for i in range(1, 6):
 
 Fazer Jumps stats depois de loops e lembrar try catach - ta na parte de ifs
 
-Função Matemáticas
-Em python há função matemáticas nativas para o auxílio de seu programa como a função abs() e a função round()
-
-print(round(3.4)) 
-
-print(abs(-20)) ##Módulo
-
-print(len(var))
-
-
-
-#
-
-Expressions x Statements
-Statements são declarações de variáveis feitas durante o código.
-
-valor = 1000
-Expression são operações matemáticas realizadas com as variáveis ou uma linha inteira de código que realiza uma ação.
-
-idade = (valor / 250) * 8
-
-
-
 #
 
 List Unpacking
@@ -2576,23 +2553,6 @@ for index, value in enumerate(iterable_object)
 for index, value in enumerate([1,2,3,4,5])
 
 #
-
-Break / Continue / Pass
-Break: realiza uma quebra na estrutura de execução de código atual
-Continue: realizar uma volta ao topo da condição de loop
-Pass: ignora um bloco de execução
-while True:
-	resp = input("> ")
-	if resp in "bye":
-		break
-while i < 10:
-	i += 1
-	continue # Nesse exemplo nunca será mostrado o print
-	print(i)
-for item in lista:
-	pass
-
- #
 
  Positional Arguments
 def pessoa(nome, idade):
