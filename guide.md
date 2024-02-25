@@ -2608,6 +2608,337 @@ For new programmers, it's crucial to note that if you only catch specific except
 
 
 
+## Functions
+
+Functions serve as the fundamental building blocks of nearly every Python program, where the real action unfolds! You've already encountered various built-in functions like `print()`, `len()`, and `round()`. These functions are inherent to the Python language.
+
+Functions play a pivotal role in breaking down code into smaller, manageable chunks, especially for tasks that a program needs to perform repeatedly. Instead of duplicating the same code each time the task arises, you can encapsulate the functionality within a function and call it when needed. This not only enhances code organization but also promotes reusability and maintainability.
+
+```python
+def function_name(parameters):
+  # function_body
+  return value 
+```
+
+> ***Note:** The return command is only required for functions that have a non-void return type.*
+
+Each variable declared in the parameter list is treated as a local variable within the function. When a function has no input arguments, the parameter list remains empty. However, the parentheses in the function declaration are mandatory.
+
+Upon encountering a return statement, the function immediately terminates. If any data is provided after the return keyword, its value is returned by the function. While a function can have multiple return statements, only one will be executed per function call. It's essential to understand that the function concludes as soon as the program reaches the first return statement.
+
+
+### How Python Executes Functions
+
+One crucial aspect to note is that you can't execute a function by merely typing its name; you must call the function to instruct Python to execute it. Let's explore this concept using the `len()` function as an example:
+
+```python
+# Typing just the name doesn't execute the function.
+# IDLE inspects the variable as usual.
+>>> len
+<built-in function len>
+
+# Use parentheses to call the function.
+>>> len()
+Traceback (most recent call last):
+  File "<pyshell#3>", line 1, in <module>
+    len()
+TypeError: len() takes exactly one argument (0 given)
+```
+
+In this example, a `TypeError` is raised when `len()` is called because the function expects an argument. An argument is a value passed to the function as input. While some functions can be called without arguments, others can take as many arguments as needed. In the case of `len()`, it requires exactly one argument.
+
+Once a function completes its execution, it returns a value as output. The return value typically, but not always, depends on the values of any arguments passed to the function.
+
+The process of executing a function can be summarized in three steps:
+
+1. **Function Call:** The function is called, and any arguments are passed to the function as input.
+2. **Execution:** The function executes, performing some action with the provided arguments.
+3. **Return:** The function returns, and the original function call is replaced with the return value.
+
+Let's observe this in practice and understand how Python executes the following line of code:
+
+```python
+>>> num_letters = len("four")
+```
+
+Firstly, `len()` is called with the argument "four". The length of the string "four" is calculated, resulting in the number $4$. Then, `len()` returns the number 4, replacing the function call with this value.
+
+After the function executes, the line of code transforms to:
+
+```python
+>>> num_letters = 4
+```
+
+Subsequently, Python assigns the value $4$ to `num_letters` and proceeds to execute any remaining lines of code in the program. This process illustrates how functions contribute to the flow of code by performing specific actions and providing values that can be utilized in subsequent parts of the program.
+
+
+### Functions Can Have Side Effects
+
+You've learned how to call a function and that they return a value upon completion. However, functions can do more than just return a value; they can have side effects. A side effect occurs when a function changes or influences something external to the function itself. One example of a function with a side effect is `print()`.
+
+When you call `print()` with a string argument, the string is displayed in the Python shell as text. Yet, `print()` doesn't return any text as a value. To demonstrate what `print()` returns, you can assign its return value to a variable:
+
+```python
+>>> return_value = print("What do I return?")
+What do I return?
+>>> return_value
+None
+```
+
+Here, when you assign `print("What do I return?")` to `return_value`, the string "What do I return?" is displayed. However, when you inspect the value of `return_value`, it is `None`, indicating the absence of data.
+
+`print()` returns a special value called `None`, indicating the absence of data. `None` has a type called `NoneType`:
+
+```python
+>>> type(return_value)
+<class 'NoneType'>
+>>> print(return_value)
+None
+```
+
+> ***Note:** When you call print(), the displayed text is not the return value; it is a side effect of print().*
+
+### Write Your Own Functions
+
+As your programs grow in length and complexity, you may find the need to reuse the same few lines of code multiple times or calculate the same formula with different values. While copying and pasting similar code might be tempting, it's generally a bad idea as repetitive code can become challenging to maintain. Fixing a mistake in duplicated code requires changes in every instance, which can be error-prone.
+
+**The Anatomy of a Function**  
+Every function consists of two essential parts:
+
+1. **Function Signature:** Defines the name of the function and any inputs it expects.
+2. **Function Body:** Contains the code that runs each time the function is used.
+
+Let's start by creating a simple function that takes two numbers as input and returns their product. The function will be named `multiply`, and here's what it looks like with comments identifying the signature, body, and return statement:
+
+```python
+def multiply(x, y):  # Function signature
+  # Function body
+  product = x * y
+  return product
+```
+
+While creating a function for the multiplication operator might seem unnecessary, this example serves as a fundamental illustration of how functions are defined.
+
+**The Function Signature**  
+The first line of a function, known as the function signature, always starts with the `def` keyword (short for "define"). Let's break down the signature of the `multiply` function:
+
+```python
+def multiply(x, y):
+```
+
+> ***Note:** A function name can only contain numbers, letters, and underscores, and must not begin with a number.*
+
+The function signature consists of four parts:
+
+1. The `def` keyword.
+2. The function name, which is `multiply` in this case.
+3. The parameter list, `(x, y)`.
+4. A colon `:` at the end of the line.
+
+When Python encounters a line beginning with the `def` keyword, it creates a new function and assigns it to a variable with the same name as the function.
+
+**The Parameter List**  
+The parameter list in a function is a set of parameter names enclosed within parentheses. It defines the expected inputs for the function. For example, in the `multiply` function:
+
+```python
+def multiply(x, y):
+```
+
+The parameter list `(x, y)` signifies that the function `multiply` takes two parameters, `x` and `y`. These parameters act as placeholders for actual values provided when the function is called with arguments. While parameters resemble variables, they don't have values; they serve as templates for values to be supplied during execution.
+
+The function body can utilize these parameters as if they were real variables. For instance, the expression `x * y` in the function body is a template, and Python fills in the actual values when the function is executed. It's important to note that a function can have any number of parameters, including none at all.
+
+**The Function Body**  
+The function body contains the code that executes whenever the function is called in your program. Taking the `multiply` function as an example:
+
+```python
+def multiply(x, y):
+  # Function body
+  product = x * y
+  return product
+```
+
+This simple function has a two-line body. The first line creates a variable `product` and assigns to it the value `x * y`. Since `x` and `y` are placeholders at this point, this line serves as a template for the actual value assigned during execution.
+
+The second line is a `return` statement, starting with the `return` keyword followed by the variable `product`. When Python encounters this statement, it stops running the function and returns the value of `product`.
+
+It's crucial to maintain proper indentation in the function body. Every line indented below the function signature is considered part of the function body. For example:
+
+```python
+def multiply(x, y):
+  product = x * y
+  return product
+  print("Where am I?")  # Not in the function body.
+```
+
+In this case, the `print()` function is not part of the function body because it lacks the required indentation. However, if `print()` were indented, even with a blank line between it and the previous line, it would be considered part of the function body.
+
+One essential rule for code indentation in a function's body is that every line must be indented by the same number of spaces.
+
+### Writing Your Own Functions: Indentation Rules
+
+When writing Python functions, it's crucial to adhere to proper indentation rules. Incorrect indentation can lead to errors, as illustrated in the following examples:
+
+**Example 1: Unexpected Indent**  
+If the `return` statement is indented differently than the line before it, Python raises an "unexpected indent" error. Modify the `multiply.py` file to look like this:
+
+```python
+def multiply(x, y):
+    product = x * y
+    return product  # Indented with one extra space.
+```
+
+Attempting to run this code in IDLE will result in an error dialog with the message "unexpected indent."
+
+**Example 2: Unmatched Indentation**  
+If a line of code is indented less than the line above it, and the indentation doesn't match any previous lines, Python raises an "unindent does not match any outer indentation level" error. Modify the `multiply.py` file to look like this:
+
+```python
+def multiply(x, y):
+    product = x * y
+  return product  # Indented less than the previous line.
+```
+
+Running this modified code in IDLE will lead to an error with the message "unindent does not match any outer indentation level."
+
+### Function Behavior with Incorrect Indentation
+
+Once a `return` statement is executed, the function stops running and returns the value. If there is any code below the `return` statement that is indented to be part of the function body, it will never run. For example:
+
+```python
+def multiply(x, y):
+    product = x * y
+    return product
+    print("You can't see me!")
+```
+
+Calling this version of `multiply()` will not display the string "You can't see me!" because it is below the `return` statement and, due to indentation, is not considered part of the function body.
+
+Ensuring consistent and correct indentation is essential for proper Python code execution.
+
+### Calling a User-Defined Function
+
+When calling a user-defined function in Python, it's essential to follow best practices for proper execution. Here are key points to remember:
+
+**Syntax for Calling Functions**  
+To call a user-defined function, use the function name followed by a list of arguments enclosed in parentheses. For example, to call `multiply()` with arguments 2 and 4:
+
+```python
+multiply(2, 4)
+```
+
+**Function Definition Placement**  
+Unlike built-in functions, user-defined functions must be defined with the `def` keyword before they are called. Ensure that the function is defined in your script or module before making any function calls.
+
+Consider the following script:
+
+```python
+num = multiply(2, 4)
+print(num)
+
+def multiply(x, y):
+    product = x * y
+    return product
+```
+
+When Python reads the line `num = multiply(2, 4)`, it doesn’t recognize the name multiply and raises a `NameError`:
+
+```python
+Traceback (most recent call last):
+  File "C:Usersdaveamultiply.py", line 1, in <module>
+    num = multiply(2, 4)
+NameError: name 'multiply' is not defined
+```
+
+To resolve this, ensure that the function definition is placed before any function calls:
+
+```python
+def multiply(x, y):
+    product = x * y
+    return product
+
+num = multiply(2, 4)
+print(num)
+```
+
+It is a best practice to organize your script with function definitions at the beginning, creating a clear structure. This helps in avoiding `NameError` and makes your code more readable.
+
+### Functions Without a Return Statement
+
+In Python, all functions return a value, even if that value is `None`. However, not every function requires a `return` statement. Consider the following example:
+
+```python
+def greet(name):
+    print(f"Hello, {name}!")
+```
+
+The `greet` function has no explicit `return` statement, yet it works perfectly:
+
+```python
+greet("Dave")
+# Output: Hello, Dave!
+```
+
+Even though `greet` has no `return` statement, it implicitly returns `None`. If you assign the result to a variable, you'll notice that the variable holds `None`:
+
+```python
+return_value = greet("Dave")
+# Output: Hello, Dave!
+print(return_value)
+# Output: None
+```
+
+It's important to note that the string "Hello, Dave!" is printed due to the `print()` statement inside the `greet` function, showcasing a side effect.
+
+When creating your own functions, especially those without explicit `return` statements, it's crucial to document their behavior. Proper documentation helps other developers understand how to use the function and what to expect when calling it. This practice enhances code readability and collaboration.
+
+### Documenting Your Functions
+
+Proper documentation enhances code understanding and usability. To provide helpful information about a function in IDLE's interactive window, you can use the `help()` function. For instance:
+
+```python
+help(len)
+# Output:
+# Help on built-in function len in module builtins:
+# len(obj, /)
+# Return the number of items in a container.
+```
+
+This information reveals that `len` is a built-in function returning the number of items in a container - a container is a special name for an object that contains other
+objects. A string is a container because it contains characters.
+
+However, when you use `help()` on a user-defined function without a docstring, you might not get the details you need:
+
+```python
+help(multiply)
+# Output:
+# Help on function multiply in module __main__:
+# multiply(x, y)
+```
+
+In this case, there's no information about what the function does. To address this, add a **docstring** - a triple-quoted string placed at the top of the function body. The docstring should describe the function's purpose and the types of parameters it expects. For example:
+
+```python
+def multiply(x, y):
+    """Return the product of two numbers x and y."""
+    product = x * y
+    return product
+```
+
+Now, when you use `help()` on `multiply`, you'll get a more informative output:
+
+```python
+help(multiply)
+# Output:
+# Help on function multiply in module __main__:
+# multiply(x, y)
+# Return the product of two numbers x and y.
+```
+
+There are a number of standardized docstring formats, but we won’t get into them here. Some general guidelines for writing docstrings can be found in [PEP 257](https://www.python.org/dev/peps/pep-0257/).
+
+
+
 
 
 
