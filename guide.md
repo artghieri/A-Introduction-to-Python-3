@@ -2438,6 +2438,166 @@ for i in range(1, 6):
 > ***Note:** In this example, the program uses a for loop to iterate from 1 to 5. When i is equal to 3, the continue statement is encountered. This skips the remaining code inside the loop for that iteration and proceeds to the next iteration.*
 
 
+## Recover From Errors
+
+Encountering errors in your code might be frustrating, but it’s entirely normal! Even the best programmers face such challenges.
+
+Errors aren’t always a negative thing. For instance, attempting to divide $1$ by $0$ results in a `ZeroDivisionError`. If the divisor is entered by a user, you have no way of knowing ahead of time whether or not the user will input a $0$!
+
+To create robust programs, it's crucial to handle errors caused by invalid user input or any other unpredictable sources. 
+
+### A Zoo of Exceptions
+
+When encountering an exception in Python, understanding the nature of the error is crucial. Python provides a variety of built-in exception types, each describing different kinds of errors. Throughout this book, you've come across various errors, and here we'll compile some, along with introducing a few new ones to the list.
+
+**ValueError**  
+A `ValueError` occurs when an operation encounters an invalid value. 
+
+For instance, attempting to convert the string "not a number" to an integer results in a `ValueError`:
+
+```python
+>>> int("not a number")
+Traceback (most recent call last):
+  File "<pyshell#1>", line 1, in <module>
+    int("not a number")
+ValueError: invalid literal for int() with base 10: 'not a number'
+```
+
+> ***Note:** The exception name is displayed on the last line, followed by a description of the specific problem.*
+
+**TypeError**  
+A `TypeError` occurs when an operation is performed on a value of the wrong type. 
+
+For example, attempting to add a string and an integer will result in a `TypeError`:
+
+```python
+>>> "1" + 2
+Traceback (most recent call last):
+  File "<pyshell#1>", line 1, in <module>
+    "1" + 2
+TypeError: can only concatenate str (not "int") to str
+```
+
+**NameError**  
+A `NameError` occurs when attempting to use a variable name that hasn't been defined yet:
+
+```python
+>>> print(does_not_exist)
+Traceback (most recent call last):
+  File "<pyshell#3>", line 1, in <module>
+    print(does_not_exist)
+NameError: name 'does_not_exist' is not defined
+```
+
+**ZeroDivisionError**   
+A `ZeroDivisionError` occurs when the divisor in a division operation is $0$:
+
+```python
+>>> 1 / 0
+Traceback (most recent call last):
+  File "<pyshell#4>", line 1, in <module>
+    1 / 0
+ZeroDivisionError: division by zero
+```
+
+**OverflowError**  
+An `OverflowError` occurs when the result of an arithmetic operation is too large, typically with floating-point numbers:
+
+```python
+>>> pow(2.0, 1_000_000)
+Traceback (most recent call last):
+  File "<pyshell#6>", line 1, in <module>
+    pow(2.0, 1_000_000)
+OverflowError: (34, 'Result too large')
+```
+
+> ***Note:** Note that OverflowErrors can only occur with floating-point numbers due to Python's integers having unlimited precision.*
+
+For a comprehensive list of Python's built-in exceptions, you can refer to the [official documentation](https://docs.python.org/3/library/exceptions.html).
+
+#
+
+### Handling Exceptions with try and except
+
+Encountering exceptions is a common aspect of programming, but rather than letting the program crash, you can use the `try` and `except` keywords to catch errors and handle them appropriately. 
+
+For instance, if you expect a user to input an integer and want to handle the case where they provide a non-integer value, you can utilize these keywords.
+
+Let's look at an example:
+
+```python
+try:
+  number = int(input("Enter an integer: "))
+except ValueError:
+  print("That was not an integer")
+```
+
+Let's break down the code step-by-step:
+- The `try` block contains the code that might raise an exception.
+- In this case, the user is prompted to input an integer. The `int()` function is used to convert the input to an integer.
+- If the user inputs a non-integer value, a `ValueError` will be raised.
+- The `except ValueError` block is executed when a `ValueError` occurs, preventing the program from crashing. Instead, it prints the message "That was not an integer."
+
+Handling multiple exception types is possible by listing them in parentheses after `except`:
+
+```python
+try:
+  num1 = int(input("Enter an integer: "))
+  num2 = int(input("Enter an integer: "))
+  print(num1 / num2)
+except (TypeError, ZeroDivisionError):
+  print("Encountered a problem")
+```
+
+Explanation:
+- The function `divide()` attempts to perform the division operation on `num1` and `num2`.
+- If a `TypeError` or `ZeroDivisionError` occurs, the `except (TypeError, ZeroDivisionError)` block is executed, displaying the message "Encountered a problem."
+
+For more detailed and user-friendly error messages, you can handle each exception individually:
+
+```python
+try:
+  num1 = int(input("Enter an integer: "))
+  num2 = int(input("Enter an integer: "))
+  print(num1 / num2)
+except TypeError:
+  print("Both arguments must be numbers")
+except ZeroDivisionError:
+  print("num2 must not be 0")
+```
+
+Explanation:
+- In this example, a `TypeError` and a `ZeroDivisionError` are handled separately.
+- If `num1` or `num2` is not a number, a `TypeError` is raised, and the message "Both arguments must be numbers" is displayed.
+- If `num2` is 0, a `ZeroDivisionError` is raised, and the message "num2 must not be 0" is displayed.
+
+#
+
+### The "Bare" except Clause
+
+It's possible to use the `except` keyword without specifying a particular exception, creating what's known as a "bare" `except` clause:
+
+```python
+try:
+  # Do lots of hazardous things that might break
+except:
+  print("Something bad happened!")
+```
+
+If any exception is raised during the execution of the code within the `try` block, the associated `except` block will run, and the message "Something bad happened!" will be displayed.
+
+While this might seem like a way to ensure your program never crashes, it's generally considered a bad practice and is frowned upon. There are several reasons for this, with the primary one being that catching every exception could potentially hide bugs in your code. Relying on a broad `except` clause may give you a false sense of confidence that your code works as expected.
+
+For new programmers, it's crucial to note that if you only catch specific exceptions, Python will print the traceback and error information when unexpected errors occur. This provides more information for debugging, allowing you to identify and address issues in your code effectively.
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2514,16 +2674,6 @@ objects for which
 	obj.__bool__() returns False
 	obj.__len__() returns 0, given that obj.__bool__ is undefined
 
- #
-
-Short Circuiting
-Em condicionais, nos casos que utilizamos os operadores lógicos and e or poderemos ter casos específicos de execucação de acordo com a seguinte condição.
-
-if True and False:
-Quando utilizamos and é checado a condição dos 2 parâmetros para o direcionamento do programa.
-if True or False:
-Quando utilizamos or se apenas uma das condicionais for válido (True) não é chegado a outra condicional, causando um short circuiting.
-Dessa maneira conseguimos economizar tempo de processamento.
 
 
 
@@ -2624,6 +2774,8 @@ Para acessar o docstrings utilizaremos essa linha de comando:
 print(test.__doc__)
 
 
+
+# --- colocar map, zip, filter, reduce depois de lambda
 
 print(imposto(preco))
 
