@@ -2018,6 +2018,296 @@ Let's break down the execution of the script step-by-step:
 
 Using nested if statements can become complex and potentially make the code harder to understand. If you notice that you have multiple layers of nested if statements, it's advisable to reconsider your approach and explore ways to simplify the code for better readability and maintainability.
 
+## Loop Structures
+
+A loop is a block of code that gets repeated over and over again either a specified number of times or until some condition is met. There are two kinds of loops in Python: `while` loops and `for` loops. These structures provide efficiency and flexibility in implementing repetitive logic.
+
+### The while Loop
+
+While loops repeat a section of code as long as a certain condition is `True`. The structure consists of two main parts:
+
+1. **The While Statement:** It begins with the `while` keyword, followed by a test condition, and ends with a colon `:`.
+
+2. **The Loop Body:** This section contains the code that gets repeated at each iteration of the loop.
+
+When a `while` loop is executed, Python evaluates the test condition. If the condition is `True`, the code in the loop body is executed. If the condition is `False`, the code in the body is skipped, and the program proceeds to the next section.
+
+After executing the loop body, Python returns to the `while` statement, re-evaluates the test condition, and repeats the process. This cycle continues until the test condition becomes `False`. If the test condition is initially `False`, the body is skipped entirely.
+
+This process repeats until the test condition fails, causing Python to loop over the code in the body of the `while` loop.
+
+```mermaid
+---
+title: While Loop Flowchart
+---
+flowchart LR
+  start[Start]
+  start --> teste{Condition}
+  teste --> |False| endcode{{End}}
+  teste --> |True| code2{{Loop Body}}
+  code2 --> teste
+```
+
+
+Let’s look at an example:
+
+```python
+n = 1
+while n < 5:
+  print(n)
+  n = n + 1
+```
+
+Let's break down the code script step-by-step:
+
+1. The variable `n` is initially assigned the value $1$.
+2. A `while` loop is initiated with the condition $n < 5$. The loop's body executes as long as the condition $n < 5$ is `True`.
+    - Inside the loop body:
+      - The current value of `n` is printed to the screen.
+      - `n` is incremented by $1$.
+3. The loop continues executing until the condition $n < 5$ becomes `False`.
+
+This process repeats until the test condition $n < 5$ becomes `False`. The table below summarizes the steps:
+
+
+
+| Step   | Value of `n` | Test Condition | Action Taken                           |
+| :------: | :------------: | :---------------: | -------------------------------------- |
+| 1      | 1            | 1 < 5 `True`    | Print 1; Increment `n` to 2            |
+| 2      | 2            | 2 < 5 `True`     | Print 2; Increment `n` to 3            |
+| 3      | 3            | 3 < 5 `True`     | Print 3; Increment `n` to 4            |
+| 4      | 4            | 4 < 5 `True`    | Print 4; Increment `n` to 5            |
+| 5      | 5            | 5 < 5 `False`   | Loop ends; Nothing printed, loop ends |
+
+
+In summary, the `while` loop iterates over the code block as long as the condition $n < 5$ remains true. The loop prints the current value of $n$ and increments it until the condition becomes `False`.
+
+If you're not careful, you can unintentionally create an infinite loop, which occurs when the test condition always evaluates to true. In an infinite loop, the loop body keeps executing endlessly.
+
+Consider the following example of an infinite loop:
+
+```python
+n = 1
+while n < 5:
+    print(n)
+```
+
+The key distinction between this `while` loop and the previous one is that $n$ is never incremented within the loop body. In each iteration of the loop, $n$ remains equal to $1$. Consequently, the test condition $n < 5$ is always `True`, leading to the continuous printing of the number $1$. This loop persists indefinitely, resulting in an infinite loop.
+
+Infinite loops aren’t inherently bad. Sometimes they are exactly the kind of loop you need. For instance, code interacting with hardware might use an infinite loop to continually check if a button or switch has been activated.
+
+If your program enters an infinite loop, you can force Python to quit by pressing Ctrl+C when using a Terminal:
+
+```python
+Traceback (most recent call last):
+  File "<pyshell#8>", line 2, in <module>
+    print(n)
+KeyboardInterrupt
+```
+
+> ***Note:** Python will stop the program and raise a KeyboardInterrupt error.*
+
+Now, let's look into a practical example of a `while` loop. One common use of a while loop is to validate user input continuously. The program keeps prompting the user until valid input is provided. 
+
+Consider the following example, where a user is repeatedly asked for a positive number:
+
+```python
+num = float(input("Enter a positive number: "))
+while num <= 0:
+    print("That's not a positive number!")
+    num = float(input("Enter a positive number: "))
+```
+
+Here, the test condition $num <= 0$ checks if the user entered a positive number. If the input is positive, the loop ends; otherwise, the user is notified of the mistake, and the loop continues until valid input is received.
+
+While loops are ideal for repeating a code section as long as a certain condition is met. However, they are not designed for iterating a fixed number of times.
+
+#
+
+### The for Loop
+
+In Python, a `for` loop is a control flow statement that iterates over a sequence of elements, executing a specified block of code for each element in the sequence. The loop allows you to process each item in a collection (such as a list, tuple, or string) one at a time, making it convenient for tasks like iterating through the characters of a string or processing elements in a list. The loop continues until it has processed all the elements in the collection.
+
+```mermaid
+---
+title: For Loop Flowchart
+---
+flowchart LR
+  start[Start]
+  start --> teste{Last Element?}
+  teste --> |False| endcode{{End}}
+  teste --> |True| code2{{Loop Body}}
+  code2 --> code3{{Next Iteration}}
+  code3 --> teste
+```
+
+Similar to the `while` loop, the `for` loop consists of two primary components:
+1. **The for statement:** Begins with the `for` keyword, followed by a membership expression, and ends in a colon `(:)`.
+2. **The loop body:** Encompasses the code segment to be executed in each iteration of the loop.
+
+
+Let's examine an example where the following `for` loop prints each letter of the string "Python" individually:
+
+```python
+for letter in "Python":
+  print(letter)
+```
+
+In this instance, the `for` statement is `for letter in "Python"`, and the membership expression is `letter in "Python"`. In each iteration, the variable `letter` is assigned the next letter in the string "Python," followed by printing the value of `letter`.
+
+The loop iterates once for each character in the string "Python". The table below summarizes the execution of this `for` loop:
+
+<table align = "center">
+  <th>Step</th>
+  <th>Value of letter</th>
+  <th>Action</th>
+  <body>
+    <tr align = "center">
+      <td>1</td>
+      <td>P</td>
+      <td>P is printed</td>
+    </tr>
+    <tr align = "center">
+      <td>2</td>
+      <td>y</td>
+      <td>y is printed</td>
+    </tr>
+    <tr align = "center">
+      <td>3</td>
+      <td>t</td>
+      <td>t is printed</td>
+    </tr>
+    <tr align = "center">
+      <td>4</td>
+      <td>h</td>
+      <td>h is printed</td>
+    </tr>
+    <tr align = "center">
+      <td>5</td>
+      <td>o</td>
+      <td>o is printed</td>
+    </tr>
+    <tr align = "center">
+      <td>6</td>
+      <td>n</td>
+      <td>n is printed</td>
+    </tr>
+  </body>
+</table>
+
+To illustrate the advantage of `for` loops in iterating over collections, let's transform the previous example, originally implemented with a `for` loop, into an equivalent `while` loop. In this case, we'll introduce a variable to keep track of the index representing the next character in the string. At each iteration, we'll print the character at the current index and then increment the index.
+
+The loop will terminate when the value of the index variable is equal to the length of the string. It's important to note that indices start at $0$, and for the string "Python," the last index is $5$.
+
+Here's how you might implement the same logic using a while loop:
+
+```python
+word = "Python"
+index = 0
+while index < len(word):
+  print(word[index])
+  index = index + 1
+```
+
+Comparatively, this `while` loop version is noticeably more complex than the original `for` loop. Not only is the for loop less intricate, but the code itself also appears more natural and intuitive.
+
+
+Sometimes, it's beneficial to iterate over a range of numbers, and Python offers a convenient built-in function called `range()` for precisely that purpose. The `range()` function generates a sequence of numbers.
+
+For instance, `range(3)` produces the range of integers starting from $0$ up to, but not including, $3$ – namely, $0, 1,$ and $2$. Using `range(n)`, where n is any positive number, allows you to execute a loop exactly n times. Consider the following example where a `for` loop prints the string "Python" three times:
+
+```python
+for _ in range(3):
+  print("Python")
+```
+
+> ***Note:** The use of _ in this context is to indicate that the variable is not relevant to the code inside the loop.* 
+
+Additionally, you can specify a starting point for the range. For example, `range(1, 5)` creates the range of numbers 1, 2, 3, and 4. The first argument is the starting number, and the second argument is the endpoint, which is not included in the range.
+
+Using the two-argument version of `range()`, the subsequent for loop prints the square of every number from $10$ up to, but not including, $20$:
+
+```python
+for n in range(10, 20):
+  print(n * n)
+```
+
+Now, let's explore a practical example. The following program prompts the user to input an amount and then displays how to split that amount between $2, 3, 4,$ and $5$ people:
+
+```python
+amount = float(input("Enter an amount: "))
+for num_people in range(2, 6):
+    print(f"{num_people} people: ${amount / num_people:,.2f} each")
+```
+
+> ***Note:** The formatting specifier , .2f is used to format the amount as a fixed-point number rounded to two decimal places.*
+
+The for loop iterates over the numbers $2, 3, 4$ and $5$, printing the number of people and the amount each person should pay. 
+
+Executing the program with an input of $10$ produces the following output:
+
+```
+Enter an amount: 10
+2 people: $5.00 each
+3 people: $3.33 each
+4 people: $2.50 each
+5 people: $2.00 each
+```
+
+In Python, for loops are generally used more frequently than while loops. Most of the time, a for loop is more concise and easier to read than an equivalent while loop.
+
+#
+
+### Nested Loops
+
+As long as you indent the code correctly, you can even put loops inside of other loops.
+
+Peço desculpas pela confusão. Vamos corrigir e melhorar o texto sem alterar o código:
+
+```python
+for n in range(1, 4):
+  for j in range(1, 4):
+    print(f"n = {n} e j = {j}")
+```
+
+When Python enters the body of the first for loop, the variable n is assigned the value $1$. Then the body of the second for loop is executed, and $j$ is assigned values from $1$ to $3$ (inclusive). The first thing printed is $n = 1$ and $j = 1$.
+
+After executing the `print()` function, Python continues within the inner for loop, assigns to $j$ the next value in the range, and then prints $n = 1$ and the updated $j$ value. This process repeats until all values in the inner loop are exhausted. 
+
+Next, the outer for loop increments $n$ to $2$, and the inner for loop executes again, printing $n = 2$ and the values of $j$ in the range $1$ to $3$. This pattern continues until the outer for loop completes its iterations.
+
+The two loops continue to execute in this fashion, and the final output looks like this:
+
+```
+n = 1 and j = 1
+n = 1 and j = 2
+n = 1 and j = 3
+n = 2 and j = 1
+n = 2 and j = 2
+n = 2 and j = 3
+n = 3 and j = 1
+n = 3 and j = 2
+n = 3 and j = 3
+```
+
+A loop inside of another loop is called a nested loop, and they come up more often than you might expect. You can nest while loops inside of for loops, and vice versa, and even nest loops more than two levels deep!
+
+Important: Nesting loops inherently increases the complexity of your code, as you can see by the dramatic increase in the number of steps run in the previous example compared to examples with a single for loop. Using nested loops is sometimes the only way to get something done, but too many nested loops can have a negative effect on a program’s performance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
