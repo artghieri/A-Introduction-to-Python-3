@@ -2536,37 +2536,36 @@ Let's break down the code step-by-step:
 - The `try` block contains the code that might raise an exception.
 - In this case, the user is prompted to input an integer. The `int()` function is used to convert the input to an integer.
 - If the user inputs a non-integer value, a `ValueError` will be raised.
-- The `except ValueError` block is executed when a `ValueError` occurs, preventing the program from crashing. Instead, it prints the message "That was not an integer."
+- The `except` block is executed when a `ValueError` occurs, preventing the program from crashing. Instead, it prints the message "That was not an integer."
 
 Handling multiple exception types is possible by listing them in parentheses after `except`:
 
 ```python
-try:
-  num1 = int(input("Enter an integer: "))
-  num2 = int(input("Enter an integer: "))
-  print(num1 / num2)
-except (TypeError, ZeroDivisionError):
-  print("Encountered a problem")
+def divide(num1, num2):
+  try:
+    print(num1 / num2)
+  except (TypeError, ZeroDivisionError):
+    print("encountered a problem")
 ```
 
-Explanation:
+Let's break down the code step-by-step:
 - The function `divide()` attempts to perform the division operation on `num1` and `num2`.
-- If a `TypeError` or `ZeroDivisionError` occurs, the `except (TypeError, ZeroDivisionError)` block is executed, displaying the message "Encountered a problem."
+- If a `TypeError` or `ZeroDivisionError` occurs, the `except` block is executed, displaying the message "Encountered a problem".
 
 For more detailed and user-friendly error messages, you can handle each exception individually:
 
 ```python
-try:
-  num1 = int(input("Enter an integer: "))
-  num2 = int(input("Enter an integer: "))
-  print(num1 / num2)
-except TypeError:
-  print("Both arguments must be numbers")
-except ZeroDivisionError:
-  print("num2 must not be 0")
+def divide(num1, num2):
+  try:
+    result = num1 / num2
+    print("Result of division:", result)
+  except ZeroDivisionError:
+    print("num2 must not be 0")
+  except TypeError:
+    print("An unexpected error occurred")
 ```
 
-Explanation:
+Let's break down the code step-by-step:
 - In this example, a `TypeError` and a `ZeroDivisionError` are handled separately.
 - If `num1` or `num2` is not a number, a `TypeError` is raised, and the message "Both arguments must be numbers" is displayed.
 - If `num2` is 0, a `ZeroDivisionError` is raised, and the message "num2 must not be 0" is displayed.
@@ -2608,6 +2607,16 @@ For new programmers, it's crucial to note that if you only catch specific except
 
 
 
+
+
+
+
+<!--
+aq e os collections
+!-->
+
+
+
 ## Functions
 
 Functions serve as the fundamental building blocks of nearly every Python program, where the real action unfolds! You've already encountered various built-in functions like `print()`, `len()`, and `round()`. These functions are inherent to the Python language.
@@ -2615,7 +2624,7 @@ Functions serve as the fundamental building blocks of nearly every Python progra
 Functions play a pivotal role in breaking down code into smaller, manageable chunks, especially for tasks that a program needs to perform repeatedly. Instead of duplicating the same code each time the task arises, you can encapsulate the functionality within a function and call it when needed. This not only enhances code organization but also promotes reusability and maintainability.
 
 ```python
-def function_name(parameters):
+def function_name(#parameters):
   # function_body
   return value 
 ```
@@ -2661,7 +2670,7 @@ Let's observe this in practice and understand how Python executes the following 
 >>> num_letters = len("four")
 ```
 
-Firstly, `len()` is called with the argument "four". The length of the string "four" is calculated, resulting in the number $4$. Then, `len()` returns the number 4, replacing the function call with this value.
+Firstly, `len()` is called with the argument "four". The length of the string is calculated, resulting in the number $4$. Then, `len()` returns the number 4, replacing the function call with this value.
 
 After the function executes, the line of code transforms to:
 
@@ -2785,7 +2794,7 @@ If the `return` statement is indented differently than the line before it, Pytho
 ```python
 def multiply(x, y):
     product = x * y
-    return product  # Indented with one extra space.
+     return product  # Indented with one extra space.
 ```
 
 Attempting to run this code in IDLE will result in an error dialog with the message "unexpected indent."
@@ -2892,6 +2901,79 @@ It's important to note that the string "Hello, Dave!" is printed due to the `pri
 
 When creating your own functions, especially those without explicit `return` statements, it's crucial to document their behavior. Proper documentation helps other developers understand how to use the function and what to expect when calling it. This practice enhances code readability and collaboration.
 
+### Python Function Mastery: Args, Kwargs, and Defaults
+
+In Python functions, we encounter indispensable tools that include *args, catering to variable positional arguments, **kwargs, adept at managing keyword arguments, and default parameters, offering heightened adaptability. These elements are instrumental in the art of crafting functions that transcend rigidity, ensuring versatility and the ability to seamlessly adjust to a myriad of scenarios. 
+
+**Positional Arguments**  
+Positional Arguments are crucial when working with functions in Python. They refer to the values passed to a function's parameters in the order they are defined. The order of these arguments directly affects the function's output. For instance, consider the function `person(name, age)`:
+
+```python
+def person(name, age):
+    print(f"{name} {age}")
+
+person("nicholas", 22)  # Output: nicholas 22
+person(22, "nicholas")  # Output: 22 nicholas
+```
+
+When calling the `person` function, the order of the arguments "nicholas" and 22 affects how they are assigned to the `name` and `age` parameters.
+
+
+**Keyword Arguments**   
+In contrast, Keyword Arguments allow values to be directly assigned to function parameters, regardless of their order. Here's an example using the same `person` function:
+
+```python
+def person(name, age):
+    print(f"{name} {age}")
+
+person(age="22", name="nicholas")  # Output: nicholas 22
+```
+
+Using Keyword Arguments provides more flexibility, especially in functions with many parameters where the order can become confusing.
+
+
+**Default Parameters**   
+In some situations, it is useful to set default values for function parameters. This is accomplished through Default Parameters. Consider the following example:
+
+```python
+def person(name="Jojo", age=22):
+    print(f"{name} {age}")
+
+person()               # Output: Jojo 22
+person("nicholas", 30)  # Output: nicholas 30
+```
+
+Default Parameters enable the function to be called without providing values for all parameters, using pre-defined values when necessary.
+
+
+**Handling Variable Sets of Elements in a Function**  
+In addressing a dynamic assortment of elements, Python provides robust mechanisms through *args and **kwargs, particularly beneficial when dealing with collections such as lists, dictionaries, and more. These features enhance a function's adaptability and versatility.
+
+*args, designated by an asterisk, allows a function to accept a variable number of positional arguments. In the following example, the function `process_data(*args)` demonstrates how to iterate through a list and calculate the sum:
+
+```python
+def process_data(*args):
+    return sum(args)
+
+data_list = [1, 2, 3, 4, 5]
+result = process_data(*data_list)  # Output: 15
+```
+
+On the other hand, **kwargs, denoted with a double asterisk, enables the acceptance of keyword arguments. The subsequent example illustrates a function, `process_info(**kwargs)`, which extracts and sums the values associated with the provided keys in a dictionary:
+
+```python
+def process_info(**kwargs):
+    total = sum(kwargs.values())
+    return total
+
+data_dict = {'num1': 2, 'num2': 1}
+result = process_info(**data_dict)  # Output: 3
+```
+
+The true potency arises when *args and **kwargs are combined in a function, providing unparalleled flexibility. This allows the function to gracefully handle diverse data structures, making it applicable to a myriad of scenarios.
+
+It's imperative to maintain awareness of the specified order when using these elements in conjunction: parameters, *args, default parameters, and **kwargs. By embracing these concepts, developers can craft Python functions that seamlessly adapt to different types and quantities of data, from lists to dictionaries and beyond.
+
 ### Documenting Your Functions
 
 Proper documentation enhances code understanding and usability. To provide helpful information about a function in IDLE's interactive window, you can use the `help()` function. For instance:
@@ -2951,17 +3033,10 @@ There are a number of standardized docstring formats, but we won’t get into th
 
 
 
-
-
-
-
-
-
 --- 
 
 <!-- 
 
-Fazer Jumps stats depois de loops e lembrar try catach - ta na parte de ifs
 
 #
 
@@ -3033,77 +3108,9 @@ Se precisar o indíce de um iterable object, podemos utilizar a função enumera
 for index, value in enumerate(iterable_object)
 for index, value in enumerate([1,2,3,4,5])
 
-#
-
- Positional Arguments
-def pessoa(nome, idade):
-	print(f"{nome} {idade}")
-
-Positional Arguments são argumentos que são passados para os parâmetros de uma função em uma determinada ordem, portanto, isso pode afetar a saída de sua função
-
-pessoa("nicholas", 22) 
-nicholas 22
-		  
-pessoa(22, "nicholas")
-22 nicholas
-Keyword Arguments
-def pessoa(nome, idade):
-	print(f"{nome} {idade}")
-
-Agora Keyword Arguments são argumentos que direcionamento diretamente os seus valores para a função
-
-pessoa(idade="22", nome="nicholas")
-nicholas 22
-Default Parameters
-def pessoa(nome = "Jojo", idade = 22):  
-	print(f"{nome} {idade}")
-
-pessoa()
-Jojo 22
-
-pessoa("nicholas", 30)
-nicholas 30
+ 
 
 #
-
-Argumentos
-Para passar um conjunto de elementos em uma função usaremos * ou **
-def function(*arg):
-	return sum(args)
-
-function(1,2,3,4,5)
-
-
-def function(arg):  
-	total = 0
-	for item in args:
-	    total += item
-	return total
-
-function([1,2,3,4,5])
-def function(*arg, **kwargs):
-	total = 0
-	for item in kwargs.values():
-		total += items
-	return sum(args) + total
-
-function(1,2,3,4,5, num1=2, num2=1)
-Ordem adotada: param, *args, default, **kwargs
-**Usar \*args para listas, tuplas, sets, dicionários e conjunto de dados.**
-
-#
-
-Docstrings
-Docstrings podem ser utilizadas para comentar uma função.
-
-def teste(a):
-	'''
-	Info: This function prints a parameter
-	'''
-	print(a)
-Para acessar o docstrings utilizaremos essa linha de comando:
-print(test.__doc__)
-
 
 
 # --- colocar map, zip, filter, reduce depois de lambda
