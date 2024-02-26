@@ -2018,6 +2018,33 @@ Let's break down the execution of the script step-by-step:
 
 Using nested if statements can become complex and potentially make the code harder to understand. If you notice that you have multiple layers of nested if statements, it's advisable to reconsider your approach and explore ways to simplify the code for better readability and maintainability.
 
+### Truthy and Falsy Values in Python
+
+In Python, evaluating the truthiness or falsiness of a variable can be crucial when determining its state. The concept of truthy and falsy values revolves around understanding which values are considered equivalent to `True` or `False` in a boolean context.
+
+Let's explore this with a practical example:
+
+```python
+count = 0
+
+if count:
+    print(f"Count is: {count}")
+else:
+    print("Count is zero.")
+```
+In this scenario, we check whether the variable `count` holds a falsy value, meaning it is equivalent to zero. If the condition is met, the program prints the count; otherwise, it prompts the user that the count is zero.
+
+Here are some common examples of falsy values in Python:
+
+- `None`
+- `False`
+- Numbers numerically equal to zero, such as $0$, $0.0$, $0j$, `decimal.Decimal(0)`, and `fraction.Fraction(0, 1)`
+- Empty sequences and collections, like `[]`, `{}`, `()`, `set()`, `''`, `b''`, `bytearray(b'')`, `memoryview(b'')`, and `range(0)`.
+- Objects for which `obj.__bool__()` returns `False` or `obj.__len__()` returns 0, given that `obj.__bool__` is undefined.
+
+
+
+
 ## Loop Structures
 
 A loop is a block of code that gets repeated over and over again either a specified number of times or until some condition is met. There are two kinds of loops in Python: `while` loops and `for` loops. These structures provide efficiency and flexibility in implementing repetitive logic.
