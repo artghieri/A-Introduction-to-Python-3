@@ -469,8 +469,6 @@ Declaring a variable doesn't involve a separate step for specifying its data typ
 my_variable = 42  # Here, `my_variable` is declared and assigned the value 42 in one step.
 ```
 
-#
-
 **Initializing a Variable**  
 Initialization is the process of providing a variable with its initial value. In Python, initialization frequently happens at the moment of declaration. You can assign a specific value to a variable when declaring it, but it's not mandatory. Alternatively, you can declare a variable first and assign a value to it later in the code.
 
@@ -528,34 +526,26 @@ While a variable name may be technically valid, choosing a good and meaningful n
 > [!IMPORTANT]
 > **Python’s support for Unicode is covered in the [official Python documentation](https://docs.python.org/3/howto/unicode.html#python-s-unicode-support).**
 
-#
-
 **Descriptive Names Are Better Than Short Names**  
 Choosing descriptive variable names over short names is crucial, especially in the context of complex programs. When dealing with intricate code structures, opt for longer, more descriptive names, as they contribute significantly to code readability and comprehension.
 
 Consider the example below, where the value $3600$ is assigned to the variable `s`:
 
 ```python
+# The name s lacks clarity and is ambiguous. Enhance understanding by using a more descriptive name
 s = 3600
-```
 
-The name `s` lacks clarity and is ambiguous. Enhance understanding by using a more descriptive name:
-
-```python
+# While seconds is an improvement, it still doesn't fully convey the purpose of the code.
+# It leaves room for interpretation. To eliminate ambiguity, choose a name that explicitly communicates the meaning
 seconds = 3600
-```
 
-While `seconds` is an improvement, it still doesn't fully convey the purpose of the code. It leaves room for interpretation — is $3600$ the duration of a process or the length of a movie? To eliminate ambiguity, choose a name that explicitly communicates the meaning:
-
-```python
+# In this case, seconds_per_hour provides clear and unambiguous information about the code's intent.
+# Despite the longer length, the improved clarity justifies the choice of a more descriptive name.
 seconds_per_hour = 3600
 ```
 
-In this case, `seconds_per_hour` provides clear and unambiguous information about the code's intent. Despite the longer length compared to `s` or `seconds`, the improved clarity justifies the choice of a more descriptive name.
 
 While embracing descriptive variable names is beneficial, it's essential to strike a balance. Avoid excessively long names that might hinder code readability. Although the definition of "excessively long" is subjective, a practical guideline is to limit variable names to fewer than three or four words. This ensures that your variable names remain informative without becoming unwieldy.
-
-#
 
 **Python Variable Naming Conventions**  
 In various programming languages, the convention is to use **camelCase** for variable names. This naming style involves capitalizing the first letter of every word except the first, creating a camel-hump-like appearance with the juxtaposition of lowercase and uppercase letters, such as `numStudents`.
@@ -659,7 +649,7 @@ Comments are not only useful for providing context but also serve during code te
 
 ### Conventions and Pet Peeves
 
-According to PEP 8, comments should always be written in complete sentences with a single space between the `#` and the first word of the comment:
+According to PEP 8, comments should be written in complete sentences with a single space between the `#` and the first word of the comment:
 
 ```python
 # This comment is formatted to PEP 8.
@@ -1014,7 +1004,7 @@ In the example above, the user is prompted to enter their age and name. The `inp
 
 Consider having a string `name = "Zaphod"` and two integers `heads = 2` and `arms = 3`. The objective is to construct a sentence like "Zaphod has 2 heads and 3 arms." This process is known as **string interpolation**, a technique where variables are inserted into specific locations within a string.
 
-You've already encountered two methods for achieving this. The first method involves using commas to insert spaces between each part of the string within a `print()` function:
+The first method involves using commas to insert spaces between each part of the string within a `print()` function:
 
 ```python
 print(name, "has", str(heads), "heads and", str(arms), "arms")
