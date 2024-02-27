@@ -6,6 +6,398 @@ Consider this guide an open invitation to the vast landscape of programming, des
 
 In the forthcoming sections, we will delve into specific features, best coding practices, and real-world applications, offering you a comprehensive understanding of Python's functionalities. Stay tuned for an enriching exploration that will equip you to navigate the programming landscape with finesse and expertise.
 
+## Installing Packages With pip
+
+Up to this point, you have been working within the bounds of the **Python standard library**. In the remaining half of this course, you will work with various **packages** that are not included with Python by default.
+
+Many programming languages offer a **package manager** that automates the process of installing, upgrading, and removing third-party packages. Python is no exception.
+
+The de facto package manager for Python is called pip. Historically, `pip` had to be downloaded and installed separately from Python. As of [Python 3.4](https://www.python.org/downloads/release/python-340/), it is now included with most distributions of the language.
+
+### Installing Third-Party Packages With pip
+
+Python’s package manager pip is used to install and manage third party packages. It is a separate program from Python, although it’s likely that pip was installed on your computer whenever you downloaded and installed Python.
+
+>  ***Note:** pip is a command line tool. That means you must run it from a command line or terminal program.*
+
+Installing third-party packages with Pip is a fundamental and efficient way to extend the functionality of your Python projects. Pip, which stands for "Pip Installs Packages," is a package management system that simplifies the process of acquiring and installing external libraries or modules.
+
+The concept of a package manager might be familiar to you if you’re coming from another programming language. [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) uses [npm](https://www.npmjs.com/) for package management, Ruby uses [gem](https://rubygems.org), and the [.NET platform](https://dotnet.microsoft.com/languages) uses [NuGet](https://www.nuget.org/). In Python, pip has become the standard package manager.
+
+**Windows**  
+Press the Windows key and type `cmd` and press `Enter` to open the **Command Prompt** application. 
+
+![image](https://github.com/artghieri/Python-Guide-A-Introduction-to-Python-3/assets/102708433/9089ad2b-274f-4bfd-82ac-4b6a81d2be25)
+
+**macOS**  
+Press `Cmd` + `Spacebar` to open the **Spotlight** search window. Type `terminal` and press `Enter` to open the Terminal app. 
+
+![image](https://github.com/artghieri/Python-Guide-A-Introduction-to-Python-3/assets/102708433/9131384d-25de-4791-b085-118960d46e6f)
+
+
+**Ubuntu Linux**  
+Click on the **Show Applications** button at the bottom of your toolbar and search for `terminal`. 
+
+![image](https://github.com/artghieri/Python-Guide-A-Introduction-to-Python-3/assets/102708433/8dde88a8-f91e-4cc4-b2b0-30c101c3e199)
+
+
+To determine if `pip` is installed on your system, use the following command in your terminal:
+
+```bash
+python3 -m pip --version
+```
+
+Upon successful installation, you should observe output similar to the following:
+
+```
+pip 19.3.1 from c:\users\David\appdata\local\programs\python\python38-32\lib\site-packages\pip (python 3.8)
+```
+
+This output signifies that pip version 19.3.1 is installed and associated with the Python 3.8 installation.
+
+Note that the displayed version and linked Python installation may differ on your computer, which is acceptable as long as it reflects any Python 3 version.
+
+If your operating system reports that `pip3` is an unrecognized command, it indicates that pip was not included with your Python distribution.
+
+> [!IMPORTANT]
+> **macOS and Ubuntu Linux:**  
+> Ensure the use of the `python3` command for pip commands, not `python`, to utilize the Python 3 version of pip.
+> 
+> **Windows:**  
+> If `python3` does not work, try using `python`. If successful, replace all instances of `python3` commands with `python`.
+
+
+### Running Pip as a Module
+
+When using your system's `pip` directly, the command itself might not indicate the associated Python version. This ambiguity could lead to installing packages into the site-packages of an unintended Python version. To avoid this, it's recommended to run `pip` as a Python module using the following command:
+
+```bash
+python3 -m pip
+```
+
+Notice that you use `python3 -m` to run pip. The `-m` switch tells Python to run a module as an executable of the python3 interpreter. This way, you can ensure that your system default Python 3 version runs the pip command. If you want to learn more about this way of running pip, then you can read Brett Cannon’s insightful article about [the advantages of using python3 -m pip](https://snarky.ca/why-you-should-use-python-m-pip/).
+
+Sometimes you may want to be more explicit and limit packages to a specific project. In situations like this, you should run pip inside a **virtual environment**.
+
+
+### Using Pip in a Python Virtual Environment
+
+To prevent direct installations into your system Python installation and maintain project independence, it's advisable to use a virtual environment. A virtual environment provides an isolated Python interpreter for your project. Any packages that you use inside this environment will be independent of your system interpreter. This means that you can keep your project’s dependencies separate from other projects and the system at large.
+
+Utilizing `pip` within a virtual environment offers several advantages:
+
+1. Ensures the correct Python version for your project.
+2. Provides confidence in referencing the correct `pip` instance.
+3. Allows the use of specific package versions without affecting other projects.
+
+Python 3 has the built-in [venv](https://docs.python.org/3/library/venv.html) module for creating virtual environments. This module helps you create virtual environments with an isolated Python installation. Once you’ve activated the virtual environment, then you can install packages into this environment. The packages that you install into one virtual environment are isolated from all other environments on your system.
+
+You can follow these steps to create a virtual environment and verify that you’re using the pip module inside the newly created environment:
+
+**Windows:**
+```bash
+python3 -m venv venv
+.\venv\Scripts\activate
+(venv) pip --version
+```
+
+**Linux + macOS:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+(venv) pip3 --version
+```
+
+Here, a virtual environment named venv is created using Python's built-in `venv` module. Activation is done with the `activate` command, indicated by the `(venv)` in the shell prompt.
+
+Finally, check the versions of `pip3` and `pip` within the activated virtual environment. Both point to the same pip module, allowing the use of either pip or pip3 once the virtual environment is activated.
+
+### Upgrading Pip to the Latest Version
+
+Before proceeding, ensure you have the latest version of pip installed by executing the following command in your terminal:
+
+```bash
+$ python3 -m pip install --upgrade pip
+```
+
+Press `Enter` to run the command. If a newer version is available, it will be downloaded and installed. If you already have the latest version, a message similar to "Requirement already satisfied" will be displayed.
+
+
+### Listing All Installed Packages
+
+To view a list of all the packages installed, use the following command in your terminal:
+
+```bash
+python3 -m pip list
+```
+
+If you haven't installed any additional packages, you should see output similar to the following:
+
+```
+Package    Version
+---------- -------
+pip        19.3.1
+setuptools 41.2.0
+```
+
+In this example, both `pip` and `setuptools` are listed. `pip` is a package itself, and `setuptools` is used by `pip` for setting up and installing other packages.
+
+This command is useful for checking which packages and their versions are currently installed on your system.
+
+### Using the Python Package Index (PyPI)
+
+One of the many packages that PyPI hosts is called requests. The requests library helps you to interact with web services by abstracting the complexities of [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) requests. You can learn all about requests on its official [documentation site](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol).
+
+When you want to use the requests package in your project, you must first install it into your environment. If you don’t want to install it in your system Python site-packages, then you can create a virtual environment first, as shown above.
+
+Once you’ve created the virtual environment and activated it, then your command-line prompt shows the name of the virtual environment inside the parentheses. Any pip commands that you perform from now on will happen inside your virtual environment.
+
+To install packages, pip provides an install command. You can run it to install the requests package:
+
+```bash
+python3 -m pip install requests
+```
+
+During the installation process, you'll see output similar to the following:
+
+```bash
+Collecting requests
+  Downloading https://.../requests-2.22.0-py2.py3-none-any.whl (57kB)
+  |................................| 61kB 2.0MB/s
+Collecting urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1
+  Downloading https://...urllib3-1.25.7-py2.py3-none-any.whl (125kB)
+  |................................| 133kB 3.3MB/s
+Collecting certifi>=2017.4.17
+  Downloading https://...certifi-2019.11.28.py3-none-any.whl (156kB)
+  |................................| 163kB ...
+Collecting chardet<3.1.0,>=3.0.2
+  Downloading https://...chardet-3.0.4-py2.py3-none-any.whl (133kB)
+  |................................| 143kB 6.8MB/s
+Collecting idna<2.9,>=2.5
+  Downloading https://...idna-2.8-py2.py3-none-any.whl (58kB)
+  |................................| 61kB 3.8MB/s
+Installing collected packages: urllib3, certifi, chardet, idna, requests
+Successfully installed certifi-2019.11.28 chardet-3.0.4 idna-2.8 requests-2.22.0 urllib3-1.25.7
+```
+
+In this example, you run pip with the install command followed by the name of the package that you want to install. The pip command looks for the package in PyPI, resolves its dependencies, and installs everything in your current Python environment to ensure that requests will work.
+
+The pip install <package> command always looks for the latest version of the package and installs it. It also searches for dependencies listed in the package metadata and installs them to ensure that the package has all the requirements that it needs.
+
+You should now see `requests` and its dependencies listed among the installed packages. The version numbers may vary depending on the latest available releases.
+
+### Using a Custom Package Index
+By default, pip uses PyPI to look for packages. But pip also gives you the option to define a custom package index.
+
+Using pip with a custom index can be helpful when the PyPI domain is blocked on your network or if you want to work with packages that aren’t publicly available. Sometimes system administrators also create their own internal package index to better control which package versions are available to pip users on the company’s network.
+
+A custom package index must comply with [PEP 503 – Simple Repository API](https://peps.python.org/pep-0503/) to work with pip. You can get an impression of how such an [API (Application Programming Interface)](https://en.wikipedia.org/wiki/API) looks by visiting the [PyPI Simple Index](https://pypi.org/simple/) — but be aware that this is a large page with a lot of hard-to-parse content. Any custom index that follows the same API can be targeted with the --index-url option. Instead of typing --index-url, you can also use the -i shorthand.
+
+For example, to install the rptree tool from the [TestPyPI](https://test.pypi.org) package index, you can run the following command:
+
+```bash
+(venv) C:\> python -m pip install -i https://test.pypi.org/simple/ rptree
+```
+
+With the `-i` option, you tell pip to look at a different package index instead of PyPI, the default one. Here, you’re installing rptree from TestPyPI rather than from PyPI. You can use TestPyPI to fine-tune the publishing process for your Python packages without cluttering the production package index on PyPI.
+
+If you need to use an alternative index permanently, then you can set the index-url option in the pip [configuration file](https://pip.pypa.io/en/stable/topics/configuration/). This file is called pip.conf, and you can find its location by running the following command:
+
+```bash
+(venv) C:\> python -m pip config list -vv
+```
+
+With the pip config list command, you can list the active configuration. This command only outputs something when you have custom configurations set. Otherwise, the output is empty. That’s when the additive --verbose, or -vv, option can be helpful. When you add -vv, pip shows you where it looks for the different configuration levels.
+
+If you want to add a pip.conf file, then you can choose one of the locations that pip config list -vv listed. A pip.conf file with a custom package index looks like this:
+
+```
+# pip.conf
+
+[global]
+index-url = https://test.pypi.org/simple/
+```
+
+When you have a pip.conf file like this, pip will use the defined index-url to look for packages. With this configuration, you don’t need to use the --index-url option in your pip install command to specify that you only want packages that can be found in the Simple API of TestPyPI.
+
+**Installing Packages From Your GitHub Repositories**
+
+You’re not limited to packages hosted on PyPI or other package indexes. pip also provides the option to install packages from a GitHub repository. But even when a package is hosted on PyPI, like the [Real Python directory tree generator](https://pypi.org/project/rptree/), you can opt to install it from its Git repository:
+
+```bash
+(venv) C:\> python -m pip install git+https://github.com/realpython/rptree
+```
+
+With the git+https scheme, you can point to a Git repository that contains an installable package. You can verify that you installed the package correctly by running an interactive Python interpreter and importing rptree:
+
+```python
+>>> import rptree
+>>> rptree.__version__
+"x.y.z"
+```
+
+After starting the interactive Python interpreter, you import the rptree module. By calling rptree.__version__, you verify that you’re using the rptree module that’s based in your virtual environment.
+
+Installing packages from a Git repository can be helpful if the package isn’t hosted on PyPI but has a remote Git repository. The remote repository you point pip to can even be hosted on an internal Git server on your company’s intranet. This can be useful when you’re behind a firewall or have other restrictions for your Python projects.
+
+**Installing Packages in Editable Mode to Ease Development**
+
+When working on your own package, installing it in an editable mode can make sense. By doing this, you can work on the source code while still using your command line like you would in any other package. A typical workflow is to first clone the repository and then use pip to install it as an editable package in your environment:
+
+```bash
+C:\> git clone https://github.com/realpython/rptree
+C:\> cd rptree
+C:\rptree> python3 -m venv venv
+C:\rptree> venv\Scripts\activate.bat
+(venv) C:\rptree> python -m pip install -e .
+```
+
+With the commands above, you installed the rptree package as an editable module. Here’s a step-by-step breakdown of the actions you just performed:
+
+1. **Line 1** cloned the Git repository of the rptree package.
+2. **Line 2** changed the working directory to rptree/.
+3. **Lines 3** and 4 created and activated a virtual environment.
+4. **Line 5** installed the content of the current directory as an editable package.
+
+The -e option is shorthand for the --editable option. When you use the -e option with pip install, you tell pip that you want to install the package in editable mode. Instead of using a package name, you use a dot (.) to point pip to the current directory.
+
+If you hadn’t used the `-e` flag, pip would’ve installed the package normally into your environment’s site-packages/ folder. When you install a package in editable mode, you’re creating a link in the site-packages to the local project path:
+
+```
+ ~/rptree/venv/lib/python3.10/site-packages/rptree.egg-link
+```
+
+Using the pip install command with the `-e` flag is just one of many options that pip install offers. You can check out [pip install examples](https://pip.pypa.io/en/stable/cli/pip_install/#examples) in the pip documentation. There you’ll learn how to install specific versions of a package or point pip to a different index that’s not PyPI.
+
+
+**Installing Specific Package Versions With Version Specifiers**
+
+When it comes to installing Python packages, you have several options for controlling the version you want:
+
+1. **Install the Latest Version Greater Than or Equal to Some Version Number:**
+   ```bash
+   $ python3 -m pip install requests>=2.0
+   ```
+
+2. **Install the Latest Version Less Than or Equal to Some Version Number:**
+   ```bash
+   $ python3 -m pip install requests<=3.0
+   ```
+
+3. **Install a Specific Version Number:**
+   ```bash
+   $ python3 -m pip install requests==3.0
+   ```
+
+**Version Specifiers:**
+
+- `<=, >=`: Inclusive less than and greater than specifiers.
+- `<, >`: Exclusive less than and greater than specifiers.
+- `==`: Exactly equal to specifier.
+
+Understanding and utilizing these version specifiers will help you precisely manage the versions of packages in your Python projects.
+
+### Package Details for "requests"
+
+Now that you've successfully installed the `requests` package, you can utilize pip to retrieve detailed information about it. Run the following command in your terminal:
+
+```bash
+$ python3 -m pip show requests
+```
+
+This command will provide you with information such as the package's name, version, summary, author, author's email, license, location on your system, and the dependencies it requires. For example:
+
+```plaintext
+Name: requests
+Version: 2.22.0
+Summary: Python HTTP for Humans.
+Home-page: http://python-requests.org
+Author: Kenneth Reitz
+Author-email: me@kennethreitz.org
+License: Apache 2.0
+Location: c:\users\David\...\python\python38-32\lib\site-packages
+Requires: chardet, idna, certifi, urllib3
+Required-by:
+```
+
+This information can be valuable in understanding the functionality of the package and exploring further details about its usage. The `requests` package, in particular, is widely used for making HTTP requests in Python applications and serves as a foundation for many other Python packages.
+
+### Uninstalling Packages With pip
+
+Once in a while, you’ll have to uninstall a package. Either you found a better library to replace it, or it’s something that you don’t need. Uninstalling packages can be a bit tricky.
+
+Notice that when you installed requests, you got pip to install other dependencies too. The more packages you install, the bigger the chance that multiple packages depend on the same dependency. This is where the show command in pip comes in handy.
+
+Before you uninstall a package, make sure to run the show command for that package:
+
+```bash
+(venv) $ python3 -m pip show requests
+
+Name: requests
+Version: 2.26.0
+Summary: Python HTTP for Humans.
+Home-page: https://requests.readthedocs.io
+Author: Kenneth Reitz
+Author-email: me@kennethreitz.org
+License: Apache 2.0
+Location: .../python3.9/site-packages
+Requires: certifi, idna, charset-normalizer, urllib3
+Required-by:
+```
+
+Notice the last two fields, Requires and Required-by. The show command tells you that requests requires certifi, idna, charset-normalizer, and `urllib3`. You probably want to uninstall those too. Notice that requests isn’t required by any other package. So it’s safe to uninstall it.
+
+You should run the show command against all of the requests dependencies to ensure that no other libraries also depend on them. Once you understand the dependency order of the packages that you want to uninstall, then you can remove them using the uninstall command:
+
+```bash
+python3 -m pip uninstall certifi
+```
+
+The uninstall command shows you the files that will be removed and asks for confirmation. If you’re sure that you want to remove the package because you’ve checked its dependencies and know that nothing else is using it, then you can pass a `-y` switch to suppress the file list and confirmation dialog:
+
+```bash
+(venv) $ python3 -m pip uninstall urllib3 -y
+```
+
+Here you uninstall urllib3. Using the -y switch, you suppress the confirmation dialog asking you if you want to uninstall this package.
+
+In a single call, you can specify all the packages that you want to uninstall:
+
+```bash
+(venv) $ python3 -m pip uninstall -y charset-normalizer idna requests
+```
+
+You can pass in multiple packages to the pip uninstall command. If you didn’t add any additional switches, then you’d need to confirm uninstalling each package. By passing the -y switch, you can uninstall them all without any confirmation dialog.
+
+You can also uninstall all the packages listed in a requirements file by providing the -r <requirements file> option. This command will prompt a confirmation request for each package, but you can suppress it with the `-y` switch:
+
+```bash
+(venv) $ python3 -m pip uninstall -r requirements.txt -y
+```
+
+Remember to always check the dependencies of packages that you want to uninstall. You probably want to uninstall all dependencies, but uninstalling a package used by others will break your working environment. In consequence, your project may not work correctly anymore.
+
+If you’re working in a virtual environment, it can be less work to just create a new virtual environment. Then you can install the packages that you need instead of trying to uninstall the packages that you don’t need. However, pip uninstall can be really helpful when you need to uninstall a package from your system Python installation. Using pip uninstall is a good way to declutter your system if you accidentally install a package system-wide.
+
+
+### Exploring Alternatives to pip
+The Python community provides excellent tools and libraries for you to use beyond pip. These include alternatives to pip that try to simplify and improve package management.
+
+Here are some other package management tools that are available for Python:
+
+| Tool    | Description             |
+|---------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Conda](https://conda.io/en/latest/)        | **Conda** is a package, dependency, and environment manager for many languages, including Python. It comes from [Anaconda](https://www.anaconda.com/), which started as a data science package for Python. Consequently, it’s widely used for data science and [machine learning applications](https://realpython.com/python-windows-machine-learning-setup/). Conda operates its own [index](https://repo.continuum.io/) to host compatible packages.                                                                                                                           |
+| [Poetry](https://python-poetry.org/)        | **Poetry** will look very familiar to you if you’re coming from [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) and [npm](https://www.npmjs.com/). Poetry goes beyond [package management](https://realpython.com/dependency-management-python-poetry/), helping you build distributions for your applications and libraries and deploying them to PyPI.                                                                                                                                                                                     |
+| [Pipenv](https://github.com/pypa/pipenv)    | **Pipenv** is another package management tool that merges virtual environment and package management in a single tool. [Pipenv: A Guide to the New Python Packaging Tool](https://realpython.com/pipenv-guide/) is a great place to start learning about Pipenv and its approach to package management.                                                               |
+
+Only pip comes bundled in the standard Python installation. If you want to use any alternatives listed above, then you have to follow the installation guides in their documentation. With so many options, you’re sure to find the right tools for your programming journey!
+
+Many Python projects use the `pip` **package manager** to manage their dependencies. It’s included with the Python installer, and it’s an essential tool for dependency management in Python.
+
+With pip, you can install and manage any additional packages that you find on [PyPI](https://pypi.org). You can use external packages from other developers as requirements and concentrate on the code that makes your project unique.
+
+
 ## Variables
 
 Variables in programming serve as symbolic containers, offering a means to hold and reference values within your code. The analogy of a named box is frequently employed to elucidate the concept of variables – envisioning them as storage units with unique identifiers that allow convenient access to the information they contain.
