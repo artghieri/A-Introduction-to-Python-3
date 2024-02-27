@@ -3006,6 +3006,53 @@ The true potency arises when *args and **kwargs are combined in a function, prov
 
 It's imperative to maintain awareness of the specified order when using these elements in conjunction: parameters, *args, default parameters, and **kwargs. By embracing these concepts, developers can craft Python functions that seamlessly adapt to different types and quantities of data, from lists to dictionaries and beyond.
 
+### Recursive Functions
+
+Functions in Python can exhibit recursion, where a function calls itself to accomplish a specific task. This self-invoking process is termed "recursion," and the function involved is known as a recursive function.
+
+In a recursive function, the problem at hand is broken down into smaller, similar subproblems. Each subproblem is then tackled by applying the same function recursively. This recursive process persists until a base case is satisfied, indicating when the recursion should halt.
+
+**Syntax of Recursive Function in Python:**
+
+```python
+def recursive_function(parameters):
+    # Base case
+    if base_case_condition:
+        # Return a value or perform some action
+        pass
+    else:
+        # Recursive case
+        # Call the function with modified arguments
+        return recursive_function(modified_parameters)
+```
+
+In this example:
+- **Base Case:** This serves as the termination condition, dictating when the recursion should cease. It prevents the function from endlessly calling itself. When the base case is met, the recursion unwinds.  
+- **Recursive Case:** In this segment, the function invokes itself with adjusted arguments, typically smaller or simpler than the original problem.
+
+Let's consider a classic example of recursion in Python: calculating the factorial of a number.
+
+```python
+def factorial(n):
+    # Base case: factorial of 0 or 1 is 1
+    if n == 0 or n == 1:
+        return 1
+    else:
+        # Recursive case: n! = n * (n-1)!
+        return n * factorial(n - 1)
+
+num = 5
+result = factorial(num)
+print(f"Factorial of {num} is {result}")
+```
+
+> *The base case checks if n is 0 or 1, returning 1 in such cases. In the recursive case, the function calls itself with n-1 to calculate (n-1)! and multiplies it by n to obtain n!. The recursion continues until the base case is satisfied.*
+
+It's worth noting that recursive functions in Python may consume more memory and have slower processing compared to their iterative counterparts. This is due to the memory used in a function call being released only upon completion. However, recursive code is often more concise and can be easier to comprehend. Additionally, certain algorithms, especially those dealing with abstract data structures like trees, may be more efficiently implemented using recursion.
+
+
+
+
 ### Documenting Your Functions
 
 Proper documentation enhances code understanding and usability. To provide helpful information about a function in IDLE's interactive window, you can use the `help()` function. For instance:
