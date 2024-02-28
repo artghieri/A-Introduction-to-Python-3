@@ -4149,7 +4149,492 @@ print(sum_result)
 # Output: 15
 ```
 
+## Object-Oriented Programming (OOP)
 
+Object-Oriented Programming (OOP) is a methodology for organizing a program by grouping related properties and behaviors into distinct objects. In a conceptual sense, these objects can be likened to components within a system, analogous to a factory assembly line.
+
+Consider a program as a virtual assembly line in a factory. At each stage of the assembly line, a system component processes material to some extent, ultimately culminating in the transformation of raw material into a finished product.
+
+Each object, akin to the components at various stages of the assembly line, encompasses both data and behavior. The data within an object corresponds to the raw or pre-processed materials found at each step of the assembly line. Meanwhile, the behavior encapsulates the actions undertaken by each component along the assembly line.
+
+### Define a Class
+
+Primitive data structures, such as numbers, strings, and lists, are designed to represent simple entities like costs, poem names, and favorite colors. However, for more complex representations, such as tracking employees in an organization, a more structured approach is necessary.
+
+For instance, if you need to store basic information about each employee, like their **name, age, position,** and **start year**, using **lists** may lead to several issues. Consider the following examples:
+
+```python
+kirk = ["James Kirk", 34, "Captain", 2265]
+spock = ["Spock", 35, "Science Officer", 2254]
+mccoy = ["Leonard McCoy", "Chief Medical Officer", 2266]
+```
+
+There are problems with this approach. Firstly, referencing `kirk[0]` in a distant part of the code may lead to confusion about what the $0$th element represents. Additionally, the inconsistency in the number of elements in the list, as seen in the `mccoy` example where the age is missing, can result in errors.
+
+To enhance code manageability and maintainability, a recommended approach is to use **classes**.
+
+### Classes vs Instances
+
+Classes serve as a means to create user-defined data structures, incorporating special functions known as **methods** that delineate behaviors and actions that objects, instantiated from the class, can undertake with their data.
+
+In this chapter, a Dog class is introduced, aiming to store fundamental information about a dog.
+
+It is crucial to understand that a class primarily provides structure, essentially acting as a blueprint for defining something. However, a class does not inherently contain real content. For example, the Dog class may outline that a name and age are requisite for defining a dog, yet it does not specify the name or age of a particular dog.
+
+While the class serves as the blueprint, an **instance** is a concrete object constructed from a class, possessing real data. An instance of the Dog class ceases to be a mere blueprint; it becomes an actual dog with specific attributes, such as a name like Miles, who is four years old.
+
+Alternatively, likening a class to a form or questionnaire helps to clarify its role. The class establishes the necessary information, similar to what a form outlines. Once the form is filled out, the resultant specific copy becomes an instance of the class, containing actual information pertinent to the individual or object.
+
+In essence, a class is akin to a guide that provides structure and requirements. Creating multiple instances involves filling out multiple copies of the form. Without the class as a guide, creating instances would be confusing, as the required information would be unclear. Therefore, prior to creating individual instances of an object, it is imperative to first specify the necessary details by defining a class.
+
+### How to Define a Class
+
+All class definitions commence with the `class` keyword, followed by the name of the class and a colon. This structure resembles the signature of a function, with the distinction that no parameters need to be enclosed in parentheses. Any code indented below the class definition is regarded as part of the class's body.
+
+Here is an example of a simple Dog class:
+
+```python
+class Dog:
+    pass
+```
+
+The body of the `Dog` class comprises a single statement: the `pass` keyword. `pass` is often used as a placeholder where code will eventually be inserted, allowing the code to run without generating an error.
+
+In Python, unlike functions and variables, the convention for naming classes is to use [CamelCase notation](https://en.wikipedia.org/wiki/Camel_case), initiating with a capital letter. For instance, a class for a specific dog breed, such as the Jack Russell Terrier, would be named `JackRussellTerrier`.
+
+As the `Dog` class lacks distinct properties, let's enhance it by defining some attributes that all `Dog` objects should possess. Properties like name, age, coat color, and breed are options, but for simplicity, let's focus on just two for now: `name` and `age`.
+
+To define these properties, or instance attributes, for all `Dog` objects, a special method called `.__init__()` must be defined. This method runs every time a new `Dog` object is created, specifying the initial state or values of the object's properties.
+
+The first positional argument of `.__init__()` is invariably a variable that references the class instance, typically named `self`. After the `self` argument, other arguments required for creating an instance of the class can be specified.
+
+The updated `Dog` class definition illustrates how to write an `.__init__()` method that creates two instance attributes: `.name` and `.age`:
+
+```python
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+```
+
+Note the indentation of four spaces for the function signature and eight spaces for the function body. This indentation is crucial as it informs Python that the `.__init__()` method is associated with the `Dog` class. Without indentation, Python would treat `__init__()` as a standalone function.
+
+> ***Note:** Instance methods in a class, like list.append() and string.find(), are functions tied to the class instance.*
+
+
+In the body of the `.__init__()` method, two statements utilize the `self` variable. The first line, `self.name = name`, establishes an instance attribute named `name` and assigns it the value of the `name` variable passed to the `.__init__()` method. Similarly, the second line creates an instance attribute named `age` and assigns it the value of the `age` argument.
+
+This may appear a bit peculiar, as the `self` variable refers to an instance of the `Dog` class, even though no instance has been created yet. It serves as a placeholder used to construct the blueprint. Remember, the class defines the structure of the `Dog` data but doesn't instantiate specific dogs with unique names and ages.
+
+While instance attributes are specific to each object, **class attributes** remain the same for all instances, representing properties shared by all instances. In the next example, a class attribute named `species` is introduced and assigned the value "Canis familiaris":
+
+```python
+class Dog:
+    # Class Attribute
+    species = "Canis familiaris"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+```
+
+Class attributes are defined directly below the first line of the class and outside any method definition. They must be assigned a value since they are created on a class instance without arguments to determine their initial value.
+
+Class attributes should be used when a property needs to have the same initial value for all instances of a class. On the other hand, instance attributes are more suitable for properties that must be specified before an instance is created, and their values may vary across instances.
+
+
+### Instantiate an Object
+
+Once a class has been defined, it serves as a blueprint for creating, or **instantiating**, new objects. To instantiate an object, you use the name of the class, in the original CamelCase, followed by parentheses containing any values that must be passed to the class's `. __init__()` method.
+
+For example:
+
+```python
+class Dog:
+    pass
+
+dog_instance = Dog()
+```
+
+This code creates a new `Dog` class with no attributes or methods and then instantiates a new `Dog` object named `dog_instance`.
+
+When you instantiate a new object, you get an output indicating the memory address of the object. For instance:
+
+```python
+>>> Dog()
+<__main__.Dog object at 0x106702d30>
+```
+
+The memory address displayed will likely differ on your screen.
+
+Instantiate another `Dog` object:
+
+```python
+>>> Dog()
+<__main__.Dog object at 0x0004ccc90>
+```
+
+The new `Dog` instance is located at a different memory address, signifying that it is an entirely new instance, distinct from the first `Dog` object instantiated.
+
+To demonstrate this further:
+
+```python
+>>> a = Dog()
+>>> b = Dog()
+>>> a == b
+False
+```
+
+Here, two new `Dog` objects are created and assigned to the variables `a` and `b`. When comparing `a` and `b` using the `==` operator, the result is `False`. For user-defined classes, the default behavior of the `==` operator is to compare the memory addresses of two objects and return `True` if the addresses are the same, and `False` otherwise.
+
+This implies that even though the `a` and `b` objects are instances of the `Dog` class with the exact same attributes and methods (none in this case), `a` and `b` represent two distinct objects in memory.
+
+Certainly, you can use the `type()` function to ascertain an object's class. For example:
+
+```python
+>>> type(a)
+<class '__main__.Dog'>
+```
+
+Here, `type(a)` returns `<class '__main__.Dog'>`, indicating that `a` is an instance of the `Dog` class.
+
+Despite `a` and `b` being distinct `Dog` instances, they share the same type:
+
+```python
+>>> type(a) == type(b)
+True
+```
+
+The comparison `type(a) == type(b)` evaluates to `True`, emphasizing that both `a` and `b` belong to the same class, which is the `Dog` class in this case.
+
+### Class and Instance Attributes
+
+In the provided example using the `Dog` class with `.name` and `.age` instance attributes:
+
+```python
+class Dog:
+    species = "Canis familiaris"
+    
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+buddy = Dog("Buddy", 9)
+miles = Dog("Miles", 4)
+```
+
+Two instances of the `Dog` class are created—one named Buddy, who is nine years old, and another named Miles, who is four years old.
+
+You might notice that even though the `.__init__()` method has three parameters (including `self`), only two arguments are passed to it when instantiating the `Dog` objects. This is because, when you create a `Dog` object, Python automatically creates a new instance and passes it to the `self` parameter, essentially removing the need to explicitly provide `self` as an argument.
+
+After creating the `Dog` instances, you can access their instance attributes using **dot notation**:
+
+```python
+>>> buddy.name
+'Buddy'
+>>> buddy.age
+9
+>>> miles.name
+'Miles'
+>>> miles.age
+4
+```
+
+Class attributes are accessed similarly:
+
+```python
+>>> buddy.species
+'Canis familiaris'
+```
+
+One of the significant advantages of using classes is that instances are guaranteed to have the attributes you expect. Both `buddy` and `miles` have the `.species` attribute, contrasting with the potential issues encountered when using lists to represent similar data structures.
+
+Both instance and class attributes can be modified dynamically:
+
+```python
+>>> buddy.age = 10
+>>> buddy.age
+10
+>>> miles.species = "Felis silvestris"
+>>> miles.species
+'Felis silvestris'
+```
+
+In this example, the `.age` attribute of the `buddy` object is changed to 10, and the `.species` attribute of the `miles` object is changed to "Felis silvestris," making Miles a peculiar dog, but it is valid Python.
+
+The key takeaway is that custom objects are mutable by default, meaning they can be altered dynamically. Objects like lists and dictionaries are mutable, while strings and tuples are immutable. Understanding these concepts lays the foundation for exploring instance methods in more detail.
+
+### Instance Methods
+
+Instance methods in Python are functions defined inside a class. They operate within the context of the object itself and cannot be called without referencing the object. Similar to `.__init__()`, the first argument of an instance method is always `self`.
+
+Here's an example using the `Dog` class:
+
+```python
+class Dog:
+    species = "Canis familiaris"
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    # Instance method
+    def description(self):
+        return f"{self.name} is {self.age} years old"
+
+    # Another instance method
+    def speak(self, sound):
+        return f"{self.name} says {sound}"
+```
+
+In this example, two instance methods are defined:
+1. `.description()` returns a string displaying the name and age of the dog.
+2. `.speak()` has one parameter called `sound` and returns a string containing the dog’s name and the sound the dog makes.
+
+To see instance methods in action:
+
+```python
+miles = Dog("Miles", 4)
+print(miles.description())   # Output: 'Miles is 4 years old'
+print(miles.speak("Woof Woof"))   # Output: 'Miles says Woof Woof'
+print(miles.speak("Bow Wow"))     # Output: 'Miles says Bow Wow'
+```
+
+The `.description()` method returns a string containing information about the `Dog` instance `miles`. It's a good practice to have a method that returns a string with useful information about an instance.
+
+When you print an object, the default output might not be very informative:
+
+```python
+print(miles)
+# Output: <__main__.Dog object at 0x00aeff70>
+```
+
+You can improve this by defining a special instance method called `.__str__()`:
+
+```python
+class Dog:
+    # Other parts of Dog class remain unchanged
+    # Replace .description() with __str__()
+    def __str__(self):
+        return f"{self.name} is {self.age} years old"
+```
+
+Now, when you print the `miles` object, you get a more friendly output:
+
+```python
+miles = Dog("Miles", 4)
+print(miles)
+# Output: 'Miles is 4 years old'
+```
+
+Methods like `.__str__()` are commonly referred to as dunder methods because they begin and end with double underscores. These methods allow your classes to work well with other Python language features.
+
+### Inherit From Other Classes
+
+Inheritance is a process in object-oriented programming where one class acquires the attributes and methods of another class. The newly formed classes are referred to as child classes, and the classes from which **child classes** are derived are known as **parent classes**.
+
+Child classes have the ability to **override** and extend the attributes and methods of parent classes. Essentially, child classes inherit all of the parent's attributes and methods but can also introduce new attributes and methods unique to themselves. Moreover, they can redefine methods inherited from their parent class.
+
+The concept of object inheritance can be likened to genetic inheritance, although the analogy is not perfect. For instance, consider inheriting hair color from your mother — it's an attribute you are born with. If you decide to color your hair purple, you are effectively overriding the hair color attribute inherited from your mom.
+
+Similarly, language can be inherited in a sense. If your parents speak English, you are likely to speak English as well. However, you might decide to extend your linguistic capabilities by learning a second language, such as German. In this scenario, you are **extending** attributes by adding a language attribute that your parents did not have.
+
+### The object Class
+
+In Python, the most basic type of class is an object, and generally, all other classes implicitly inherit from it as their parent. When you define a new class, Python 3 automatically uses `object` as the parent class. Therefore, the following two class definitions are equivalent:
+
+```python
+class Dog(object):
+    pass
+```
+
+In Python 3, this is equivalent to:
+
+```python
+class Dog:
+    pass
+```
+
+The inheritance from `object` is explicitly stated in the first definition by placing `object` in parentheses after the `Dog` class name. This pattern is consistent with creating child classes from your own custom classes.
+
+Let’s see how and why you might create child classes from a parent class.
+
+**Dog Park Example**  
+Imagine being at a dog park surrounded by dogs of various breeds, each engaged in unique dog behaviors. Now, let's consider modeling this dog park using Python classes.
+
+The `Dog` class from the previous section can distinguish dogs by name and age but lacks the ability to identify them by breed. To address this, we can enhance the `Dog` class by introducing a `.breed` attribute:
+
+```python
+class Dog:
+    species = "Canis familiaris"
+    
+    def __init__(self, name, age, breed):
+        self.name = name
+        self.age = age
+        self.breed = breed
+```
+
+> ***Note:** The instance methods defined earlier are omitted here as they are not crucial for the current discussion.*
+
+Now, to model the diversity in the dog park, we can instantiate various dogs:
+
+```python
+miles = Dog("Miles", 4, "Jack Russell Terrier")
+buddy = Dog("Buddy", 9, "Dachshund")
+jack = Dog("Jack", 3, "Bulldog")
+jim = Dog("Jim", 5, "Bulldog")
+```
+
+Different dog breeds exhibit slightly distinct behaviors. For instance, bulldogs have a low bark resembling "woof," while dachshunds have a higher-pitched bark akin to "yap."
+
+Using only the `Dog` class, one would need to provide a string for the sound argument of the `.speak()` method every time it's called on a `Dog` instance:
+
+```python
+buddy.speak("Yap")  # Output: 'Buddy says Yap'
+jim.speak("Woof")   # Output: 'Jim says Woof'
+jack.speak("Woof")  # Output: 'Jack says Woof'
+```
+
+Having to pass a string for every `.speak()` call is both repetitive and inconvenient. Moreover, the string representing the sound made by each `Dog` instance depends on the `.breed` attribute, but there's nothing preventing someone from passing any string they wish.
+
+To simplify working with the `Dog` class, a better approach is to create a child class for each breed of dog. This allows for extending the functionality inherited by each child class, including specifying a default argument for `.speak()`.
+
+### Parent Classes vs Child Classes
+
+Let's create a child class for each of the three dog breeds mentioned earlier: Jack Russell Terrier, Dachshund, and Bulldog. For reference, here is the complete definition of the `Dog` class:
+
+```python
+class Dog:
+    species = "Canis familiaris"
+    
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def __str__(self):
+        return f"{self.name} is {self.age} years old"
+    
+    def speak(self, sound):
+        return f"{self.name} says {sound}"
+```
+
+To create a child class, you establish a new class with its own name and then include the name of the parent class in parentheses. Here, we create three new child classes for the `Dog` class:
+
+```python
+class JackRussellTerrier(Dog):
+    pass
+
+class Dachshund(Dog):
+    pass
+
+class Bulldog(Dog):
+    pass
+```
+
+Now, with the child classes defined, you can instantiate dogs of specific breeds:
+
+```python
+miles = JackRussellTerrier("Miles", 4)
+buddy = Dachshund("Buddy", 9)
+jack = Bulldog("Jack", 3)
+jim = Bulldog("Jim", 5)
+```
+
+Instances of child classes inherit all attributes and methods of the parent class:
+
+```python
+print(miles.species)  # Output: 'Canis familiaris'
+print(buddy.name)     # Output: 'Buddy'
+print(jack)           # Output: Jack is 3 years old
+print(jim.speak("Woof"))  # Output: 'Jim says Woof'
+```
+
+To determine the class to which an object belongs, use the built-in `type()` function:
+
+```python
+print(type(miles))  # Output: <class '__main__.JackRussellTerrier'>
+```
+
+To check if an object is an instance of a specific class, use `isinstance()`:
+
+```python
+print(isinstance(miles, Dog))      # Output: True
+print(isinstance(miles, Bulldog))  # Output: False
+print(isinstance(jack, Dachshund))  # Output: False
+```
+
+In summary, all objects created from a child class are instances of the parent class, although they may not be instances of other child classes. Now that we have child classes for different breeds of dogs, let's assign each breed its distinctive sound.
+
+### Extending the Functionality of a Parent Class
+
+At this point, we have four classes in play: a parent class—`Dog`—and three child classes—`JackRussellTerrier`, `Dachshund`, and `Bulldog`. All three child classes inherit every attribute and method from the parent class, including the `.speak()` method.
+
+Since different breeds of dogs have slightly different barks, we want to provide a default value for the sound argument of their respective `.speak()` methods. To do this, we need to override the `.speak()` method in the class definition for each breed. Overriding a method from the parent class involves defining a method with the same name on the child class.
+
+Let's consider the example of the `JackRussellTerrier` class:
+
+```python
+class JackRussellTerrier(Dog):
+    def speak(self, sound="Arf"):
+        return f"{self.name} says {sound}"
+```
+
+Now, the `.speak()` method is defined on the `JackRussellTerrier` class with the default argument for sound set to "Arf". You can call `.speak()` on a `JackRussellTerrier` instance without passing an argument to sound:
+
+```python
+miles = JackRussellTerrier("Miles", 4)
+print(miles.speak())  # Output: 'Miles says Arf'
+```
+
+If Miles gets angry and growls, you can still call `.speak()` with a different sound:
+
+```python
+print(miles.speak("Grrr"))  # Output: 'Miles says Grrr'
+```
+
+One advantage of class inheritance is that changes to the parent class will automatically propagate to their child classes, as long as the attribute or method being changed isn’t overridden in the child class. For example, if we decide to change the string returned by `.speak()` in the `Dog` class:
+
+```python
+class Dog:
+    # Other attributes and methods omitted...
+    def speak(self, sound):
+        return f"{self.name} barks: {sound}"
+```
+
+Now, when you create a new `Bulldog` instance named `jim`, the result of `jim.speak("Woof")` will be 'Jim barks: Woof' instead of 'Jim says Woof':
+
+```python
+jim = Bulldog("Jim", 5)
+print(jim.speak("Woof"))  # Output: 'Jim barks: Woof'
+```
+
+However, calling `.speak()` on a `JackRussellTerrier` instance won’t reflect the new style of output:
+
+```python
+miles = JackRussellTerrier("Miles", 4)
+print(miles.speak())  # Output: 'Miles says Arf'
+```
+
+Sometimes, it makes sense to completely override a method from a parent class. However, in this instance, we don’t want the `JackRussellTerrier` class to lose any changes that might be made to the formatting of the output string of `Dog.speak()`.
+
+To achieve this, you need to define a `.speak()` method on the `JackRussellTerrier` class. But instead of explicitly defining the output string, you should call the `Dog` class’s `.speak()` method inside the child class’s `.speak()` method and make sure to pass to it whatever is passed to the sound argument of `JackRussellTerrier.speak()`.
+
+You can access the parent class from inside a method of a child class by using the `super()` function. Here’s how you could re-write the `JackRussellTerrier.speak()` method using `super()`:
+
+```python
+class JackRussellTerrier(Dog):
+    def speak(self, sound="Arf"):
+        return super().speak(sound)
+```
+
+When you call `super().speak(sound)` inside of `JackRussellTerrier`, Python searches the parent class, `Dog`, for a `.speak()` method and calls it with the variable sound. Now, when you call `miles.speak()`, you will see output reflecting the new formatting in the `Dog` class:
+
+```python
+miles = JackRussellTerrier("Miles", 4)
+print(miles.speak())  # Output: 'Miles barks: Arf'
+```
+
+In more complex **class hierarchies**, where one class inherits from a parent class, which inherits from another parent class, and so on, the `super()` function does more than just search the parent class for a method or an attribute. It traverses the entire class hierarchy for a matching method or attribute. If you aren’t careful, `super()` can have surprising results.
 
 
 
