@@ -3798,7 +3798,7 @@ a = [100, 200, 300]
 
 #
 
-## Working With Packages
+### Working With Packages
 
 Modules allow you to divide a program in to individual files that can be reused as needed. Related code can be organized into a single module and kept separate from other code.
 
