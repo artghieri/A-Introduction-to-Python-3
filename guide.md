@@ -3796,7 +3796,6 @@ a = [100, 200, 300]
 <module 'mod' from 'C:\\Users\\Alighieri\\Documents\\Python\\doc\\mod.py'>
 ```
 
-#
 
 ### Working With Packages
 
