@@ -3481,7 +3481,320 @@ help(multiply)
 There are a number of standardized docstring formats, but we won’t get into them here. Some general guidelines for writing docstrings can be found in [PEP 257](https://www.python.org/dev/peps/pep-0257/).
 
 
+## Modules and Packages
 
+**Modular programming** refers to the process of breaking a large, unwieldy programming task into separate, smaller, more manageable subtasks or **modules**. Individual modules can then be cobbled together like building blocks to create a larger application.
+
+There are several advantages to **modularizing** code in a large application:
+
+- **Simplicity:**  Rather than focusing on the entire problem at hand, a module typically focuses on one relatively small portion of the problem. If you’re working on a single module, you’ll have a smaller problem domain to wrap your head around. This makes development easier and less error-prone.
+
+- **Maintainability:** Modules are typically designed so that they enforce logical boundaries between different problem domains. If modules are written in a way that minimizes interdependency, there is decreased likelihood that modifications to a single module will have an impact on other parts of the program.
+
+- **Reusability:** Functionality defined in a single module can be easily reused (through an appropriately defined interface) by other parts of the application. This eliminates the need to duplicate code.
+
+- **Scoping:** Modules typically define a separate namespace, which helps avoid collisions between identifiers in different areas of a program.
+
+### Working With Modules
+
+There are actually three different ways to define a module in Python:
+
+1. A module can be written in Python itself.
+2. A module can be written in C and loaded dynamically at run-time, like the re (regular expression) module.
+3. A built-in module is intrinsically contained in the interpreter, like the itertools module.
+   
+A module’s contents are accessed the same way in all three cases: with the `import` statement.
+
+Here, the focus will mostly be on modules that are written in Python. All you need to do is create a file that contains legitimate Python code and then give the file a name with a `.py` extension. That’s it! No special syntax is necessary.
+
+For example, suppose you have created a file called `mod.py` containing the following:
+
+```python
+s = "If Comrade Napoleon says it, it must be right."
+a = [100, 200, 300]
+
+def foo(arg):
+    print(f'arg = {arg}')
+
+class Foo:
+  pass
+```
+
+> ***Note:** Several objects are defined in mod.py: s (a string), a (a list), foo() (a function).*
+  
+Assuming `mod.py` is in an appropriate location, these objects can be accessed by importing the module as follows:
+
+```python
+>>> import mod
+>>> print(mod.s)
+If Comrade Napoleon says it, it must be right.
+>>> mod.a
+[100, 200, 300]
+>>> mod.foo(['quux', 'corge', 'grault'])
+arg = ['quux', 'corge', 'grault']
+>>> x = mod.Foo()
+>>> x
+<mod.Foo object at 0x03C181F0>
+```
+
+### The Module Search Path
+
+Continuing with the above example, let’s take a look at what happens when Python executes the statement:
+
+```python
+import mod
+```
+
+When the interpreter executes the `import` statement, it searches for `mod.py` in a list of directories assembled from the following sources:
+
+- The directory from which the input script was run or the **current directory** if the interpreter is being run interactively
+- The list of directories contained in the [PYTHONPATH](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH) environment variable, if it is set. (The format for PYTHONPATH is OS-dependent but should mimic the PATH environment variable.)
+- An installation-dependent list of directories configured at the time Python is installed
+
+The resulting search path is accessible in the Python variable `sys.path`, which is obtained from a module named sys:
+
+```python
+>>> import sys
+>>> sys.path
+['', 'C:\\Users\\john\\Documents\\Python\\doc', 'C:\\Python36\\Lib\\idlelib',
+'C:\\Python36\\python36.zip', 'C:\\Python36\\DLLs', 'C:\\Python36\\lib',
+'C:\\Python36', 'C:\\Python36\\lib\\site-packages']
+```
+
+
+> ***Note:** The  contents of sys.path are installation-dependent. The above will almost certainly look different on your computer.*
+
+
+Thus, to ensure your module is found, you need to do one of the following:
+
+- Put `mod.py`  in the directory where the input script is located or the **current directory**, if interactive.
+- Modify the PYTHONPATH environment variable to contain the directory where mod.py is located before starting the interpreter.
+  - Or: Put `mod.py` in one of the directories already contained in the PYTHONPATH variable.
+- Put `mod.py`  in one of the installation-dependent directories, which you may or may not have write-access to, depending on the OS.
+
+
+### The import Statement
+
+Module  contents are made available to the caller with the import statement. The import statement takes many different forms, shown below.
+
+**import <module_name>**  
+The simplest form is the one already shown above:
+```python
+import <module_name>
+```
+
+Note that this does not make the module contents directly accessible to the caller. Each module has its own **private symbol table**, which serves as the global symbol table for all objects defined in the module. Thus, a module creates a separate **namespace**, as already noted.
+
+The statement `import` <module_name> only places <module_name> in the caller’s symbol table. The objects that are defined in the module remain in the module’s private symbol table.
+
+From the caller, objects in the module are only accessible when prefixed with <module_name> via dot notation, as illustrated below.
+
+After the following `import` statement, mod is placed into the local symbol table. Thus, mod has meaning in the caller’s local context:
+
+```python
+>>> import mod
+>>> mod
+<module 'mod' from 'C:\\Users\\john\\Documents\\Python\\doc\\mod.py'>
+```
+
+To be accessed in the local context, names of objects defined in the module must be prefixed by mod:
+
+```python
+>>> mod.s
+'If Comrade Napoleon says it, it must be right.'
+>>> mod.foo('quux')
+arg = quux
+```
+
+
+**from <module_name> import <name(s)>**  
+An alternate form of the import statement allows individual objects from the module to be imported directly into the caller’s symbol table:
+
+```python
+from <module_name> import <name(s)>
+```
+
+Following execution of the above statement, <name(s)> can be referenced in the caller’s environment without the <module_name> prefix:
+
+```python
+>>> from mod import s, foo
+>>> s
+'If Comrade Napoleon says it, it must be right.'
+>>> foo('quux')
+arg = quux
+
+>>> from mod import Foo
+>>> x = Foo()
+>>> x
+<mod.Foo object at 0x02E3AD50>
+```
+
+Because this form of import places the object names directly into the caller’s symbol table, any objects that already exist with the same name will be overwritten:
+
+```python
+>>> a = ['foo', 'bar', 'baz']
+>>> a
+['foo', 'bar', 'baz']
+
+>>> from mod import a
+>>> a
+[100, 200, 300]
+```
+
+It is even possible to indiscriminately import everything from a module at one fell swoop:
+
+```python
+from <module_name> import *
+```
+
+> ***Note:** This will place the names of all objects from <module_name> into the local symbol table, with the exception of any that begin with the underscore (_) character.*
+
+This isn’t necessarily recommended in large-scale production code. It’s a bit dangerous because you are entering names into the local symbol table en masse. Unless you know them all well and can be confident there won’t be a conflict, you have a decent chance of overwriting an existing name inadvertently. However, this syntax is quite handy when you are just mucking around with the interactive interpreter, for testing or discovery purposes, because it quickly gives you access to everything a module has to offer without a lot of typing.
+
+
+**from <module_name> import <name> as <alt_name>**  
+It is also possible to import individual objects but enter them into the local symbol table with alternate names:
+
+```python
+from <module_name> import <name> as <alt_name>[, <name> as <alt_name> …]
+```
+
+This makes it possible to place names directly into the local symbol table but avoid conflicts with previously existing names:
+
+```python
+>>> s = 'foo'
+>>> a = ['foo', 'bar', 'baz']
+
+>>> from mod import s as string, a as alist
+>>> s
+'foo'
+>>> string
+'If Comrade Napoleon says it, it must be right.'
+>>> a
+['foo', 'bar', 'baz']
+>>> alist
+[100, 200, 300]
+```
+
+
+**import <module_name> as <alt_name>**  
+
+You can also import an entire module under an alternate name:
+
+```python
+>>> import mod as my_module
+>>> my_module.a
+[100, 200, 300]
+>>> my_module.foo('qux')
+arg = qux
+```
+
+### Summary of Import Statements
+The following table summarizes what you’ve learned about importing modules:
+
+| Import Statement                   | Result                       |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `import <module>`                  | Import all of `<module>`’s namespace into the name `<module>`. Import module names can be accessed from the calling module with `<module>.<name>`.|
+| `import <module> as <other_name>`  | Import all of `<module>`’s namespace into the name `<other_name>`. Import module names can be accessed from the calling module with `<other_name>.<name>`.|
+| `from <module> import <name1>, <name2>, ...` | Import only the names `<name1>`, `<name2>`, etc., from `<module>`. The names are added to the calling module’s local namespace and can be accessed directly.|
+
+Separate namespaces are one of the great advantages of dividing code into individual modules, so let’s take some time to explore why namespaces matter and why you should care about them.
+
+### Why Use Namespaces?
+
+Imagine assigning a unique ID number to every individual on the planet, ensuring that each person is distinguishable from the next. To achieve this, we require a vast array of unique ID numbers. The world is divided into countries, providing a natural way to group people based on their country of birth. By assigning each country a unique code, we can incorporate this code into a person's ID number. For instance, a person from the United States might have an ID like US-357, while someone from Great Britain could have an ID such as GB-246.
+
+This approach allows two individuals from different countries to share the same ID number, with differentiation provided by the distinct country codes at the beginning of their IDs. While every person from the same country must have a unique ID number, there is no longer a need for globally unique ID numbers.
+
+The country codes in this scenario serve as examples of namespaces, illustrating three primary reasons namespaces are utilized:
+
+1. They **group** names into logical containers.
+2. They **prevent clashes** between duplicate names.
+3. They **provide** context to names.
+
+Applying namespaces in code provides the same advantages. Three different ways to import a module into another have been introduced. Considering the advantages of namespaces can help determine the most suitable import statement:
+
+- In general, `import <module>` is preferred as it keeps the imported module's namespace entirely separate from the calling module's namespace. Every name from the imported module is accessed using the `<module>.<name>` format, indicating its origin.
+
+- `import <module> as <other_name>` is used when the module name is lengthy, or there's a clash with an existing name in the calling module. While it maintains separation of namespaces, the chosen name may be less recognizable.
+
+- Importing specific names from a module (`from <module> import <name1>, <name2>, ...`) is generally the least preferred method, as it adds names directly to the calling module's namespace, removing them from their original context.
+
+In some cases, modules contain a single function or class with the same name as the module itself. For example, the datetime module includes a class called datetime. To address potential redundancy, Python programmers commonly use variations of the import statement. For instance:
+
+Suppose you add the following import statement to your code:
+
+```python
+import datetime
+```
+
+This imports the `datetime` module into your code’s namespace. To use the `datetime` class contained in the `datetime` module, you would typically need to type the following:
+
+```python
+datetime.datetime(2020, 2, 2)
+```
+
+This is a great example of when it’s appropriate to use one of the variations of the import statement. To keep the context of the `datetime` package, it is common for Python programmers to import the package and rename it as `dt`:
+
+```python
+import datetime as dt
+```
+
+Now, to use the `datetime` class, you only need to type `dt.datetime`:
+
+```python
+dt.datetime(2020, 2, 2)
+```
+
+It is also common for Python programmers to import the `datetime` class directly into the calling module’s namespace:
+
+```python
+from datetime import datetime
+```
+
+This is fine because the context isn’t really lost. The class and the module share the same name, after all. When imported directly, you no longer have to use dotted module names to access the `datetime` class:
+
+```python
+datetime(2020, 2, 2)
+```
+While these import statements reduce typing and long dotted module names, it's crucial to exercise good judgment to avoid a loss of context and maintain code clarity.
+
+### Reloading a Module
+
+For reasons of efficiency, a module is only loaded once per interpreter session. That is fine for function and class definitions, which typically make up the bulk of a module’s contents. But a module can contain executable statements as well, usually for initialization. Be aware that these statements will only be executed the first time a module is imported.
+
+Consider the following file mod.py:
+
+```python
+a = [100, 200, 300]
+print('a =', a)
+```
+
+```python
+>>> import mod
+a = [100, 200, 300]
+>>> import mod
+>>> import mod
+
+>>> mod.a
+[100, 200, 300]
+```
+
+The print() statement is not executed on subsequent imports. (For that matter, neither is the assignment statement, but as the final display of the value of mod.a shows, that doesn’t matter. Once the assignment is made, it sticks.)
+
+If you make a change to a module and need to reload it, you need to either restart the interpreter or use a function called reload() from module importlib:
+
+```python
+>>> import mod
+a = [100, 200, 300]
+
+>>> import mod
+
+>>> import importlib
+>>> importlib.reload(mod)
+a = [100, 200, 300]
+<module 'mod' from 'C:\\Users\\Alighieri\\Documents\\Python\\doc\\mod.py'>
+```
 
 
 
