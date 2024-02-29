@@ -3014,7 +3014,7 @@ A data structure serves as a model for organizing and representing collections o
 
 ### Tuples Are Immutable Sequences
 
-One of the simplest compound data structures is a sequence of items. A sequence represents an ordered list of values, where each element is assigned an integer known as an index, determining its position in the sequence. Similar to strings, the index of the initial value in a sequence is $0$.
+One of the simplest compound data structures is a sequence of items. A sequence represents an ordered list of values, where each element is assigned an integer known as an index, determining its position in the sequence. Similar to strings, the initial value in a sequence is $0$.
 
 For instance, consider the English alphabet, where the letters form a sequence with $A$ as the first element and $Z$ as the last. Strings, too, are sequences. Take the string $Python$, which comprises six elements. The sequence begins with $P$ at index $0$ and concludes with $n$ at index $5$.
 
@@ -3230,6 +3230,8 @@ adder_subtractor(3, 2)  # Output: (5, 1)
 ```
 
 > ***Note:** In this example, the adder_subtractor() function takes two parameters and returns a tuple.*
+
+#
 
 #### Tuples Methods
 
