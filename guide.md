@@ -3395,17 +3395,7 @@ TypeError: unsupported operand type(s) for |: 'set' and 'tuple'
 
 Both attempts aim to compute the union of x1 and the tuple ('baz', 'qux', 'quux'). The `|` operator fails, while the `.union()` method succeeds by converting the tuple to a set before performing the union operation.
 
-
-
-
-
-
-
-
-
 #
-
-
 
 #### Available Operators and Methods
 
@@ -3639,6 +3629,499 @@ x.pop()
 x.clear()
 # Clears all elements from the set
 ```
+
+#
+
+### Lists Are Mutable Sequences
+
+The list is a versatile data structure in Python, representing a sequence of items similar to strings and tuples. Like strings and tuples, lists are indexed by integers, starting with $0$.
+
+At first glance, lists share similarities with tuples. They support index and slicing operations, allow checking for the existence of an element using "in," and can be iterated over with a for loop.
+
+However, a significant distinction is that lists are mutable, enabling you to alter the value at a specific index even after the list's creation. Unlike tuples, which are immutable, lists provide flexibility for modifications.
+
+#### Creating Lists
+
+A list in Python is denoted by square brackets (`[]`). Similar to tuples, lists can store a variety of values, and they are mutable, meaning their elements can be changed after the list is created.
+
+**List Literal**  
+You can create a list using a literal, surrounded by square brackets:
+
+```python
+colors = ["red", "yellow", "green", "blue"]
+
+# The type() function confirms that it's a list:
+>>> type(colors)
+<class 'list'>
+```
+
+Inspecting the list reveals its content:
+
+```python
+>>> colors
+['red', 'yellow', 'green', 'blue']
+```
+
+> ***Note:** Lists can contain elements of different types, just like tuples: mixed_list = ["one", 2, 3.0]*
+
+**Using the list() Built-In**  
+You can also create a list from other sequences using the `list()` built-in:
+
+```python
+>>> list((1, 2, 3))
+[1, 2, 3]
+```
+
+Even a string can be converted into a list:
+
+```python
+>>> list("Python")
+['P', 'y', 't', 'h', 'o', 'n']
+```
+
+**Creating Lists from Strings**  
+To create a list from a comma-separated string, you can use the `split()` method:
+
+```python
+groceries = "eggs, milk, cheese"
+grocery_list = groceries.split(", ")
+```
+
+The resulting list:
+
+```python
+>>> grocery_list
+['eggs', 'milk', 'cheese']
+```
+
+You can customize the separator with the `split()` method, allowing flexible string-to-list conversions:
+
+```python
+>>> "a;b;c".split(";")
+['a', 'b', 'c']
+
+>>> "The quick brown fox".split(" ")
+['The', 'quick', 'brown', 'fox']
+
+>>> "abbaabba".split("ba")
+['ab', 'ab', '']
+```
+
+Note that if the separator is not found in the string, `split()` returns a list with the entire string as its only element:
+
+```python
+>>> "abbaabba".split("c")
+['abbaabba']
+```
+
+Lists support the all of the same operations supported by tuples.
+
+**Counting Elements**: The `count()` method returns the number of occurrences of a specified value:
+
+```python
+>>> numbers = [1, 2, 3, 1, 4, 1, 5]
+>>> numbers.count(1)
+3
+```
+
+**Finding Index**: The `index()` method returns the index of the first occurrence of a specified value:
+
+```python
+>>> numbers.index(1, 4)
+5
+```
+
+#
+
+#### Basic List Operations
+Indexing and slicing operations on lists function similarly to tuples in Python.
+
+**Indexing Elements**  
+You can access list elements using index notation:
+
+```python
+numbers = [1, 2, 3, 4]
+>>> numbers[1]
+2
+```
+
+**Slicing Lists** 
+Creating a new list from an existing one using slice notation:
+
+```python
+>>> numbers[1:3]
+[2, 3]
+```
+
+**Checking Existence**  
+The $in$ operator helps verify the existence of list elements:
+
+```python
+>>> "Bob" in numbers
+False
+```
+
+**Iterating Over Lists**  
+Since lists are iterable, you can iterate over them using a $for$ loop:
+
+```python
+# Print only the even numbers in the list
+for number in numbers:
+    if number % 2 == 0:
+        print(number)
+```
+
+The significant difference between lists and tuples is that elements in lists can be changed, while elements in tuples cannot. This mutability of lists allows for dynamic modifications after the list's creation.
+
+#
+
+#### Changing Elements in a List
+
+Think of a list as a sequence of numbered slots. Each slot holds a value, and every slot must be filled at all times, but you can swap out the value in a given slot with a new one whenever you want.
+
+The ability to swap values in a list for other values is called **mutability**. Lists are **mutable**. The elements of tuples may not be swapped for new values, so tuples are said to be **immutable**. 
+
+To swap a value in a list, assign a new value to a slot using index notation:
+
+```python
+>>> colors = ["red", "yellow", "green", "blue"]
+>>> colors[0] = "burgundy"
+```
+
+This changes the value at index $0$ from "red" to "burgundy":
+
+```python
+>>> colors
+['burgundy', 'yellow', 'green', 'blue']
+```
+
+Multiple values in a list can be changed simultaneously with **slice assignment**:
+
+```python
+>>> colors[1:3] = ["orange", "magenta"]
+>>> colors
+['burgundy', 'orange', 'magenta', 'blue']
+```
+
+This selects slots with indices $1$ and $2$, assigning $orange$ and $magenta$:
+
+The list assigned to a slice does not need to have the same length as the slice. For instance, you can assign a list of three elements to a slice with two elements:
+
+```python
+>>> colors = ["red", "yellow", "green", "blue"]
+>>> colors[1:3] = ["orange", "magenta", "aqua"]
+>>> colors
+['red', 'orange', 'magenta', 'aqua', 'blue']
+```
+
+The values "orange" and "magenta" replace the original values "yellow" and "green" in colors at the indices 1 and 2. Then a new slot is created at index $4$ and "blue" is assigned to this index. Finally, "aqua" is assigned to index $3$.
+
+When the length of the list being assigned to the slice is less than the length of the slice, the overall length of the original list is reduced:
+
+```python
+>>> colors
+['red', 'orange', 'magenta', 'aqua', 'blue']
+>>> colors[1:4] = ["yellow", "green"]
+>>> colors
+['red', 'yellow', 'green', 'blue']
+```
+
+The values "yellow" and "green" replace the values "orange" and "magenta" in colors at the indices $1$ and $2$. Then the value at index $3$ is replaced with the value "blue". Finally, the slot at index $4$ is removed from colors entirely.
+
+#
+
+#### List Methods For Adding and Removing Elements
+
+While you can manipulate lists with slice notation for adding and removing elements, list methods offer a more intuitive and readable approach.
+
+**list.insert(i, x)**  
+The `list.insert()` method inserts a single value $x$ at a specified index $i$ in the list. It shifts existing values to accommodate the new one.
+
+```python
+colors = ["red", "yellow", "green", "blue"]
+colors.insert(1, "orange")
+# Result: ['red', 'orange', 'yellow', 'green', 'blue']
+```
+
+If the value for the index parameter of `.insert()` is larger than the greatest index in the list, the value is inserted at the end of the list:
+
+```python
+>>> colors.insert(10, "violet")
+>>> colors
+['red', 'orange', 'yellow', 'green', 'blue', 'violet']
+Here the value "violet" is actually inserted at index 5, even though
+.insert() was called with 10 for the index.
+```
+
+> ***Note:** If the index is larger than the greatest index in the list, the value is inserted at the end.*
+
+**list.pop(i)**  
+The `list.pop()` method removes and returns the element at the specified index `i`. If no index is provided, it removes and returns the last element in the list. 
+
+```python
+>>> colors = ["red", "orange", "yellow", "blue", "indigo", "violet"]
+>>> color = colors.pop(3)
+'green'
+>>> colors
+['red', 'orange', 'yellow', 'blue', 'indigo', 'violet']
+```
+
+> ***Note:** The value that is removed is returned by the method*
+
+Unlike .insert(), Python raises an IndexError if you pass to .pop() an argument larger than the last index:
+```python
+>>> colors.pop(10)
+Traceback (most recent call last):
+  File "<pyshell#0>", line 1, in <module>
+    colors.pop(10)
+IndexError: pop index out of range
+```
+
+Negative indices also work with .pop():
+```python
+>>> colors.pop(-1)
+'violet'
+>>> colors
+['red', 'orange', 'yellow', 'blue', 'indigo']
+```
+
+**list.append(x)**  
+The `list.append()` method appends a new element $x$ to the end of the list.
+
+```python
+>>> colors.append("indigo")
+>>> colors
+['red', 'orange', 'yellow', 'blue', 'indigo']
+```
+
+After calling `.append()`, the length of the list increases by one and the value "indigo" is inserted into the final slot. Note that `.append()` alters the list in place, just like `.insert()`.
+
+
+**list.extend(iterable)**  
+The `list.extend()` method adds elements from an iterable to the end of the list. It is commonly used with another list or tuple.
+
+```python
+>>> colors.extend(["violet", "ultraviolet"])
+>>> colors
+['red', 'orange', 'yellow', 'blue', 'indigo', 'violet', 'ultraviolet']
+```
+
+> ***Note:** The elements of the iterable are appended to the list in the same order that they appear in the argument passed to .extend().*
+
+Just like `.insert()` and `.append()`, `.extend()` alters the list in place.
+
+#
+
+#### Lists of Numbers
+
+A common operation with lists of numbers is to calculate the sum of all the values to obtain the total. This can be achieved using a for loop:
+
+```python
+nums = [1, 2, 3, 4, 5]
+total = 0
+for number in nums:
+    total = total + number
+
+print(total)
+```
+
+While this for loop is straightforward, Python provides a more concise way to achieve the same result using the built-in `sum()` function:
+
+```python
+total = sum([1, 2, 3, 4, 5])
+print(total)
+```
+
+The `sum()` function takes a list as an argument and returns the total of all the values in the list.
+
+If the list passed to `sum()` contains non-numeric values, a `TypeError` is raised:
+
+```python
+>>> sum([1, 2, 3, "four", 5])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unsupported operand type(s) for +: 'int' and 'str'
+
+```
+
+Additionally, there are two other built-in functions, `min()` and `max()`, useful for working with lists of numbers. They return the minimum and maximum values in the list, respectively:
+
+```python
+min([1, 2, 3, 4, 5 ])
+# Output: 1
+
+max([1, 2, 3, 4, 5])
+# Output: 5
+```
+
+It's worth noting that `sum()`, `min()`, and `max()` also work seamlessly with tuples:
+
+```python
+sum((1, 2, 3, 4, 5))
+# Output: 15
+
+min((1, 2, 3, 4, 5))
+# Output: 1
+
+max((1, 2, 3, 4, 5))
+# Output: 5
+```
+
+The inclusion of these functions as built-ins underscores their frequent usage in Python.
+
+#
+
+#### List Comprehensions
+
+Another concise way to create a list from an existing iterable is by using a **list comprehension**:
+
+```python
+numbers = (1, 2, 3, 4, 5)
+squares = [num**2 for num in numbers]
+print(squares)
+# Output: [1, 4, 9, 16, 25]
+```
+
+
+A list comprehension serves as a shorthand for a for loop. In the example above, a tuple literal containing five numbers is created and assigned to the `numbers` variable. The list comprehension on the second line loops over each number in `numbers`, squares each number, and adds it to a new list called `squares`.
+
+To achieve the same result using a traditional for loop, you would need to create an empty list, loop over the numbers in `numbers`, and append the square of each number to the list:
+
+```python
+squares = []
+for num in numbers:
+    squares.append(num**2)
+
+print(squares)
+# Output: [1, 4, 9, 16, 25]
+```
+
+List comprehensions are often used to convert values in one list to a different type. For example, converting a list of strings containing floating-point values to a list of float objects:
+
+```python
+str_numbers = ["1.5", "2.3", "5.25"]
+float_numbers = [float(value) for value in str_numbers]
+print(float_numbers)
+# Output: [1.5, 2.3, 5.25]
+```
+
+List comprehensions, while not unique to Python, are one of its many beloved features. If you find yourself creating an empty list, looping over some other iterable, and appending new items to the list, chances are you can replace your code with a list comprehension!
+
+#
+
+#### Nesting, Copying, and Sorting Tuples and Lists
+
+Now that you have learned what tuples and lists are, how to create them, and some basic operations with them, let’s look at three more concepts:
+
+**Nesting Lists and Tuples**  
+Lists and tuples in Python can contain values of any type. This means they can also contain lists and tuples as values, creating nested structures. A nested list or tuple is one that is contained as a value within another list or tuple.
+
+```python
+two_by_two = [[1, 2], [3, 4]]
+>>> print(len(two_by_two))
+2
+>>> print(two_by_two[0])    
+[1, 2]
+>>> print(two_by_two[1])    
+[3, 4]
+>>> print(two_by_two[1][0]) 
+3
+```
+
+In loose terms, a list of lists or a tuple of tuples can be thought of as a table with rows and columns. However, it's essential to note that there is no requirement for all lists in a list of lists to have the same length.
+
+**Copying a List**  
+Copying lists in Python involves careful consideration due to the nature of object-oriented programming. Assigning one list to another directly creates a reference, not an independent copy. Here's an example:
+
+```python
+animals = ["lion", "tiger", "frumious Bandersnatch"]
+large_cats = animals.copy()
+large_cats.append("leopard")
+>>> print(large_cats)
+['lion', 'tiger', 'frumious Bandersnatch', 'leopard']
+>>> print(animals)
+["lion", "tiger", "frumious Bandersnatch"]
+```
+
+Alternatively, slicing notation ([:]) can also be used for creating an independent copy:
+
+```python
+animals = ["lion", "tiger", "frumious Bandersnatch"]
+large_cats = animals[:]
+large_cats.append("leopard")
+>>> print(large_cats)  
+['lion', 'tiger', 'frumious Bandersnatch', 'leopard']
+>>> print(animals)
+["lion", "tiger", "frumious Bandersnatch"]
+```
+
+For lists of lists, be cautious, as a simple copy (copy() or [:]) creates a **shallow copy**, meaning references to nested lists remain the same. For deep copies and more advanced copying methods, further exploration is recommended.
+
+**Sorting Lists**  
+Lists in Python have a `.sort()` method for sorting items in ascending order. The sorting is done in place:
+
+```python
+colors = ["red", "yellow", "green", "blue"]
+colors.sort()
+print(colors)  # Output: ['blue', 'green', 'red', 'yellow']
+
+numbers = [1, 10, 5, 3]
+numbers.sort()
+print(numbers) # Output: [1, 3, 5, 10]
+```
+
+The `.sort()` method also supports an optional `key` parameter for custom sorting. For instance, to sort a list of strings by length:
+
+```python
+colors = ["red", "yellow", "green", "blue"]
+colors.sort(key=len)
+>>> print(colors)
+['red', 'blue', 'green', 'yellow']
+```
+
+> ***Note:** User-defined functions can be used with the `key` parameter as well.*
+
+You don’t need to call the function when you pass it to key. Pass the name of the function without any parentheses. For instance, in the previous example the name len is passed to key, and not len().
+
+The function that gets passed to key must only accept a single argument.
+
+You can also pass user defined functions to key. In the following example, a function called get_second_element() is used to sort a list of tuples by their second elements:
+
+```python
+>>> def get_second_element(item):
+... return item[1]
+...
+>>> items = [(4, 1), (1, 2), (-9, 0)]
+>>> items.sort(key=get_second_element)
+>>> items
+[(-9, 0), (4, 1), (1, 2)]
+```
+
+Keep in mind that any function that you pass to key must accept only a single argument.
+
+The `.reverse()` method can be used to reverse the order of elements in a list:
+
+```python
+colors = ["red", "yellow", "green", "blue"]
+colors.reverse()
+>>> print(colors)  
+['blue', 'green', 'yellow', 'red']
+```
+
+> ***Note:** This method reverses the list in place, similar to .sort().*
+
+These concepts—nesting, copying, and sorting—provide essential tools for handling complex data structures in Python.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
