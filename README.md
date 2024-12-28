@@ -360,7 +360,7 @@ Running a file of code in IDLE involves selecting the file's text edit window, o
 
 Despite its advantages, it's worth noting that IDLE's execution speed may not match that of fully compiled languages like C and C++. However, for many developers, the benefits of IDLE's ease of use and integrated features outweigh the potential downsides related to execution speed.
 
-![image](https://tekkiehead.com/wp-content/uploads/2020/05/python-3.8-command-prompt-1024x305.png)
+![image](https://www.startertutorials.com/blog/wp-content/uploads/2019/08/python-shell-as-calculator.png)
 
 > ***Note:** Python Shell.*
 
